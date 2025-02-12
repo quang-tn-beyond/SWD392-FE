@@ -1,8 +1,8 @@
 {
-  "name": "base-react-vite-hoidanit",
+  "name": "base-react-vite",
   "author": {
-    "name": "Hỏi Dân IT & Eric",
-    "url": "https://hoidanit.vn"
+    "name": "Rookie Comics",
+    "url": "https://rookiecomics.com"
   },
   "private": true,
   "version": "0.0.1",
@@ -15,7 +15,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.9",
+    "chart.js": "^4.4.7",
     "react": "18.3.1",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "18.3.1",
     "react-router-dom": "^7.1.5"
   },
