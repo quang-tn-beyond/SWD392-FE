@@ -505,31 +505,31 @@ export default function Home() {
                                 </ul>
                                 <div className="filter__gallery">
                                     <div className="product__sidebar__view__item set-bg mix day years"
-                                        data-setbg="img/default.jpg">
+                                        style={{ backgroundImage: "url('/assets/img/blog/details/bd-item.png')" }}>
                                         <div className="ep">18 / ?</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
                                         <h5><a href="#">Boruto: Naruto next generations</a></h5>
                                     </div>
                                     <div className="product__sidebar__view__item set-bg mix month week"
-                                        data-setbg="img/default.jpg">
+                                        style={{ backgroundImage: "url('/assets/img/blog/details/bd-item-1.jpg')" }}>
                                         <div className="ep">18 / ?</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
                                         <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
                                     </div>
                                     <div className="product__sidebar__view__item set-bg mix week years"
-                                        data-setbg="img/default.jpg">
+                                        style={{ backgroundImage: "url('/assets/img/blog/details/bd-item-2.jpg')" }}>
                                         <div className="ep">18 / ?</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
                                         <h5><a href="#">Sword art online alicization war of underworld</a></h5>
                                     </div>
                                     <div className="product__sidebar__view__item set-bg mix years month"
-                                        data-setbg="img/default.jpg">
+                                        style={{ backgroundImage: "url('/assets/img/blog/details/bd-item-3.jpg')" }}>
                                         <div className="ep">18 / ?</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
                                         <h5><a href="#">Fate/stay night: Heaven's Feel I. presage flower</a></h5>
                                     </div>
                                     <div className="product__sidebar__view__item set-bg mix day"
-                                        data-setbg="img/default.jpg">
+                                        style={{ backgroundImage: "url('/assets/img/blog/details/bd-item.png')" }}>
                                         <div className="ep">18 / ?</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
                                         <h5><a href="#">Fate stay night unlimited blade works</a></h5>
@@ -542,7 +542,7 @@ export default function Home() {
                                 </div>
                                 <div className="product__sidebar__comment__item">
                                     <div className="product__sidebar__comment__item__pic">
-                                        <img src="img/sidebar/comment-1.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-1.jpg" alt="" />
                                     </div>
                                     <div className="product__sidebar__comment__item__text">
                                         <ul>
@@ -555,7 +555,7 @@ export default function Home() {
                                 </div>
                                 <div className="product__sidebar__comment__item">
                                     <div className="product__sidebar__comment__item__pic">
-                                        <img src="img/sidebar/comment-2.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-2.jpg" alt="" />
                                     </div>
                                     <div className="product__sidebar__comment__item__text">
                                         <ul>
@@ -568,7 +568,7 @@ export default function Home() {
                                 </div>
                                 <div className="product__sidebar__comment__item">
                                     <div className="product__sidebar__comment__item__pic">
-                                        <img src="img/sidebar/comment-3.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-3.jpg" alt="" />
                                     </div>
                                     <div className="product__sidebar__comment__item__text">
                                         <ul>
@@ -581,7 +581,7 @@ export default function Home() {
                                 </div>
                                 <div className="product__sidebar__comment__item">
                                     <div className="product__sidebar__comment__item__pic">
-                                        <img src="img/sidebar/comment-4.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-4.jpg" alt="" />
                                     </div>
                                     <div className="product__sidebar__comment__item__text">
                                         <ul>
