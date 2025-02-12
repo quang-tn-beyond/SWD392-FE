@@ -35,7 +35,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                         <div className="ep">18 / 18</div>
                                         <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                         <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -52,7 +52,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -69,7 +69,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -86,7 +86,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -103,7 +103,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -120,7 +120,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -153,7 +153,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -170,7 +170,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -187,7 +187,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -204,7 +204,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -221,7 +221,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -238,7 +238,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -271,7 +271,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -288,7 +288,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -305,7 +305,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -322,7 +322,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -339,7 +339,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -356,7 +356,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -389,7 +389,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -406,7 +406,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -423,7 +423,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -440,7 +440,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -457,7 +457,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>
@@ -474,7 +474,7 @@ export default function Home() {
                                 <div className="col-lg-4 col-md-6 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                        <BackgroundComponent imageUrl="src/assets/img/trending/image.png" />
+                                        <BackgroundComponent imageUrl="/assets/img/trending/image.png" />
                                             <div className="ep">18 / 18</div>
                                             <div className="comment"><i class="fa fa-comments"></i> 11</div>
                                             <div className="view"><i class="fa fa-eye"></i> 9141</div>

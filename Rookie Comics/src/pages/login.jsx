@@ -35,7 +35,7 @@ export default function Login() {
     return (
         <>
             {/* Normal Breadcrumb Begin */}
-            <section className="normal-breadcrumb set-bg" style={{ backgroundImage: "url('src/assets/img/normal-breadcrumb.jpg')" }}>
+            <section className="normal-breadcrumb set-bg" style={{ backgroundImage: "url('/assets/img/normal-breadcrumb.jpg')" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
