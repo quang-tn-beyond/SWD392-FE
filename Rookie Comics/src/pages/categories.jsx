@@ -407,7 +407,7 @@ const Categories = () => {
                                 </div>
                                 <div class="product__sidebar__comment__item">
                                     <div class="product__sidebar__comment__item__pic">
-                                        <BackgroundComponent imageUrl="/assets/img/sidebar/comment-1.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-1.jpg" alt="comment" />
                                     </div>
                                     <div class="product__sidebar__comment__item__text">
                                         <ul>
@@ -420,7 +420,7 @@ const Categories = () => {
                                 </div>
                                 <div class="product__sidebar__comment__item">
                                     <div class="product__sidebar__comment__item__pic">
-                                        <BackgroundComponent imageUrl="/assets/img/sidebar/comment-2.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-2.jpg" alt="comment" />
                                     </div>
                                     <div class="product__sidebar__comment__item__text">
                                         <ul>
@@ -433,7 +433,7 @@ const Categories = () => {
                                 </div>
                                 <div class="product__sidebar__comment__item">
                                     <div class="product__sidebar__comment__item__pic">
-                                        <BackgroundComponent imageUrl="/assets/img/sidebar/comment-3.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-3.jpg" alt="comment" />
                                     </div>
                                     <div class="product__sidebar__comment__item__text">
                                         <ul>
@@ -446,7 +446,7 @@ const Categories = () => {
                                 </div>
                                 <div class="product__sidebar__comment__item">
                                     <div class="product__sidebar__comment__item__pic">
-                                        <BackgroundComponent imageUrl="/assets/img/sidebar/comment-4.jpg" alt="" />
+                                        <img src="/assets/img/sidebar/comment-4.jpg" alt="comment" />
                                     </div>
                                     <div class="product__sidebar__comment__item__text">
                                         <ul>

@@ -18,12 +18,12 @@ export default function Header() {
                             <nav className="header__menu mobile-menu">
                                 <ul>
                                     <li className="active"><a href="./">Homepage</a></li>
-                                    <li><a href="./categories.html">Categories <span className="arrow_carrot-down"></span></a>
+                                    <li><a href="./categories">Categories <span className="arrow_carrot-down"></span></a>
                                         <ul className="dropdown">
                                             <li><Link to="/categories">Categories</Link></li>
                                             <li><a href="./anime-details.html">Manga Details</a></li>
                                             <li><a href="./anime-watching.html">Manga Watching</a></li>
-                                            <li><a href="./blog-details.html">Blog Details</a></li>
+                                            <li><Link to="/blogdetails">Blog Details</Link></li>
                                             <li><a href="./signup.html">Sign Up</a></li>
                                             <li><Link to="/login">Login</Link></li>
                                             <li><Link to="/admin">Admin</Link></li>

@@ -5,6 +5,7 @@ import Footer from "./Components/Footer";
 import Login from "./pages/login";
 import Admin from "./pages/admins/admin";
 import Categories from "./pages/categories";
+import BlogDetails from "./pages/blog-details";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/blogdetails" element={<BlogDetails />} />
       </Routes>
       <Footer />
     </Router>
