@@ -6,7 +6,7 @@ const BackgroundComponent = ({ imageUrl }) => {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 width: "100%",
-                height: "300px",
+                height: "285px",
             }}
         />
     );
@@ -15,8 +15,7 @@ const BackgroundComponent = ({ imageUrl }) => {
 const Blog = () => {
     return (
         <section>
-            <section class="normal-breadcrumb set-bg" >
-                <BackgroundComponent imageUrl="/assets/img/normal-breadcrumb.jpg" />
+            <section class="normal-breadcrumb set-bg" style={{ backgroundImage: "url('/assets/img/normal-breadcrumb.jpg')" }}>
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
@@ -34,8 +33,7 @@ const Blog = () => {
                         <div class="col-lg-6">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="blog__item set-bg" >
-                                        <BackgroundComponent imageUrl="/assets/img/blog/blog-1.jpg" />
+                                    <div class="blog__item set-bg" style={{ backgroundImage: "url('/assets/img/blog/blog-1.jpg')" }}>
                                         <div class="blog__item__text">
                                             <p><span class="icon_calendar"></span> 01 March 2020</p>
                                             <h4><a href="#">Yuri Kuma Arashi Viverra Tortor Pharetra</a></h4>
@@ -61,8 +59,7 @@ const Blog = () => {
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="blog__item set-bg" >
-                                        <BackgroundComponent imageUrl="/assets/img/blog/blog-7.jpg" />
+                                    <div class="blog__item set-bg" style={{ backgroundImage: "url('/assets/img/blog/blog-7.jpg')" }}>
                                         <div class="blog__item__text">
                                             <p><span class="icon_calendar"></span> 01 March 2020</p>
                                             <h4><a href="#">Housekishou Richard shi no Nazo Kantei Season 08 - 20</a></h4>
@@ -110,8 +107,7 @@ const Blog = () => {
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="blog__item set-bg" >
-                                        <BackgroundComponent imageUrl="/assets/img/blog/blog-6.jpg" />
+                                    <div class="blog__item set-bg" style={{ backgroundImage: "url('/assets/img/blog/blog-6.jpg')" }}>
                                         <div class="blog__item__text">
                                             <p><span class="icon_calendar"></span> 01 March 2020</p>
                                             <h4><a href="#">Yuri Kuma Arashi Viverra Tortor Pharetra</a></h4>
@@ -137,8 +133,7 @@ const Blog = () => {
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="blog__item set-bg" >
-                                        <BackgroundComponent imageUrl="/assets/img/blog/blog-12.jpg" />
+                                    <div class="blog__item set-bg" style={{ backgroundImage: "url('/assets/img/blog/blog-12.jpg')" }}>
                                         <div class="blog__item__text">
                                             <p><span class="icon_calendar"></span> 01 March 2020</p>
                                             <h4><a href="#">Yuri Kuma Arashi Viverra Tortor Pharetra</a></h4>
