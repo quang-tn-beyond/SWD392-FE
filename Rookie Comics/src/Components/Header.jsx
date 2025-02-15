@@ -9,7 +9,7 @@ export default function Header() {
                     <div className="col-lg-2">
                         <div className="header__logo">
                             <a href="./">
-                            <img src="/assets/img/logo.png" alt="logo" />
+                                <img src="/assets/img/logo.png" alt="logo" />
                             </a>
                         </div>
                     </div>
@@ -20,7 +20,7 @@ export default function Header() {
                                     <li className="active"><a href="./">Homepage</a></li>
                                     <li><a href="./categories.html">Categories <span className="arrow_carrot-down"></span></a>
                                         <ul className="dropdown">
-                                            <li><a href="./categories.html">Categories</a></li>
+                                            <li><Link to="/categories">Categories</Link></li>
                                             <li><a href="./anime-details.html">Manga Details</a></li>
                                             <li><a href="./anime-watching.html">Manga Watching</a></li>
                                             <li><a href="./blog-details.html">Blog Details</a></li>
