@@ -29,7 +29,7 @@ export default function Header() {
                                             <li><Link to="/admin">Admin</Link></li>
                                         </ul>
                                     </li>
-                                    <li><a href="./blog.html">Our Blog</a></li>
+                                    <li><Link to="/blog">Blog</Link></li>
                                     <li><a href="#">Contacts</a></li>
                                 </ul>
                             </nav>
