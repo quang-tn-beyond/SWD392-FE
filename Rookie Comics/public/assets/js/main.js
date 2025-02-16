@@ -51,16 +51,16 @@
     });
 
     /*------------------
-		Navigation
-	--------------------*/
+        Navigation
+    --------------------*/
     $(".mobile-menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
     });
 
     /*------------------
-		Hero Slider
-	--------------------*/
+        Hero Slider
+    --------------------*/
     var hero_s = $(".hero__slider");
     hero_s.owlCarousel({
         loop: true,
@@ -93,9 +93,23 @@
     /*------------------
         Scroll To Top
     --------------------*/
-    $("#scrollToTopButton").click(function() {
+    $("#scrollToTopButton").click(function () {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         return false;
-     });
+    });
 
 })(jQuery);
+
+const BackgroundComponent = ({ imageUrl }) => {
+    return (
+        <div
+            style={{
+                backgroundImage: `url(${imageUrl})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "100%",
+                height: "300px",
+            }}
+        />
+    );
+};

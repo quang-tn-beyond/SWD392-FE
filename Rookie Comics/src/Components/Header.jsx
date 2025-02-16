@@ -21,7 +21,7 @@ export default function Header() {
                                     <li><a href="./categories">Categories <span className="arrow_carrot-down"></span></a>
                                         <ul className="dropdown">
                                             <li><Link to="/categories">Categories</Link></li>
-                                            <li><a href="./anime-details.html">Manga Details</a></li>
+                                            <li><Link to="/details">Comic Details</Link></li>
                                             <li><a href="./anime-watching.html">Manga Watching</a></li>
                                             <li><Link to="/blogdetails">Blog Details</Link></li>
                                             <li><a href="./signup.html">Sign Up</a></li>
