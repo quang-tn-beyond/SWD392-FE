@@ -8,6 +8,8 @@ import Categories from "./pages/categories";
 import BlogDetails from "./pages/blog-details";
 import Blog from "./pages/blog";
 import Details from "./pages/details";
+import Staffpage from "./pages/staffpage/staffpage";
+import Moderator from "./pages/moderatorpage/moderator";
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/staffpage" element={<Staffpage />} />
+        <Route path="/moderator" element={<Moderator />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/blogdetails" element={<BlogDetails />} />
         <Route path="/blog" element={<Blog />} />

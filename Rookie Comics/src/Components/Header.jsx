@@ -22,9 +22,9 @@ export default function Header() {
                                         <ul className="dropdown">
                                             <li><Link to="/categories">Categories</Link></li>
                                             <li><Link to="/details">Comic Details</Link></li>
-                                            <li><a href="./anime-watching.html">Manga Watching</a></li>
+                                            <li><Link to="/staffpage">Staff Page</Link></li>
+                                            <li><Link to="/moderator">Moderator</Link></li>
                                             <li><Link to="/blogdetails">Blog Details</Link></li>
-                                            <li><a href="./signup.html">Sign Up</a></li>
                                             <li><Link to="/login">Login</Link></li>
                                             <li><Link to="/admin">Admin</Link></li>
                                         </ul>
