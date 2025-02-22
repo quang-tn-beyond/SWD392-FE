@@ -15,23 +15,7 @@ import Moderator from "./pages/moderatorpage/moderator";
 
 const App = () => {
   return (
-<<<<<<< Updated upstream
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/staffpage" element={<Staffpage />} />
-        <Route path="/moderator" element={<Moderator />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/blogdetails" element={<BlogDetails />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/details" element={<Details />} />
-      </Routes>
-      <Footer />
-    </Router>
-=======
+
     <GoogleOAuthProvider clientId="717866262643-77vit52fq5r4i29pmpkomtjaq3fv7vu8.apps.googleusercontent.com">
       <Router>
         <Header />
@@ -41,13 +25,15 @@ const App = () => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/blogdetails" element={<BlogDetails />} />
+          <Route path="/staffpage" element={<Staffpage />} />
+          <Route path="/moderator" element={<Moderator />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/details" element={<Details />} />
         </Routes>
         <Footer />
       </Router>
     </GoogleOAuthProvider>
->>>>>>> Stashed changes
+
   );
 };
 
