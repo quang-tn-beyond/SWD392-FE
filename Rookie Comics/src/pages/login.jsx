@@ -1,28 +1,31 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // State xử lý lỗi
+  const [error, setError] = useState("");
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Phương thức đăng nhập theo username & password
   const handleManualLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset lỗi trước khi gửi request
+    setError("");
 
     try {
       const response = await axios.post("http://localhost:8080/login", {
         email,
         password,
       });
-      // Giả sử API trả về token khi đăng nhập thành công
       const { token } = response.data;
-      // Lưu token (có thể vào localStorage hoặc cookies)
       localStorage.setItem("token", token);
-      // Điều hướng tới trang admin hoặc dashboard
+      const decodedToken = jwtDecode(token);
+      setRole(decodedToken.role);
       navigate("/admin");
     } catch (error) {
       setError("Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu.");
@@ -30,14 +33,42 @@ export default function Login() {
     }
   };
 
-  // Phương thức chuyển hướng đăng nhập qua Google OAuth2
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8080/api/auth/google";
+  const handleSuccess = async (response) => {
+    console.log("Google Token:", response.credential);
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:8080/users/login/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential }),
+      });
+
+      const data = await res.json();
+      console.log("User data:", data);
+
+      if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        const decodedToken = jwtDecode(data.token);
+        setRole(decodedToken.role);
+        toast.success("Đăng nhập thành công!");
+        navigate(data.redirectUrl || "/");
+      } else {
+        console.error("Server returned an error:", data);
+        toast.error(data.error || "Đăng nhập thất bại!");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Lỗi kết nối đến server!");
+    }
+    setLoading(false);
+  };
+
+  const handleGoogleError = () => {
+    toast.error("Google Sign In was unsuccessful. Try again later");
   };
 
   return (
     <>
-      {/* Normal Breadcrumb Begin */}
       <section
         className="normal-breadcrumb set-bg"
         style={{ backgroundImage: "url('/assets/img/normal-breadcrumb.jpg')" }}
@@ -53,13 +84,10 @@ export default function Login() {
           </div>
         </div>
       </section>
-      {/* Normal Breadcrumb End */}
 
-      {/* Login Section Begin */}
       <section className="login spad">
         <div className="container">
           <div className="row">
-            {/* Đăng nhập qua tài khoản (username/email & password) */}
             <div className="col-lg-6">
               <div className="login__form">
                 <h3>Login with username</h3>
@@ -92,61 +120,14 @@ export default function Login() {
                 </Link>
               </div>
             </div>
-            {/* Đăng nhập qua Google OAuth2 */}
             <div className="col-lg-6">
               <div className="login__register">
                 <h3>Sign in With Google</h3>
-                <button onClick={handleGoogleLogin} className="site-btn">
-                  Sign in With Google
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="login__social">
-            <div className="row d-flex justify-content-center">
-              <div className="col-lg-6">
-                <div className="login__social__links">
-                  <span>or</span>
-                  <ul>
-                    <li>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          // Nếu cần thêm chức năng đăng nhập qua Facebook
-                          window.location.href = "http://localhost:8080/api/auth/facebook";
-                        }}
-                        className="facebook"
-                      >
-                        <i className="fa fa-facebook"></i> Sign in With Facebook
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleGoogleLogin();
-                        }}
-                        className="google"
-                      >
-                        <i className="fa fa-google"></i> Sign in With Google
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          // Nếu cần thêm chức năng đăng nhập qua Twitter
-                          window.location.href = "http://localhost:8080/api/auth/twitter";
-                        }}
-                        className="twitter"
-                      >
-                        <i className="fa fa-twitter"></i> Sign in With Twitter
-                      </a>
-                    </li>
-                  </ul>
+                <div style={{ marginBottom: "10px" }}>
+                  <GoogleLogin
+                    onSuccess={handleSuccess}
+                    onError={handleGoogleError}
+                  />
                 </div>
               </div>
             </div>
@@ -159,7 +140,6 @@ export default function Login() {
           </div>
         </div>
       </section>
-      {/* Login Section End */}
     </>
   );
 }
