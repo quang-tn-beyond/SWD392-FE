@@ -7,18 +7,23 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
-  // Kiểm tra token trong localStorage và cập nhật user
+  // Kiểm tra đăng nhập từ localStorage
   const checkAuth = () => {
     const token = localStorage.getItem("token");
+
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        setUser({ email: decodedToken.sub, role: decodedToken.role });
+        const userData = {
+          email: decodedToken.sub, // Lấy email từ JWT
+          role: decodedToken.role,
+        };
+
+        setUser(userData);
         setIsLoggedIn(true);
       } catch (error) {
-        console.error("Lỗi giải mã token:", error);
-        setUser(null);
-        setIsLoggedIn(false);
+        console.error("Lỗi khi giải mã token:", error);
+        logout();
       }
     } else {
       setUser(null);
@@ -34,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkAuth(); // Kiểm tra khi ứng dụng khởi động
+    checkAuth();
   }, []);
 
   return (

@@ -13,6 +13,7 @@ import Details from "./pages/details";
 import Staffpage from "./pages/staffpage/staffpage";
 import Moderator from "./pages/moderatorpage/moderator";
 import { AuthProvider } from "./components/AuthContext";
+import ComicDetails from "./pages/details";
 
 const App = () => {
   return (
@@ -22,7 +23,8 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="/comic-detail/:id" element={<ComicDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/categories" element={<Categories />} />
