@@ -1,56 +1,58 @@
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import { AuthContext } from "./AuthContext";
 
 const ProfileMenu = ({ onLogout }) => {
-  const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { user, logout } = useContext(AuthContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef();
+
+  const handleToggleMenu = () => {
+    setShowMenu(prev => !prev);
+    console.log("Toggle menu", !showMenu);
+  };
 
   useEffect(() => {
-    // Đọc token từ cookie
-    const token = Cookies.get("token");
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        if (decodedToken && decodedToken.sub) {
-          setUserEmail(decodedToken.sub);  // Lấy email từ token
-        }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
       }
-    }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleLogout = () => {
-    // Xóa token khỏi cookie
-    Cookies.remove("token");
-    onLogout(); // Cập nhật trạng thái đăng nhập của app
-    handleMenuClose();
-    navigate("/"); // Điều hướng về trang chủ hoặc trang đăng nhập
+    logout();
+    if (onLogout) onLogout();
   };
-
-  if (!userEmail) return null; // Nếu không có email, không render menu
 
   return (
-    <div>
-      <IconButton onClick={handleMenuOpen}>
-        <Avatar>{userEmail.charAt(0).toUpperCase()}</Avatar>
-      </IconButton>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-        <MenuItem>{userEmail}</MenuItem>  {/* Hiển thị email người dùng */}
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>  {/* Nút đăng xuất */}
-      </Menu>
+    <div ref={menuRef} style={{ position: "relative", display: "inline-block" }}>
+      <button onClick={handleToggleMenu} style={{ border: "none", background: "none" }}>
+        <span className="icon_profile"></span>
+      </button>
+      {showMenu && (
+        <div
+          className="mini-menu"
+          style={{
+            position: "absolute",
+            top: "100%",
+            right: 0,
+            background: "#fff",
+            border: "1px solid red", // Dùng border đỏ để kiểm tra
+            padding: "10px",
+            borderRadius: "4px",
+            zIndex: 100,
+          }}
+        >
+          <p>Email: {user?.email}</p>
+          <p>Role: {user?.role}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
     </div>
   );
 };

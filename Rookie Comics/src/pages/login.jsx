@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
+import { AuthContext } from "../components/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { setUser, setIsLoggedIn } = useContext(AuthContext); // Lấy từ AuthContext
   const navigate = useNavigate();
 
   const handleManualLogin = async (e) => {
@@ -22,11 +23,17 @@ export default function Login() {
         email,
         password,
       });
+
       const { token } = response.data;
       localStorage.setItem("token", token);
       const decodedToken = jwtDecode(token);
-      setRole(decodedToken.role);
+
+      // Cập nhật trạng thái đăng nhập vào AuthContext
+      setUser(decodedToken);
+      setIsLoggedIn(true);
+
       navigate("/admin");
+      toast.success("Đăng nhập thành công!");
     } catch (error) {
       setError("Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu.");
       console.error("Login error:", error);
@@ -42,14 +49,29 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential }),
       });
-
+  
       const data = await res.json();
       console.log("User data:", data);
-
+  
       if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
         const decodedToken = jwtDecode(data.token);
-        setRole(decodedToken.role);
+  
+        console.log("Decoded Token:", decodedToken); // Kiểm tra xem có email không
+  
+        // Đảm bảo user chứa email
+        const userData = {
+          email: decodedToken.sub || decodedToken.email, // Đảm bảo lấy email đúng
+          role: decodedToken.role,
+        };
+  
+        if (!userData.email) {
+          console.error("Email không tồn tại trong token!");
+        }
+  
+        setUser(userData);
+        setIsLoggedIn(true);
+  
         toast.success("Đăng nhập thành công!");
         navigate(data.redirectUrl || "/");
       } else {
@@ -62,6 +84,7 @@ export default function Login() {
     }
     setLoading(false);
   };
+  
 
   const handleGoogleError = () => {
     toast.error("Google Sign In was unsuccessful. Try again later");

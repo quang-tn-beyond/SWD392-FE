@@ -1,16 +1,14 @@
 // Header.jsx
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
-import  ProfileMenu  from "./ProfileMenu";
+import ProfileMenu from "./ProfileMenu";
 import { AuthContext } from "./AuthContext";
 
 export default function Header() {
-  const { isLoggedIn, setIsLoggedIn, checkAuth } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-  // Giả sử rằng các hành động đăng nhập khác sẽ gọi checkAuth hoặc setIsLoggedIn(true)
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  // Xử lý logout không cần thiết ở đây vì đã có trong ProfileMenu, 
+  // nhưng nếu cần bạn có thể gọi setIsLoggedIn(false) tại đây.
 
   return (
     <header className="header">
@@ -77,7 +75,7 @@ export default function Header() {
                 <span className="icon_search"></span>
               </Link>
               {isLoggedIn ? (
-                <ProfileMenu onLogout={handleLogout} />
+                <ProfileMenu />
               ) : (
                 <Link to="/login">
                   <span className="icon_profile"></span>

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google"; // ✅ Import this!
 
-import Header from "./Components/Header";
+import Header from "./components/Header";
 import Home from "./pages/home";
-import Footer from "./Components/Footer";
+import Footer from "./components/Footer";
 import Login from "./pages/login";
 import Admin from "./pages/admins/admin";
 import Categories from "./pages/categories";
@@ -12,7 +12,7 @@ import Blog from "./pages/blog";
 import Details from "./pages/details";
 import Staffpage from "./pages/staffpage/staffpage";
 import Moderator from "./pages/moderatorpage/moderator";
-import { AuthProvider } from "./Components/AuthContext";
+import { AuthProvider } from "./components/AuthContext";
 
 const App = () => {
   return (
