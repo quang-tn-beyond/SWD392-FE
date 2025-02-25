@@ -108,6 +108,127 @@ ol {
 	margin: 0;
 }
 
+/* General Styles */
+body {
+	background-color: #0b0c1a;
+	color: #ffffff;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	max-width: 1200px;
+	margin: auto;
+	padding: 20px;
+}
+
+
+/*---------------------
+  Chapter CSS
+-----------------------*/
+/* Breadcrumb */
+.breadcrumb {
+	display: flex;
+	gap: 10px;
+	font-size: 14px;
+	color: #ffcc00;
+}
+
+.breadcrumb a {
+	color: #ffcc00;
+	text-decoration: none;
+}
+
+.breadcrumb span {
+	color: #1e90ff;
+}
+
+/* Title & Notification */
+.chapter-title,
+.notification {
+	margin-top: 10px;
+	padding: 15px;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.chapter-title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #1e90ff;
+}
+
+.update-time {
+	font-size: 12px;
+	color: #aaaaaa;
+}
+
+.notification {
+	background: #fff;
+	color: #000;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.notification .error-text {
+	color: #ff4444;
+}
+
+/* Navigation & Controls */
+.chapter-navigation,
+.chapter-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 20px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.chapter-navigation {
+	background-color: #1e90ff;
+	color: #fff;
+}
+
+.chapter-controls a {
+	color: #ff4444;
+	font-size: 24px;
+}
+
+.chapter-controls button {
+	background: #1e90ff;
+	color: #fff;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.chapter-controls select {
+	background: #fff;
+	color: #000;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.chapter-controls button:hover {
+	background: #ff4444;
+}
+
+/* Comic Page */
+.comic-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.comic-image {
+	max-width: 100%;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+	margin-bottom: 10px;
+}
+
 /*---------------------
   Helper CSS
 -----------------------*/

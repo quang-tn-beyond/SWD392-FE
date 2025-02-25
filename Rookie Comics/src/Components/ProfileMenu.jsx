@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { AuthContext } from "../components/AuthContext";
+import { AuthContext } from "./AuthContext";
 import { Link } from "react-router-dom";
 import { Avatar, Menu, MenuItem, Typography, Divider, IconButton, Box } from "@mui/material";
 import { Logout, AccountCircle, ShoppingCart, History } from "@mui/icons-material";
