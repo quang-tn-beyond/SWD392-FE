@@ -20,6 +20,13 @@ export const comics = [
       episodes: "12 / 12",
       tags: ["Thriller", "Sci-fi"],
       link: "/comic-detail/1",
+      chapters: [
+        { title: " Awakening", link: "/comic/1/chapter/1" },
+        { title: " New World", link: "/comic/1/chapter/2" },
+        { title: " Dungeon Exploration", link: "/comic/1/chapter/3" },
+        { title: " A Mysterious Power", link: "/comic/1/chapter/4" },
+        { title: " The Strongest Hunter", link: "/comic/1/chapter/5" },
+      ]
     },
     {
       id: "2",
@@ -42,6 +49,13 @@ export const comics = [
       episodes: "15 / 15",
       tags: ["Horror", "Action"],
       link: "/comic-detail/2",
+      chapters: [
+        { title: " The Beginning", link: "/comic/2/chapter/1" },
+        { title: " A New World", link: "/comic/2/chapter/2" },
+        { title: " The Fight", link: "/comic/2/chapter/3" },
+        { title: " The Twist", link: "/comic/2/chapter/4" },
+        { title: " The Truth Revealed", link: "/comic/2/chapter/5" },
+      ]
     },
     {
       id: "3",
@@ -64,6 +78,13 @@ export const comics = [
       episodes: "22 / 22",
       tags: ["Fantasy", "Action"],
       link: "/comic-detail/3",
+      chapters: [
+        { title: " The Hunter's Path", link: "/comic/3/chapter/1" },
+        { title: " The First Trial", link: "/comic/3/chapter/2" },
+        { title: " Battle with the Beast", link: "/comic/3/chapter/3" },
+        { title: " Awakening Power", link: "/comic/3/chapter/4" },
+        { title: " Into the Unknown", link: "/comic/3/chapter/5" },
+      ]
     },
     // Thêm nhiều dữ liệu giả khác ở đây
   ];

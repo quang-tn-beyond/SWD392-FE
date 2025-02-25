@@ -18,20 +18,19 @@ const BackgroundComponent = ({ imageUrl }) => {
 };
 
 const ComicDetails = () => {
-  const { id } = useParams(); // Lấy id từ URL
+  const { id } = useParams();
   const [comic, setComic] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
-    // Tìm comic trong danh sách comics dựa trên id từ URL
-    const comicData = comics.find(comic => comic.id === id);
+    const comicData = comics.find((comic) => comic.id === id);
 
     if (comicData) {
       setComic(comicData);
     } else {
       console.error("Comic not found for id:", id);
     }
-  }, [id]); // Chạy lại khi id thay đổi
+  }, [id]);
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
@@ -76,31 +75,51 @@ const ComicDetails = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <ul>
-                        <li><span>Type:</span> {comic.type}</li>
-                        <li><span>Studios:</span> {comic.studios}</li>
-                        <li><span>Date aired:</span> {comic.airDate}</li>
-                        <li><span>Status:</span> {comic.status}</li>
-                        <li><span>Genre:</span> {comic.genre}</li>
+                        <li>
+                          <span>Type:</span> {comic.type}
+                        </li>
+                        <li>
+                          <span>Studios:</span> {comic.studios}
+                        </li>
+                        <li>
+                          <span>Date aired:</span> {comic.airDate}
+                        </li>
+                        <li>
+                          <span>Status:</span> {comic.status}
+                        </li>
+                        <li>
+                          <span>Genre:</span> {comic.genre}
+                        </li>
                       </ul>
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <ul>
-                        <li><span>Scores:</span> {comic.scores}</li>
-                        <li><span>Rating:</span> {comic.rating}</li>
-                        <li><span>Duration:</span> {comic.duration}</li>
-                        <li><span>Quality:</span> {comic.quality}</li>
-                        <li><span>Views:</span> {comic.views}</li>
+                        <li>
+                          <span>Scores:</span> {comic.scores}
+                        </li>
+                        <li>
+                          <span>Rating:</span> {comic.rating}
+                        </li>
+                        <li>
+                          <span>Duration:</span> {comic.duration}
+                        </li>
+                        <li>
+                          <span>Quality:</span> {comic.quality}
+                        </li>
+                        <li>
+                          <span>Views:</span> {comic.views}
+                        </li>
                       </ul>
                     </div>
                   </div>
                 </div>
                 <div className="anime__details__btn">
                   <button
-                    className={`follow-btn ${isFollowing ? 'following' : ''}`}
+                    className={`follow-btn ${isFollowing ? "following" : ""}`}
                     onClick={handleFollow}
                   >
-                    <i className={`fa ${isFollowing ? 'fa-heart' : 'fa-heart-o'}`}></i> 
-                    {isFollowing ? 'Following' : 'Follow'}
+                    <i className={`fa ${isFollowing ? "fa-heart" : "fa-heart-o"}`}></i>{" "}
+                    {isFollowing ? "Following" : "Follow"}
                   </button>
                   <a href="#" className="read-btn">
                     <span>Read Now</span> <i className="fa fa-angle-right"></i>
@@ -110,6 +129,23 @@ const ComicDetails = () => {
             </div>
           </div>
         </div>
+
+        {/* Danh sách chapter sử dụng .anime__details__episodes */}
+        <div className="anime__details__episodes">
+          <h4>Chapters</h4>
+          <div className="chapter-list">
+            {comic.chapters.map((chapter, index) => (
+              <a key={index} href={chapter.link} className="chapter-item">
+                <div className="chapter-item__content">
+                  <span className="chapter-item__number">Chapter {index + 1}: </span>
+                  <span className="chapter-item__title">{chapter.title}</span>
+                </div>
+                <i className="fa fa-arrow-right chapter-item__icon"></i>
+              </a>
+            ))}
+          </div>
+        </div>
+
         <Review />
       </div>
     </section>
