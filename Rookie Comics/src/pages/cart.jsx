@@ -1,4 +1,4 @@
-const Orders = () => {
+const Cart = () => {
     return (
         <div class="orders-container">
 
@@ -76,15 +76,15 @@ const Orders = () => {
                     <a href="#" class="text-red">Move to My Likes</a>
                 </div>
                 <div class="orders-text col-lg-5">
-                    <span>Total (0 item):</span>
-                    <span class="total-price">0 coin</span>
+                    <div>
+                        <span>Total (0 item):</span>
+                        <span class="total-price">0 coin</span>
+                    </div>
                     <button class="buy-button">Check out</button>
                 </div>
             </div>
-
-
         </div>
     );
 };
 
-export default Orders;
+export default Cart;

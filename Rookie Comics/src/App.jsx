@@ -15,7 +15,8 @@ import Moderator from "./pages/moderatorpage/moderator";
 import { AuthProvider } from "./components/AuthContext";
 import ComicDetails from "./pages/details";
 import ReadingPage from "./pages/readingpage";
-import Orders from "./pages/orderpage";
+import Bookshelf from "./pages/bookshelf";
+import Cart from "./pages/cart";
 
 const App = () => {
   return (
@@ -36,7 +37,8 @@ const App = () => {
             <Route path="/blog" element={<Blog />} />
             <Route path="/details" element={<Details />} />
             <Route path="/reading" element={<ReadingPage />} />
-            <Route path="/orders" element={<Orders />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/bookshelf" element={<Bookshelf />} />
           </Routes>
           <Footer />
         </Router>

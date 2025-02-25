@@ -57,7 +57,7 @@ export default function Header() {
                         <Link to="/admin">Admin</Link>
                       </li>
                       <li>
-                        <Link to="/orders">Orders</Link>
+                        <Link to="/bookshelf">Bookshelf</Link>
                       </li>
                     </ul>
                   </li>
@@ -77,6 +77,9 @@ export default function Header() {
           {/* Right Side */}
           <div className="col-lg-2">
             <div className="header__right">
+              <Link to="/cart" className="cart-switch">
+                <span className="icon_cart"></span>
+              </Link>
               <Link to="/search" className="search-switch">
                 <span className="icon_search"></span>
               </Link>

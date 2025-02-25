@@ -17,6 +17,7 @@ const BackgroundComponent = ({ imageUrl }) => {
   );
 };
 
+
 const ComicDetails = () => {
   const { id } = useParams();
   const [comic, setComic] = useState(null);
@@ -34,6 +35,20 @@ const ComicDetails = () => {
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
+
+    let followedComics = JSON.parse(localStorage.getItem("followedComics")) || [];
+
+    if (!isFollowing) {
+      // Thêm truyện vào danh sách theo dõi
+      if (!followedComics.includes(comic.id)) {
+        followedComics.push(comic.id);
+      }
+    } else {
+      // Bỏ theo dõi
+      followedComics = followedComics.filter((id) => id !== comic.id);
+    }
+
+    localStorage.setItem("followedComics", JSON.stringify(followedComics));
   };
 
   if (!comic) return <div>Loading...</div>;
