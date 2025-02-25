@@ -187,7 +187,7 @@ ol {
 	width: 40px;
 	text-align: center;
 	border: 1px solid #ccc;
-	. padding: 5px;
+	padding: 5px;
 	border-radius: 5px;
 }
 
@@ -247,41 +247,36 @@ ol {
 }
 
 .breadcrumb span {
-	color: #1e90ff;
+	color: #000000;
 }
 
-/* Title & Notification */
-.chapter-title,
-.notification {
+/* Title  */
+.chapter-title {
 	margin-top: 10px;
 	padding: 15px;
 	border-radius: 5px;
 	text-align: center;
+	background-color: #e9ecef;
 }
 
 .chapter-title {
 	font-size: 24px;
 	font-weight: bold;
-	color: #1e90ff;
+}
+
+.chapter-title h1 {
+	color: #dec506;
 }
 
 .update-time {
 	font-size: 12px;
-	color: #aaaaaa;
+	color: #000000;
 }
 
-.notification {
-	background: #fff;
-	color: #000;
-	box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
 
-.notification .error-text {
-	color: #ff4444;
-}
 
-/* Navigation & Controls */
-.chapter-navigation,
+/* Controls */
+
 .chapter-controls {
 	display: flex;
 	align-items: center;
@@ -292,10 +287,6 @@ ol {
 	border-radius: 5px;
 }
 
-.chapter-navigation {
-	background-color: #1e90ff;
-	color: #fff;
-}
 
 .chapter-controls a {
 	color: #ff4444;
@@ -316,10 +307,15 @@ ol {
 	color: #000;
 	padding: 10px;
 	border-radius: 5px;
+	max-height: 60px;
 }
 
 .chapter-controls button:hover {
 	background: #ff4444;
+}
+
+.chapter-controls .scroll {
+	background-color: #e9ecef;
 }
 
 /* Comic Page */
