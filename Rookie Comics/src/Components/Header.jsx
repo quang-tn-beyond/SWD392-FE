@@ -39,9 +39,6 @@ export default function Header() {
                         <Link to="/categories">Categories</Link>
                       </li>
                       <li>
-                        <Link to="/details">Comic Details</Link>
-                      </li>
-                      <li>
                         <Link to="/staffpage">Staff Page</Link>
                       </li>
                       <li>

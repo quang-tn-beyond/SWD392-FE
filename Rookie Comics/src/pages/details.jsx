@@ -17,7 +17,6 @@ const BackgroundComponent = ({ imageUrl }) => {
   );
 };
 
-
 const ComicDetails = () => {
   const { id } = useParams();
   const [comic, setComic] = useState(null);
@@ -33,19 +32,22 @@ const ComicDetails = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const followedComics = JSON.parse(localStorage.getItem("followedComics")) || [];
+    setIsFollowing(followedComics.includes(id));
+  }, [id]);
+
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
 
     let followedComics = JSON.parse(localStorage.getItem("followedComics")) || [];
 
     if (!isFollowing) {
-      // Thêm truyện vào danh sách theo dõi
-      if (!followedComics.includes(comic.id)) {
-        followedComics.push(comic.id);
+      if (!followedComics.includes(id)) {
+        followedComics.push(id);
       }
     } else {
-      // Bỏ theo dõi
-      followedComics = followedComics.filter((id) => id !== comic.id);
+      followedComics = followedComics.filter((comicId) => comicId !== id);
     }
 
     localStorage.setItem("followedComics", JSON.stringify(followedComics));
@@ -150,14 +152,15 @@ const ComicDetails = () => {
           <h4>Chapters</h4>
           <div className="chapter-list">
             {comic.chapters.map((chapter, index) => (
-              <a key={index} href={chapter.link} className="chapter-item">
+              <a key={index} href={chapter.link} className={`chapter-item ${index >= 5 ? 'locked' : ''}`}>
                 <div className="chapter-item__content">
                   <span className="chapter-item__number">Chapter {index + 1}: </span>
                   <span className="chapter-item__title">{chapter.title}</span>
                 </div>
-                <i className="fa fa-arrow-right chapter-item__icon"></i>
+                <i className={index >= 5 ? "fa fa-lock chapter-item__icon" : "fa fa-arrow-right chapter-item__icon"}></i>
               </a>
             ))}
+
           </div>
         </div>
 
