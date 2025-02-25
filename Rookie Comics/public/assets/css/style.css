@@ -108,19 +108,127 @@ ol {
 	margin: 0;
 }
 
-/* General Styles */
-body {
-	background-color: #0b0c1a;
-	color: #ffffff;
-	font-family: Arial, sans-serif;
-}
 
-.container {
-	max-width: 1200px;
+/*---------------------
+  Orders CSS
+-----------------------*/
+.orders-container {
+	max-width: 1100px;
 	margin: auto;
-	padding: 20px;
 }
 
+.orders-header,
+.orders-footer,
+.product-details {
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	margin: 15px 0;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orders-text {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	align-items: center;
+	gap: 15px;
+}
+
+.product-details {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.product-details,
+.orders-footer .orders-text {
+	padding-left: 40px;
+}
+
+.product {
+	display: contents;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.orders-text img {
+	width: 60px;
+	height: 60px;
+	border-radius: 8px;
+	object-fit: cover;
+}
+
+.quantity-control {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.quantity-control button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: background 0.3s;
+}
+
+.quantity-control button:hover {
+	background-color: #0056b3;
+}
+
+.quantity-control input {
+	width: 40px;
+	text-align: center;
+	border: 1px solid #ccc;
+	. padding: 5px;
+	border-radius: 5px;
+}
+
+.footer-text {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	align-items: flex-start;
+	gap: 15px;
+}
+
+.actions {
+	width: 100px;
+	/* Đảm bảo đủ không gian */
+	display: flex;
+	flex-direction: column;
+	/* Xếp chồng lên nhau */
+	align-items: center;
+	gap: 8px;
+}
+
+.actions a {
+	text-decoration: none;
+	color: #dc3545;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	display: inline-block;
+	transition: color 0.3s ease-in-out;
+}
+
+.actions a:hover {
+	text-decoration: underline;
+	color: #a71d2a;
+}
+
+.buy-button {
+	border-radius: 30px;
+	background-color: red;
+	padding: 10px;
+}
 
 /*---------------------
   Chapter CSS

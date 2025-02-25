@@ -56,6 +56,9 @@ export default function Header() {
                       <li>
                         <Link to="/admin">Admin</Link>
                       </li>
+                      <li>
+                        <Link to="/orders">Orders</Link>
+                      </li>
                     </ul>
                   </li>
                   <li>
