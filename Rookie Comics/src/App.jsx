@@ -17,6 +17,7 @@ import ComicDetails from "./pages/details";
 import ReadingPage from "./pages/readingpage";
 import Bookshelf from "./pages/bookshelf";
 import Cart from "./pages/cart";
+import Pricing from "./pages/pricing";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/reading" element={<ReadingPage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/bookshelf" element={<Bookshelf />} />
+            <Route path="/pricing" element={<Pricing />} />
           </Routes>
           <Footer />
         </Router>

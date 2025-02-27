@@ -557,6 +557,7 @@ ol {
 
 .header {
 	background: #070720;
+	align-items: center;
 }
 
 .header__logo {
@@ -2647,4 +2648,127 @@ ol {
 	.anime__review__item__text {
 		padding: 18px 20px 20px;
 	}
+}
+
+/*---------------------
+ Pricing
+-----------------------*/
+/* Background */
+.pricing-container {
+	background: #0b0b45;
+	padding: 30px;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Month / Year */
+.toggle-switch {
+	display: inline-flex;
+	align-items: center;
+	background: #14143a;
+	border-radius: 50px;
+	padding: 5px;
+	border: 1px solid #2c2c6c;
+}
+
+.toggle-switch .btn {
+	border-radius: 50px;
+	padding: 8px 20px;
+	font-weight: bold;
+	color: white;
+	background: transparent;
+	border: none;
+}
+
+.toggle-switch .btn.active {
+	background-color: #b9168f;
+}
+
+.toggle-switch .btn-primary {
+	background-color: #b9168f;
+	border: none;
+}
+
+.toggle-switch .btn-secondary {
+	color: white;
+	background-color: transparent;
+}
+
+.discount-badge {
+	background-color: #ff8c00;
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 5px 10px;
+	border-radius: 20px;
+	margin-left: 10px;
+}
+
+/* Card  */
+.pricing-card {
+	background: #14143a;
+	width: 320px;
+	border-radius: 12px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border: 1px solid #2c2c6c;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.card-title {
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+/* information */
+.price-info {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 15px;
+}
+
+.price {
+	font-size: 28px;
+	font-weight: bold;
+	color: #ffd700;
+}
+
+.per-month {
+	font-size: 18px;
+	color: #aaa;
+}
+
+.old-price {
+	text-decoration: line-through;
+	color: #aaa;
+}
+
+/* Button */
+.btn-primary {
+	background-color: #b9168f !important;
+	border: none;
+}
+
+.btn-secondary {
+	background-color: #3c3c7a !important;
+	border: none;
+}
+
+/* List */
+.benefits-list {
+	color: #ddd;
+	list-style: none;
+	padding-left: 0;
+}
+
+.benefits-list li {
+	display: flex;
+	align-items: center;
+}
+
+.benefits-list i {
+	color: #42d742;
+	margin-right: 8px;
 }

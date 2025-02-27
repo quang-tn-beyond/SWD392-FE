@@ -77,6 +77,9 @@ export default function Header() {
               <Link to="/cart" className="cart-switch">
                 <span className="icon_cart"></span>
               </Link>
+              <Link to="/pricing" className="pricing-switch">
+                <span className="fas fa-dollar-sign"></span>
+              </Link>
               <Link to="/search" className="search-switch">
                 <span className="icon_search"></span>
               </Link>
