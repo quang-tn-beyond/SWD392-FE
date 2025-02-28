@@ -1408,115 +1408,58 @@ ol {
 	border-radius: 2px;
 }
 
-/*---------------------
-  Anime Watching
------------------------*/
-
-.anime__video__player {
-	margin-bottom: 70px;
+/*Small Window*/
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.anime__video__player .plyr--video {
-	border-radius: 5px;
-	background: transparent;
+.modal-content {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	min-width: 300px;
 }
 
-.anime__video__player .plyr audio,
-.anime__video__player .plyr iframe,
-.anime__video__player .plyr video {
-	width: 102%;
+.modal-buttons {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
 }
 
-.anime__video__player .plyr--full-ui.plyr--video .plyr__control--overlaid {
-	display: block;
+.buy-btn {
+	background: red;
+	color: white;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
 }
 
-.anime__video__player .plyr--video .plyr__control.plyr__tab-focus,
-.anime__video__player .plyr--video .plyr__control:hover,
-.anime__video__player .plyr--video .plyr__control[aria-expanded=true] {
-	background: transparent;
+.cart-btn {
+	background: orange;
+	color: white;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
 }
 
-.anime__video__player .plyr--video .plyr__controls {
-	background: transparent;
+.close-btn {
+	margin-top: 10px;
+	background: gray;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
 }
 
-.anime__video__player .plyr--video .plyr__progress__buffer {
-	color: transparent;
-}
-
-.anime__video__player .plyr--full-ui input[type=range] {
-	color: #ffffff;
-}
-
-.anime__video__player .plyr__controls .plyr__controls__item.plyr__progress__container {
-	position: absolute;
-	left: 26px;
-	bottom: 45px;
-	width: calc(100% - 60px);
-}
-
-.anime__video__player .plyr__menu {
-	margin-right: 70px;
-}
-
-.anime__video__player .plyr__controls .plyr__controls__item:first-child {
-	position: absolute;
-	left: 32px;
-	bottom: 8px;
-}
-
-.anime__video__player .plyr__controls .plyr__controls__item:last-child {
-	position: absolute;
-	right: 32px;
-	bottom: 8px;
-}
-
-.anime__video__player .plyr__volume {
-	position: absolute;
-	width: auto;
-	left: 76px;
-	bottom: 8px;
-}
-
-.anime__video__player .plyr__controls .plyr__controls__item.plyr__time {
-	position: absolute;
-	left: 106px;
-	bottom: 12px;
-}
-
-.anime__video__player .plyr__control--overlaid {
-	background: transparent;
-	background: var(--plyr-video-control-background-hover, var(--plyr-color-main, var(--plyr-color-main, transparent)));
-}
-
-.anime__video__player .plyr__control--overlaid svg {
-	height: 60px;
-	width: 50px;
-}
-
-.anime__details__episodes {
-	margin-bottom: 35px;
-}
-
-.anime__details__episodes a {
-	display: inline-block;
-	font-size: 15px;
-	color: #ffffff;
-	background: rgba(255, 255, 255, 0.2);
-	padding: 10px 20px;
-	border-radius: 4px;
-	margin-right: 15px;
-	margin-bottom: 20px;
-	-webkit-transition: all, 0.3s;
-	-o-transition: all, 0.3s;
-	transition: all, 0.3s;
-}
-
-.anime__details__episodes a:hover {
-	color: #000000;
-	background: #ffffff;
-}
 
 /*---------------------
   Breadcrumb

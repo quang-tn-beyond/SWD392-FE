@@ -21,6 +21,9 @@ const ComicDetails = () => {
   const { id } = useParams();
   const [comic, setComic] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+
 
   useEffect(() => {
     const comicData = comics.find((comic) => comic.id === id);
@@ -52,6 +55,12 @@ const ComicDetails = () => {
 
     localStorage.setItem("followedComics", JSON.stringify(followedComics));
   };
+
+  const handleLockedChapterClick = (chapter) => {
+    setSelectedChapter(chapter);
+    setShowPurchaseModal(true);
+  };
+
 
   if (!comic) return <div>Loading...</div>;
 
@@ -152,7 +161,7 @@ const ComicDetails = () => {
           <h4>Chapters</h4>
           <div className="chapter-list">
             {comic.chapters.map((chapter, index) => (
-              <a key={index} href={chapter.link} className={`chapter-item ${index >= 5 ? 'locked' : ''}`}>
+              <a key={index} href={index >= 5 ? "#" : chapter.link} className={`chapter-item ${index >= 5 ? 'locked' : ''}`} onClick={index >= 5 ? (e) => { e.preventDefault(); handleLockedChapterClick(chapter); } : null} >
                 <div className="chapter-item__content">
                   <span className="chapter-item__number">Chapter {index + 1}: </span>
                   <span className="chapter-item__title">{chapter.title}</span>
@@ -166,6 +175,19 @@ const ComicDetails = () => {
 
         <Review />
       </div>
+      {showPurchaseModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h4>Purchase Chapter</h4>
+            <p>{selectedChapter?.title}</p>
+            <div className="modal-buttons">
+              <button className="buy-btn">Buy Chapter</button>
+              <button className="cart-btn">Add to Cart</button>
+            </div>
+            <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
