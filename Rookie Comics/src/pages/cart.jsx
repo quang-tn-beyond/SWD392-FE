@@ -1,86 +1,114 @@
-const Cart = () => {
-    return (
-        <div class="orders-container">
+import React, { useEffect, useState } from "react";
 
+const Cart = () => {
+    const [cartItems, setCartItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    // Load giỏ hàng từ localStorage khi trang được tải
+    useEffect(() => {
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCartItems(storedCart);
+    }, []);
+
+    // Chọn hoặc bỏ chọn một mục trong giỏ hàng
+    const handleSelectItem = (title) => {
+        setSelectedItems((prevSelected) =>
+            prevSelected.includes(title)
+                ? prevSelected.filter((item) => item !== title)
+                : [...prevSelected, title]
+        );
+    };
+
+    // Chọn hoặc bỏ chọn tất cả mục trong giỏ hàng
+    const handleSelectAll = () => {
+        if (selectedItems.length === cartItems.length) {
+            setSelectedItems([]);
+        } else {
+            setSelectedItems(cartItems.map((item) => item.title));
+        }
+    };
+
+    // Xóa một mục khỏi giỏ hàng
+    const removeFromCart = (title) => {
+        const updatedCart = cartItems.filter((item) => item.title !== title);
+        setCartItems(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        setSelectedItems((prevSelected) => prevSelected.filter((item) => item !== title));
+    };
+
+    // Xóa toàn bộ giỏ hàng
+    const clearCart = () => {
+        setCartItems([]);
+        localStorage.removeItem("cart");
+        setSelectedItems([]);
+    };
+
+    // Tính tổng tiền của các mục được chọn
+    const totalPrice = cartItems
+        .filter((item) => selectedItems.includes(item.title))
+        .reduce((sum, item) => sum + item.price, 0);
+
+    return (
+        <div className="orders-container">
             {/* Header */}
-            <div class="orders-header">
-                <div class="col-lg-4 ">
-                    <div class="product">
-                        <input type="checkbox" />
+            <div className="orders-header">
+                <div className="col-lg-4">
+                    <div className="product">
                         <span>Sản Phẩm</span>
                     </div>
                 </div>
-                <div class="orders-text col-lg-8">
-                    <span class="">PricePrice</span>
-                    <span class="">Quantity</span>
-                    <span class="">Total</span>
-                    <span class="">Actions</span>
-                </div>
-            </div>
-            {/* Product Item */}
-            <div class="product-details">
-                <div class="product col-lg-4 px-2">
-                    <div>
-                        <input type="checkbox" />
-                        <img src="/assets/img/sidebar/comment-4.jpg" alt="comment" />
-                    </div>
-                    <span>Chapter 11 </span>
-                </div>
-                <div class="orders-text col-lg-8">
-                    <span>50 coin </span>
-                    <div class="quantity-control">
-                        <button>-</button>
-                        <input type="text" value="1" readOnly />
-                        <button>+</button>
-                    </div>
-                    <span>50 coin</span>
-                    <div class="actions">
-                        <a href="#">Delete</a>
-                        <a href="#">Find Similar</a>
-                    </div>
+                <div className="orders-text col-lg-8">
+                    <span>Giá</span>
+                    <span>Hành động</span>
                 </div>
             </div>
 
-            {/* Product Item 2 */}
-            <div class="product-details">
-                <div class="product col-lg-4 px-2">
-                    <div>
-                        <input type="checkbox" />
-                        <img src="/assets/img/sidebar/comment-4.jpg" alt="comment" />
+            {/* Hiển thị sản phẩm trong giỏ */}
+            {cartItems.length > 0 ? (
+                cartItems.map((item, index) => (
+                    <div className="product-details" key={index}>
+                        <div className="product col-lg-4 px-2">
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedItems.includes(item.title)}
+                                    onChange={() => handleSelectItem(item.title)}
+                                />
+                                <img src="/assets/img/sidebar/comment-4.jpg" alt="comment" />
+                            </div>
+                            <span>{item.title}</span>
+                        </div>
+                        <div className="orders-text col-lg-8">
+                            <span>{item.price} xu</span>
+                            <div className="actions">
+                                <button onClick={() => removeFromCart(item.title)}>Xóa</button>
+                            </div>
+                        </div>
                     </div>
-                    <span>Chapter 11 </span>
-                </div>
-                <div class="orders-text col-lg-8">
-                    <span>50 coin </span>
-                    <div class="quantity-control">
-                        <button>-</button>
-                        <input type="text" value="1" readOnly />
-                        <button>+</button>
-                    </div>
-                    <span>50 coin</span>
-                    <div class="actions">
-                        <a href="#">Delete</a>
-                        <a href="#">Find Similar</a>
-                    </div>
-                </div>
-            </div>
+                ))
+            ) : (
+                <p className="empty-cart">Giỏ hàng trống</p>
+            )}
 
             {/* Footer */}
-            <div class="orders-footer">
-                <div class="footer-text col-lg-7">
+            <div className="orders-footer">
+                <div className="footer-text col-lg-7">
                     <div>
-                        <input type="checkbox" />
-                        <span>Select All (1)</span>
+                        <input
+                            type="checkbox"
+                            checked={selectedItems.length === cartItems.length && cartItems.length > 0}
+                            onChange={handleSelectAll}
+                        />
+                        <span>Chọn tất cả ({cartItems.length})</span>
                     </div>
-                    <a href="#">Delete</a>
-                    <a href="#" class="text-red">Move to My Likes</a>
+                    <button onClick={clearCart} className="text-red">Xóa tất cả</button>
                 </div>
-                <div class="orders-text col-lg-5">
+                <div className="orders-text col-lg-5">
                     <div>
-                        <span>Total (0 item):</span>
-                        <span class="total-price">0 coin</span>
+                        <span>Tổng tiền ({selectedItems.length} mục):</span>
+                        <span className="total-price">{totalPrice} xu</span>
                     </div>
-                    <button class="buy-button">Check out</button>
+                    <button className="buy-button">Thanh toán</button>
                 </div>
             </div>
         </div>

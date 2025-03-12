@@ -25,6 +25,28 @@ const ComicDetails = () => {
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [selectedChapter, setSelectedChapter] = useState(null);
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const addToCart = () => {
+    if (!selectedChapter) return; // Nếu chưa chọn chương, thoát luôn
+
+    const newItem = {
+      title: selectedChapter.title,
+      price: 999, // Giá mặc định
+    };
+
+    // Lấy giỏ hàng từ localStorage
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Kiểm tra nếu chương đã có trong giỏ hàng
+    if (!existingCart.some(item => item.title === newItem.title)) {
+      const updatedCart = [...existingCart, newItem];
+      localStorage.setItem("cart", JSON.stringify(updatedCart)); // Lưu lại
+      alert("Đã thêm vào giỏ hàng!");
+    } else {
+      alert("Chương này đã có trong giỏ hàng!");
+    }
+  };
 
   useEffect(() => {
     const comicData = comics.find((comic) => comic.id === id);
@@ -220,19 +242,34 @@ const ComicDetails = () => {
         </div>
 
       </div>
+
       {showPurchaseModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h4>Purchase Chapter</h4>
-            <p>{selectedChapter?.title}</p>
+            <p>{selectedChapter?.title}</p> <span>999 xu</span>
             <div className="modal-buttons">
-              <button className="buy-btn">Buy Chapter</button>
-              <button className="cart-btn">Add to Cart</button>
+              <button className="buy-btn" onClick={() => setShowConfirmModal(true)}>Buy Chapter</button>
+              <button className="cart-btn" onClick={addToCart}>Add to Cart</button>
             </div>
             <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Close</button>
           </div>
         </div>
       )}
+
+      {showConfirmModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h4>Are you sure?</h4>
+            <div className="modal-buttons">
+              <button className="buy-btn">Yes</button>
+              <button className="buy-btn" onClick={() => setShowConfirmModal(false)}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
     </section>
   );
 };
