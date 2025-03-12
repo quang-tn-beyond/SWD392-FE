@@ -1,18 +1,26 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const BackgroundComponent = ({ imageUrl }) => {
+const BackgroundComponent = ({ imageUrl, className, style }) => {
   return (
     <div
+      className={`background-component ${className || ""}`}
       style={{
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "300px",
+        height: "300px", // Giá trị mặc định
+        ...style, // Gộp thêm các style truyền vào
       }}
     />
   );
+};
+
+BackgroundComponent.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  style: PropTypes.object,
 };
 
 const ComicCollection = ({ comics, layout, title }) => {

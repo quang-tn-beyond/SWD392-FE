@@ -144,24 +144,27 @@ const ComicDetails = () => {
           </div>
         </div>
         <div className="row">
-          {/* Danh sách chapter sử dụng .anime__details__episodes */}
-          <div className="details__chapters col-lg-8">
-            <h4>Chapters</h4>
-            <div className="chapter-list">
-              {comic.chapters.map((chapter, index) => (
-                <a key={index} href={index >= 5 ? "#" : chapter.link} className={`chapter-item ${index >= 5 ? 'locked' : ''}`} onClick={index >= 5 ? (e) => { e.preventDefault(); handleLockedChapterClick(chapter); } : null} >
-                  <div className="chapter-item__content">
-                    <span className="chapter-item__number">Chapter {index + 1}: </span>
-                    <span className="chapter-item__title">{chapter.title}</span>
-                  </div>
-                  <i className={index >= 5 ? "fa fa-lock chapter-item__icon" : "fa fa-arrow-right chapter-item__icon"}></i>
-                </a>
-              ))}
-
+          <div className="col-lg-8">
+            {/* Danh sách chapter sử dụng .anime__details__episodes */}
+            <div className="details__chapters ">
+              <h4>Chapters</h4>
+              <div className="chapter-list">
+                {comic.chapters.map((chapter, index) => (
+                  <a key={index} href={index >= 5 ? "#" : chapter.link} className={`chapter-item ${index >= 5 ? 'locked' : ''}`} onClick={index >= 5 ? (e) => { e.preventDefault(); handleLockedChapterClick(chapter); } : null} >
+                    <div className="chapter-item__content">
+                      <span className="chapter-item__number">Chapter {index + 1}: </span>
+                      <span className="chapter-item__title">{chapter.title}</span>
+                    </div>
+                    <i className={index >= 5 ? "fa fa-lock chapter-item__icon" : "fa fa-arrow-right chapter-item__icon"}></i>
+                  </a>
+                ))}
+              </div>
             </div>
+
+            <Review />
           </div>
 
-          {/* Sidebar hiển thị các comic được xem nhiều */}
+          {/* Sidebar */}
           <div className="col-lg-4">
             <div className="product__sidebar">
               <div className="product__sidebar__view">
@@ -205,10 +208,8 @@ const ComicDetails = () => {
               </div>
             </div>
           </div>
-
         </div>
 
-        <Review />
       </div>
       {showPurchaseModal && (
         <div className="modal-overlay">
