@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import { AuthContext } from "./AuthContext";
 import { comics } from "../data";
+import { useRef, useEffect } from "react";
 
 export default function Header() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -13,9 +14,30 @@ export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
+
   const toggleSearch = () => {
     setShowSearch(!showSearch);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Nếu không nhấp vào thanh tìm kiếm hoặc input thì ẩn đi
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target) &&
+        searchInputRef.current !== document.activeElement
+      ) {
+        setShowSearch(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="header">
@@ -84,9 +106,9 @@ export default function Header() {
               <Link to="/pricing" className="pricing-switch">
                 <span className="fas fa-dollar-sign"></span>
               </Link>
-              <Link to="/search" className="search-switch" onClick={toggleSearch}>
+              <a to="/search" className="search-switch" onClick={toggleSearch}>
                 <span className="icon_search"></span>
-              </Link>
+              </a>
               {isLoggedIn ? (
                 <ProfileMenu />
               ) : (
@@ -103,7 +125,7 @@ export default function Header() {
 
       {/* searchBar */}
       {showSearch && (
-        <div className="search-bar">
+        <div className="search-bar" ref={searchRef}>
           <input
             type="text"
             placeholder="Tìm kiếm truyện..."
@@ -115,13 +137,23 @@ export default function Header() {
           </button>
           {/* Suggest Comic */}
           <div className="search-results">
-            {searchQuery && comics.filter((comic) => comic.title.toLowerCase().includes(searchQuery.toLowerCase())).map((comic) => (
-              <div key={comic.id} className="search-item">
-                <img src={comic.imageUrl} alt={comic.title} />
-                <span>{comic.title}</span>
-              </div>
-            ))}
+            {searchQuery &&
+              comics
+                .filter((comic) =>
+                  comic.title.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .map((comic) => (
+                  <Link
+                    key={comic.id}
+                    to={`/comic-detail/${comic.id}`} // Dùng Link thay vì window.location.href
+                    className="search-item"
+                  >
+                    <img src={comic.imageUrl} alt={comic.title} />
+                    <span>{comic.title}</span>
+                  </Link>
+                ))}
           </div>
+
         </div>
       )}
     </header>

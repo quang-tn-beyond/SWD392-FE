@@ -157,9 +157,18 @@ const ComicDetails = () => {
                     <i className={`fa ${isFollowing ? "fa-heart" : "fa-heart-o"}`}></i>{" "}
                     {isFollowing ? "Following" : "Follow"}
                   </button>
-                  <a href="#" className="read-btn">
+                  <Link
+                    to={(() => {
+                      const chapterOne = comic.chapters.find(chap =>
+                        parseInt(chap.title.match(/\d+/)[0], 10) === 1
+                      );
+                      return chapterOne ? `/reading/${comic.id}/${comic.chapters.indexOf(chapterOne) + 1}` : "#";
+                    })()}
+                    className="read-btn"
+                  >
                     <span>Read Now</span> <i className="fa fa-angle-right"></i>
-                  </a>
+                  </Link>
+
                 </div>
               </div>
             </div>
