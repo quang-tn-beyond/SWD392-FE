@@ -11,14 +11,16 @@ import Categories from "./pages/categories";
 import BlogDetails from "./pages/blog-details";
 import Blog from "./pages/blog";
 import Details from "./pages/details";
-import Staffpage from "./pages/staffpage/staffpage";
-import Moderator from "./pages/moderatorpage/moderator";
 import { AuthProvider } from "./components/AuthContext";
 import ComicDetails from "./pages/details";
 import ReadingPage from "./pages/readingpage";
 import Bookshelf from "./pages/bookshelf";
 import Cart from "./pages/cart";
 import Pricing from "./pages/pricing";
+import ChapterManagement from "./pages/admins/staff-page/ChapterManagement";
+import ComicManagement from "./pages/admins/staff-page/ComicManagement";
+import GenreManagement from "./pages/admins/staff-page/GenreManagement";
+
 
 const App = () => {
   return (
@@ -34,17 +36,18 @@ const App = () => {
             <Route path="/admin" element={<Admin />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/blogdetails" element={<BlogDetails />} />
-            <Route path="/staffpage" element={<Staffpage />} />
-            <Route path="/moderator" element={<Moderator />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/details" element={<Details />} />
             <Route path="/reading" element={<ReadingPage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/bookshelf" element={<Bookshelf />} />
             <Route path="/pricing" element={<Pricing />} />
-
             <Route path="/comic-detail/:comicId" element={<ComicDetails />} />
             <Route path="/reading/:comicId/:chapterNumber" element={<ReadingPage />} />
+            <Route path="/admin/comic-management" element={<ComicManagement />} />
+            <Route path="/comic/:comicId/chapters" element={<ChapterManagement />} />
+            <Route path="/genre-management" element={<GenreManagement />} />
+            
           </Routes>
           <Footer />
         </Router>

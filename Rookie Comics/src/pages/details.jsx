@@ -118,10 +118,10 @@ const ComicDetails = () => {
                           <span>Type:</span> {comic.type}
                         </li>
                         <li>
-                          <span>Studios:</span> {comic.studios}
+                          <span>author:</span> {comic.author}
                         </li>
                         <li>
-                          <span>Date aired:</span> {comic.airDate}
+                          <span>Date aired:</span> {comic.releaseDate}
                         </li>
                         <li>
                           <span>Status:</span> {comic.status}
