@@ -20,14 +20,14 @@ export const comics = [
     tags: ["Thriller", "Sci-fi"],
     link: "/comic-detail/1",
     chapters: [
-      { title: " Awakening", link: "/comic/1/chapter/1" },
-      { title: " New World", link: "/comic/1/chapter/2" },
-      { title: " Dungeon Exploration", link: "/comic/1/chapter/3" },
-      { title: " A Mysterious Power", link: "/comic/1/chapter/4" },
-      { title: " The Strongest Hunter", link: "/comic/1/chapter/5" },
-      { title: " The Final Battle", link: "/comic/1/chapter/6" },
-      { title: " New Beginnings", link: "/comic/1/chapter/7" },
-    ]
+      { title: "Chapter 1: Awakening", link: "/comic/1/chapter/1" },
+      { title: "Chapter 2: New World", link: "/comic/1/chapter/2" },
+      { title: "Chapter 3: Dungeon Exploration", link: "/comic/1/chapter/3" },
+      { title: "Chapter 4: A Mysterious Power", link: "/comic/1/chapter/4" },
+      { title: "Chapter 5: The Strongest Hunter", link: "/comic/1/chapter/5" },
+      { title: "Chapter 6: The Final Battle", link: "/comic/1/chapter/6" },
+      { title: "Chapter 7: New Beginnings", link: "/comic/1/chapter/7" },
+    ].reverse() // Đảo ngược để Chapter mới nhất nằm dưới cùng
   },
   {
     id: "2",
@@ -51,14 +51,14 @@ export const comics = [
     tags: ["Horror", "Action"],
     link: "/comic-detail/2",
     chapters: [
-      { title: " The Beginning", link: "/comic/2/chapter/1" },
-      { title: " A New World", link: "/comic/2/chapter/2" },
-      { title: " The Fight", link: "/comic/2/chapter/3" },
-      { title: " The Twist", link: "/comic/2/chapter/4" },
-      { title: " The Truth Revealed", link: "/comic/2/chapter/5" },
-      { title: " The Final Battle", link: "/comic/1/chapter/6" },
-      { title: " New Beginnings", link: "/comic/1/chapter/7" },
-    ]
+      { title: "Chapter 1: The Beginning", link: "/comic/2/chapter/1" },
+      { title: "Chapter 2: A New World", link: "/comic/2/chapter/2" },
+      { title: "Chapter 3: The Fight", link: "/comic/2/chapter/3" },
+      { title: "Chapter 4: The Twist", link: "/comic/2/chapter/4" },
+      { title: "Chapter 5: The Truth Revealed", link: "/comic/2/chapter/5" },
+      { title: "Chapter 6: The Final Battle", link: "/comic/2/chapter/6" },
+      { title: "Chapter 7: New Beginnings", link: "/comic/2/chapter/7" },
+    ].reverse()
   },
   {
     id: "3",
@@ -82,14 +82,13 @@ export const comics = [
     tags: ["Fantasy", "Action"],
     link: "/comic-detail/3",
     chapters: [
-      { title: " The Hunter's Path", link: "/comic/3/chapter/1" },
-      { title: " The First Trial", link: "/comic/3/chapter/2" },
-      { title: " Battle with the Beast", link: "/comic/3/chapter/3" },
-      { title: " Awakening Power", link: "/comic/3/chapter/4" },
-      { title: " Into the Unknown", link: "/comic/3/chapter/5" },
-      { title: " The Final Battle", link: "/comic/1/chapter/6" },
-      { title: " New Beginnings", link: "/comic/1/chapter/7" },
-    ]
+      { title: "Chapter 1: The Hunter's Path", link: "/comic/3/chapter/1" },
+      { title: "Chapter 2: The First Trial", link: "/comic/3/chapter/2" },
+      { title: "Chapter 3: Battle with the Beast", link: "/comic/3/chapter/3" },
+      { title: "Chapter 4: Awakening Power", link: "/comic/3/chapter/4" },
+      { title: "Chapter 5: Into the Unknown", link: "/comic/3/chapter/5" },
+      { title: "Chapter 6: The Last Challenge", link: "/comic/3/chapter/6" },
+      { title: "Chapter 7: A New Dawn", link: "/comic/3/chapter/7" },
+    ].reverse()
   },
-  // Thêm nhiều dữ liệu giả khác ở đây
 ];

@@ -282,40 +282,48 @@ ol {
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	margin-top: 20px;
+	background-color: #2c3e50;
+	/* Màu nền tối */
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 8px;
 }
 
-
-.chapter-controls a {
-	color: #ff4444;
-	font-size: 24px;
-}
-
+.chapter-controls a,
 .chapter-controls button {
-	background: #1e90ff;
-	color: #fff;
-	padding: 10px 15px;
+	background: none;
 	border: none;
-	border-radius: 5px;
+	color: white;
+	font-size: 18px;
+	padding: 5px 10px;
 	cursor: pointer;
+	transition: 0.3s;
+}
+
+.chapter-controls a i,
+.chapter-controls button i {
+	font-size: 20px;
+}
+
+.chapter-controls a:hover,
+.chapter-controls button:hover {
+	color: #f39c12;
+	/* Màu cam sáng khi hover */
 }
 
 .chapter-controls select {
-	background: #fff;
-	color: #000;
-	padding: 10px;
-	border-radius: 5px;
-	max-height: 60px;
+	background: #34495e;
+	color: white;
+	border: none;
+	padding: 5px;
+	border-radius: 4px;
+	font-size: 16px;
+	cursor: pointer;
 }
 
-.chapter-controls button:hover {
-	background: #ff4444;
-}
-
-.chapter-controls .scroll {
-	background-color: #e9ecef;
+.chapter-controls select:focus {
+	outline: none;
+	box-shadow: 0 0 5px rgba(243, 156, 18, 0.7);
+	/* Hiệu ứng khi chọn */
 }
 
 /* Comic Page */
@@ -1571,7 +1579,6 @@ ol {
 	letter-spacing: 1px;
 	font-size: 14px;
 }
-
 
 
 /*Small Window*/

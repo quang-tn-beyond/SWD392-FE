@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google"; // ✅ Import this!
 
+
 import Header from "./components/Header";
 import Home from "./pages/home";
 import Footer from "./components/Footer";
@@ -41,6 +42,9 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/bookshelf" element={<Bookshelf />} />
             <Route path="/pricing" element={<Pricing />} />
+
+            <Route path="/comic-detail/:comicId" element={<ComicDetails />} />
+            <Route path="/reading/:comicId/:chapterNumber" element={<ReadingPage />} />
           </Routes>
           <Footer />
         </Router>

@@ -1,41 +1,63 @@
+import { useParams } from "react-router-dom"; // Import useParams để lấy ID và số chương
 import Review from "../wrapper/comics/review";
+import { comics } from "../data"; // Import danh sách truyện
+import { Link } from "react-router-dom";
 
 const ReadingPage = () => {
+    const { comicId, chapterNumber } = useParams(); // Lấy ID truyện và số chương từ URL
+    const comic = comics.find(c => c.id === comicId); // Tìm truyện theo ID
+    const chapterIndex = parseInt(chapterNumber, 10) - 1; // Chuyển đổi số chương thành index
+    const currentChapter = comic?.chapters[chapterIndex]; // Lấy chương hiện tại
+
     return (
         <section>
-            <div class="container">
+            <div className="container">
                 {/* Breadcrumb */}
-                <div class="breadcrumb">
-                    <a href="#"><i class="fas fa-home"></i></a>
-                    <span>Genres</span>
-                    <span>Beauty and Monster</span>
-                    <span class="current-chapter">Chapter 87</span>
+                <div className="breadcrumb">
+                    <Link to="/">
+                        <i className="fas fa-home"></i>
+                    </Link>
+                    <Link to={`/comic-detail/${comic?.id}`}>
+                        {comic?.title}
+                    </Link>
+                    <span className="current-chapter">{currentChapter?.title}</span>
                 </div>
 
                 {/* Title */}
-                <div class="chapter-title">
-                    <h1>Beauty and Monster - Chapter 87</h1>
-                    <p class="update-time">(Updated date: 10:54 22-01-2025)</p>
+                <div className="chapter-title">
+                    <h1>{comic?.title} - {currentChapter?.title}</h1>
                 </div>
 
                 {/* Chapter Controls */}
-                <div class="chapter-controls">
-                    <a href="#"><i class="fas fa-home"></i></a>
-                    <a href="#"><i class="fas fa-bars"></i></a>
-                    <a href="#"><i class="fas fa-undo"></i></a>
-                    <button><i class="fas fa-arrow-left"></i></button>
-                    <select class="scroll" >
-                        <option>Chapter 87</option>
-                        <option>Chapter 85</option>
+                <div className="chapter-controls">
+                    <Link to="/">
+                        <i className="fas fa-home"></i>
+                    </Link>
+                    <a href="#"><i className="fas fa-bars"></i></a>
+                    <a href="#"><i className="fas fa-undo"></i></a>
+                    <button disabled={chapterIndex === 0}>
+                        <Link to={`/reading/${comic.id}/${chapterIndex}`}>
+                            <i className="fas fa-arrow-left"></i>
+                        </Link>
+                    </button>
+                    <select className="scroll" onChange={(e) => window.location.href = e.target.value}>
+                        {comic.chapters.map((chapter, index) => (
+                            <option key={index} value={`/reading/${comic.id}/${index + 1}`} selected={index === chapterIndex}>
+                                {chapter.title}
+                            </option>
+                        ))}
                     </select>
-                    <button><i class="fas fa-arrow-right"></i></button>
+                    <button disabled={chapterIndex === comic.chapters.length - 1}>
+                        <Link to={`/reading/${comic.id}/${chapterIndex + 2}`}>
+                            <i className="fas fa-arrow-right"></i>
+                        </Link>
+                    </button>
                 </div>
 
+
                 {/* Comic Page */}
-                <div class="comic-container">
-                    <img src="https://example.com/comic-page-1.jpg" alt="Page 1" class="comic-image" />
-                    <img src="https://example.com/comic-page-2.jpg" alt="Page 2" class="comic-image" />
-                    <img src="https://example.com/comic-page-3.jpg" alt="Page 3" class="comic-image" />
+                <div className="comic-container">
+                    <img src="" alt={`Page 1 of ${currentChapter?.title}`} className="comic-image" />
                 </div>
 
                 {/* Review */}
