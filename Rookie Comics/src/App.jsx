@@ -20,6 +20,8 @@ import Pricing from "./pages/pricing";
 import ChapterManagement from "./pages/admins/staff-page/ChapterManagement";
 import ComicManagement from "./pages/admins/staff-page/ComicManagement";
 import GenreManagement from "./pages/admins/staff-page/GenreManagement";
+import UserManagement from "./pages/admins/user-management/UserManagement";
+import Dashboard from "./pages/admins/dashboard";
 
 
 const App = () => {
@@ -34,7 +36,11 @@ const App = () => {
             <Route path="/comic-detail/:id" element={<ComicDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/genre" element={<GenreManagement />} />
+            <Route path="/user" element={<UserManagement />} />
             <Route path="/categories" element={<Categories />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/comic" element={<ComicManagement />} />
             <Route path="/blogdetails" element={<BlogDetails />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/details" element={<Details />} />

@@ -5,9 +5,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { comics } from '../../../data';
 import ComicForm from '../forms/ComicForm';
+import Layout from '../layout';
 
 const ComicManagement = () => {
-  const [comicsList, setComicsList] = useState([]);  // Renamed state to comicsList
+  const [comicsList, setComicsList] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
@@ -16,10 +17,9 @@ const ComicManagement = () => {
 
   const navigate = useNavigate();
 
-  // Use mock data instead of fetching from an API
   useEffect(() => {
     const fetchComics = () => {
-      setComicsList(comics);  // Set comics state from mock data
+      setComicsList(comics); // Set comics state from mock data
     };
 
     fetchComics();
@@ -45,6 +45,10 @@ const ComicManagement = () => {
     }
   };
 
+  const handleManageChapters = (comicId) => {
+    navigate(`/comic/${comicId}/chapters`); // Điều hướng đến trang quản lý chapter của truyện
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -60,70 +64,80 @@ const ComicManagement = () => {
   const paginatedComics = filteredComics.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Quản lý Truyện Tranh</h1>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={9}>
-          <TextField
-            label="Tìm truyện"
-            variant="outlined"
-            value={searchValue}
-            onChange={handleSearchChange}
-            fullWidth
-          />
+    <Layout> 
+      <div style={{ padding: '20px' }}>
+        <h1>Quản lý Truyện Tranh</h1>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={9}>
+            <TextField
+              label="Tìm truyện"
+              variant="outlined"
+              value={searchValue}
+              onChange={handleSearchChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddComic}
+            >
+              Thêm Truyện Tranh
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddComic}
-          >
-            Thêm Truyện Tranh
-          </Button>
-        </Grid>
-      </Grid>
 
-      <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Tên truyện</TableCell>
-              <TableCell>Thể loại</TableCell>
-              <TableCell>Tác giả</TableCell>
-              <TableCell>Ngày phát hành</TableCell>
-              <TableCell>Ảnh bìa</TableCell>
-              <TableCell>Thao tác</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedComics.map((comic) => (
-              <TableRow key={comic.id}>
-                <TableCell>{comic.title}</TableCell>
-                <TableCell>{comic.genre}</TableCell>
-                <TableCell>{comic.author}</TableCell>
-                <TableCell>{comic.releaseDate}</TableCell>
-                <TableCell><img src={comic.imageUrl} alt={comic.title} width="50" /></TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleEditComic(comic)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(comic.id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Tên truyện</TableCell>
+                <TableCell>Thể loại</TableCell>
+                <TableCell>Tác giả</TableCell>
+                <TableCell>Ngày phát hành</TableCell>
+                <TableCell>Ảnh bìa</TableCell>
+                <TableCell>Thao tác</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {paginatedComics.map((comic) => (
+                <TableRow key={comic.id}>
+                  <TableCell>{comic.title}</TableCell>
+                  <TableCell>{comic.genre}</TableCell>
+                  <TableCell>{comic.author}</TableCell>
+                  <TableCell>{comic.releaseDate}</TableCell>
+                  <TableCell><img src={comic.imageUrl} alt={comic.title} width="50" /></TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => handleEditComic(comic)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(comic.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    {/* Nút Quản lý Chapter */}
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleManageChapters(comic.id)}
+                    >
+                      Quản lý Chapter
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-        <DialogTitle>{initialComic ? 'Cập nhật Truyện' : 'Thêm Truyện'}</DialogTitle>
-        <DialogContent>
-          <ComicForm onSave={handleSave} initialComic={initialComic} onClose={handleClose} />
-        </DialogContent>
-      </Dialog>
-    </div>
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+          <DialogTitle>{initialComic ? 'Cập nhật Truyện' : 'Thêm Truyện'}</DialogTitle>
+          <DialogContent>
+            <ComicForm onSave={handleSave} initialComic={initialComic} onClose={handleClose} />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </Layout>
   );
 };
 

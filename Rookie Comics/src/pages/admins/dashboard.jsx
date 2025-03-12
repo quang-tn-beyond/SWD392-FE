@@ -1,5 +1,6 @@
 // src/pages/Dashboard.jsx
 import React from "react";
+import Layout from "./layout";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,24 +12,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 
-// Custom plugin to set the canvas background color from a CSS variable
-const backgroundColorPlugin = {
-  id: "custom_canvas_background_color",
-  beforeDraw: (chart) => {
-    const ctx = chart.canvas.getContext("2d");
-    ctx.save();
-    ctx.globalCompositeOperation = "destination-over";
-    // Get the CSS variable for the chart background color
-    const chartBgColor =
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--chart-bg-color")
-        .trim() || "#343a40";
-    ctx.fillStyle = chartBgColor;
-    ctx.fillRect(0, 0, chart.width, chart.height);
-    ctx.restore();
-  },
-};
 
 // Register Chart.js components along with the custom plugin
 ChartJS.register(
@@ -38,18 +23,17 @@ ChartJS.register(
   LineElement,
   ChartTitle,
   Tooltip,
-  Legend,
-  backgroundColorPlugin
+  Legend
 );
 
 const Dashboard = () => {
   // Sample data for the chart
   const chartData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
     datasets: [
       {
-        label: "Monthly Revenue",
-        data: [3000, 2000, 4000, 5000, 6000, 5500, 7000],
+        label: "Weekly Revenue",
+        data: [1000, 1500, 2000, 2500],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
@@ -69,7 +53,7 @@ const Dashboard = () => {
       },
       title: {
         display: true,
-        text: "Monthly Revenue",
+        text: "Weekly Revenue",
         color: "#fff", // White title text
       },
     },
@@ -94,73 +78,79 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {/* Beautiful Title */}
-      <div style={{ textAlign: "center", margin: "20px 0" }}>
-        <h1
-          style={{
-            fontFamily: "'sans-serif', sans-serif", // Ensure this font is loaded via CSS or a <link> tag
-            fontSize: "3rem",
-            color: "#ffffff",
-          }}
-        >
+    <Layout>
+    <Box sx={{ padding: "20px" }}>
+      {/* Title Section */}
+      <Box sx={{ textAlign: "center", marginBottom: 3 }}>
+        <Typography variant="h3" sx={{ color: "#ffffff" }}>
           Admin Dashboard
-        </h1>
-        <p style={{ fontSize: "1.2rem", color: "#ccc" }}>
+        </Typography>
+        <Typography variant="h6" sx={{ color: "#ccc" }}>
           Welcome, Admin! Manage your website here.
-        </p>
-      </div>
+        </Typography>
+      </Box>
 
       {/* Dashboard Cards */}
-      <div className="row mb-4">
-        {/* Users Card */}
-        <div className="col-md-4">
-          <div className="card text-white bg-primary mb-3">
-            <div className="card-header">Users</div>
-            <div className="card-body">
-              <h5 className="card-title">1,024</h5>
-              <p className="card-text">Total Users</p>
-            </div>
-          </div>
-        </div>
+      <Grid container spacing={3} sx={{ marginBottom: 4 }}>
+        {/* Monthly Revenue Card */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ bgcolor: "primary.main", color: "white" }}>
+            <CardContent>
+              <Typography variant="h5">$12,345</Typography>
+              <Typography variant="body2">Monthly Revenue</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
-        {/* Orders Card */}
-        <div className="col-md-4">
-          <div className="card text-white bg-success mb-3">
-            <div className="card-header">Orders</div>
-            <div className="card-body">
-              <h5 className="card-title">256</h5>
-              <p className="card-text">Orders This Month</p>
-            </div>
-          </div>
-        </div>
+        {/* Weekly Revenue Card */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ bgcolor: "success.main", color: "white" }}>
+            <CardContent>
+              <Typography variant="h5">$3,500</Typography>
+              <Typography variant="body2">Weekly Revenue</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
-        {/* Revenue Card */}
-        <div className="col-md-4">
-          <div className="card text-white bg-warning mb-3">
-            <div className="card-header">Revenue</div>
-            <div className="card-body">
-              <h5 className="card-title">$12,345</h5>
-              <p className="card-text">Revenue Today</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Views Card */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ bgcolor: "warning.main", color: "white" }}>
+            <CardContent>
+              <Typography variant="h5">5,456</Typography>
+              <Typography variant="body2">Total Views</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Traffic Card */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ bgcolor: "info.main", color: "white" }}>
+            <CardContent>
+              <Typography variant="h5">2,000</Typography>
+              <Typography variant="body2">Traffic This Week</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
 
       {/* Chart Section */}
-      <div className="card mb-4">
-        <div className="card-body">
-        <div style={{
-  border: "2px solid var(--primary-color)",
-  borderRadius: "5px",
-  padding: "10px",
-  backgroundColor: "var(--chart-bg-color)"
-}}>
-  <Line data={chartData} options={chartOptions} />
-</div>
-        </div>
-      </div>
-    </div>
+      <Card sx={{ marginBottom: 4 }}>
+        <CardContent sx={{ bgcolor: "background.default" }}>
+          <Box
+            sx={{
+              border: "2px solid",
+              borderColor: "primary.main",
+              borderRadius: 2,
+              padding: 2,
+              backgroundColor: "background.paper",
+            }}
+          >
+            <Line data={chartData} options={chartOptions} />
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
+    </Layout>
   );
 };
 

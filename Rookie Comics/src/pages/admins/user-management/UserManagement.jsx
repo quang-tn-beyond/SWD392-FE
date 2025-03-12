@@ -25,6 +25,7 @@ import {
   
   import EditIcon from "@mui/icons-material/Edit"; // Updated to @mui/icons-material
   import DeleteIcon from "@mui/icons-material/Delete"; // Updated to @mui/icons-material
+import Layout from "../layout";
   
 
 
@@ -116,6 +117,7 @@ const UserManagement = () => {
   };
 
   return (
+    <Layout>
     <div className="user-management-container" style={{ padding: "20px" }}>
       <h1>Quản lý người dùng</h1>
       <Grid container spacing={2} alignItems="center" className="user-management-controls">
@@ -201,6 +203,7 @@ const UserManagement = () => {
         </DialogActions>
       </Dialog>
     </div>
+    </Layout>
   );
 };
 

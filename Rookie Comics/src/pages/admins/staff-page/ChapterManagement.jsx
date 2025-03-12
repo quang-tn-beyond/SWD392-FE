@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Breadcrumbs, Link, Typography } from "@mui/material";
 import { comics } from "../../../data";
+import Layout from "../layout";
 
 const ChapterManagement = () => {
   const { comicId } = useParams(); // Lấy comicId từ URL
@@ -31,6 +32,7 @@ const ChapterManagement = () => {
   );
 
   return (
+    <Layout>
     <div style={{ padding: "20px" }}>
       {breadcrumbs}
 
@@ -76,6 +78,7 @@ const ChapterManagement = () => {
         Quay lại
       </Button>
     </div>
+    </Layout>
   );
 };
 

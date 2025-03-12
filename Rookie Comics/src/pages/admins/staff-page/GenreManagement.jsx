@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Grid, TextField, FormControl, InputLabel, Select, MenuItem, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Layout from "../layout";
 
 const GenreManagement = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -46,6 +47,7 @@ const GenreManagement = () => {
   };
 
   return (
+    <Layout>
     <div style={{ padding: "20px" }}>
       <h1>Quản lý Thể Loại</h1>
       <Grid container spacing={2} alignItems="center">
@@ -92,6 +94,7 @@ const GenreManagement = () => {
         />
       </TableContainer>
     </div>
+    </Layout>
   );
 };
 
