@@ -4,7 +4,6 @@ export const comics = [
     imageUrl: "/assets/img/trending/image.png",
     title: "Solo Leveling",
     subtitle: "Thriller, Sci-fi",
-    rating: 4,
     votes: 1029,
     description: "A young man rises from the depths of despair to the peak of power as the last survivor of the 'Dungeon' world.",
     type: "Webtoon",

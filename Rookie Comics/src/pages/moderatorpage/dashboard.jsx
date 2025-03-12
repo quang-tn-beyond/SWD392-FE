@@ -113,35 +113,24 @@ const Dashboard = () => {
 
       {/* Dashboard Cards */}
       <div className="row mb-4">
-        {/* Users Card */}
-        <div className="col-md-4">
+        {/* Comics Card */}
+        <div className="col-md-6">
           <div className="card text-white bg-primary mb-3">
-            <div className="card-header">Users</div>
+            <div className="card-header">New Comics</div>
             <div className="card-body">
-              <h5 className="card-title">1,024</h5>
-              <p className="card-text">Total Users</p>
+              <h5 className="card-title">824</h5>
+              <p className="card-text">Total Comics</p>
             </div>
           </div>
         </div>
 
         {/* Orders Card */}
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div className="card text-white bg-success mb-3">
             <div className="card-header">Orders</div>
             <div className="card-body">
               <h5 className="card-title">256</h5>
               <p className="card-text">Orders This Month</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Revenue Card */}
-        <div className="col-md-4">
-          <div className="card text-white bg-warning mb-3">
-            <div className="card-header">Revenue</div>
-            <div className="card-body">
-              <h5 className="card-title">$12,345</h5>
-              <p className="card-text">Revenue Today</p>
             </div>
           </div>
         </div>

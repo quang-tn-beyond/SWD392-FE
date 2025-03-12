@@ -3,20 +3,6 @@ import { Link } from "react-router-dom";
 import ComicCollection from "../wrapper/comics/collection";
 import { comics } from "../data";
 
-const BackgroundComponent = ({ imageUrl }) => {
-  return (
-    <div
-      style={{
-        backgroundImage: `url(${imageUrl})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        width: "100%",
-        height: "300px",
-      }}
-    />
-  );
-};
-
 export default function Home() {
   return (
     <section className="product spad">

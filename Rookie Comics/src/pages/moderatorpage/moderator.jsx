@@ -1,7 +1,8 @@
 // src/pages/AdminPage.jsx
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
-import Dashboard from "./dashboard";
+import Dashboard from "./dashboard"
+import ComicManage from "./ComicManage";
 
 const Moderator = () => {
   const [selected, setSelected] = useState("dashboard");
@@ -11,7 +12,7 @@ const Moderator = () => {
       case "dashboard":
         return <Dashboard />;
       case "comic management":
-        return <div style={{ padding: "20px" }}>Comic Management</div>;
+        return <ComicManage />;
       case "assign tags":
         return <div style={{ padding: "20px" }}>Assign Tags</div>;
       case "accounts management":
