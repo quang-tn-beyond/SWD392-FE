@@ -414,7 +414,7 @@
         }
         
         function afterClose(trigger, parent) {
-            el.attr('aria-hidden','true');
+            el.attr('inert','true');
             items.attr('tabindex', '-1');
             $this._setVisAttr(el, true);
             el.hide(); //jQuery 1.7 bug fix
@@ -449,7 +449,7 @@
                     }
                 });
             }
-            el.attr('aria-hidden','false');
+            el.attr('inert','false');
             items.attr('tabindex', '0');
             $this._setVisAttr(el, false);
         } else {
@@ -488,7 +488,7 @@
         if (!hidden) {
             nonHidden.each(function(){
                 var ul = $(this);
-                ul.attr('aria-hidden','false');
+                ul.attr('inert','false');
                 var items = $this._getActionItems(ul);
                 items.attr('tabindex', '0');
                 $this._setVisAttr(ul, hidden);
@@ -496,7 +496,7 @@
         } else {
             nonHidden.each(function(){
                 var ul = $(this);
-                ul.attr('aria-hidden','true');
+                ul.attr('inert','true');
                 var items = $this._getActionItems(ul);
                 items.attr('tabindex', '-1');
                 $this._setVisAttr(ul, hidden);

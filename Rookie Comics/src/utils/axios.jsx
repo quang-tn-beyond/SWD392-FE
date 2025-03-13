@@ -9,16 +9,13 @@ const request = axios.create({
   },
 });
 
-// Interceptor để thêm Bearer token cho tất cả các yêu cầu
-request.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('auth_token'); // Lấy token từ localStorage
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`; // Thêm Authorization header
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
+// Thêm interceptor để log lỗi
+request.interceptors.response.use(
+  (response) => response, 
+  (error) => {
+    console.error("Lỗi API:", error.response ? error.response.data : error.message);
+    return Promise.reject(error);
+  }
 );
 
 export default request;

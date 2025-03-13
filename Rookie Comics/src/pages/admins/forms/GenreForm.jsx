@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-const GenreForm = ({ open, onClose, onSave }) => {
+const GenreForm = ({ open, onClose, onSave, genres_name = "", genres_description = "", status = "active" }) => {
   const [newGenre, setNewGenre] = useState({
-    name: "",
-    description: "",
-    status: "active" // Default to 'active'
+    genres_name,
+    genres_description,
+    status,
   });
 
   const handleInputChange = (e) => {
@@ -14,12 +14,22 @@ const GenreForm = ({ open, onClose, onSave }) => {
   };
 
   const handleAddGenre = () => {
-    if (newGenre.name.trim()) {
-      onSave(newGenre); // Pass the full genre data
-      setNewGenre({ name: "", description: "", status: "active" }); // Clear form after saving
-      onClose(); // Close the dialog
+    console.log("📝 Dữ liệu từ form trước khi gửi:", newGenre);
+
+    if (newGenre.genres_name.trim()) {
+        const formattedGenre = {
+            genres_name: newGenre.genres_name.trim(),
+            genres_description: newGenre.genres_description.trim(),
+            status: newGenre.status === "active" ? 1 : 0, 
+        };
+
+        console.log("📤 Dữ liệu gửi đi:", formattedGenre); // Log trước khi gửi
+        onSave(formattedGenre); // Gửi về API
+        setNewGenre({ genres_name: "", genres_description: "", status: "active" });
+        onClose();
     }
-  };
+};
+
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -29,8 +39,8 @@ const GenreForm = ({ open, onClose, onSave }) => {
           label="Tên Thể Loại"
           variant="outlined"
           fullWidth
-          name="name"
-          value={newGenre.name}
+          name="genres_name"
+          value={newGenre.genres_name}
           onChange={handleInputChange}
           autoFocus
         />
@@ -38,8 +48,8 @@ const GenreForm = ({ open, onClose, onSave }) => {
           label="Mô Tả"
           variant="outlined"
           fullWidth
-          name="description"
-          value={newGenre.description}
+          name="genres_description"
+          value={newGenre.genres_description}
           onChange={handleInputChange}
           style={{ marginTop: 20 }}
         />

@@ -19,7 +19,7 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post("http://localhost:8080/auth", {
         email,
         password,
       });
@@ -44,7 +44,7 @@ export default function Login() {
     console.log("Google Token:", response.credential);
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8080/users/login/google", {
+      const res = await fetch("http://localhost:8080/users/auth/google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential }),

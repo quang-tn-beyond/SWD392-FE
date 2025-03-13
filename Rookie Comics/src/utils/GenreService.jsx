@@ -1,41 +1,54 @@
 import request from './axios';
 
 // Get all genres
-
-
 const getAllGenres = () => {
   return request.get('/genres')
       .then(response => response.data)
       .catch(error => {
           if (error.response) {
-              // Lỗi từ server (status code khác 2xx)
-              console.error('API Error:', error.response.data); // Log chi tiết từ response error
+              console.error('API Error:', error.response.data);
           } else if (error.request) {
-              // Không nhận được phản hồi từ server
               console.error('No response from server:', error.request);
           } else {
-              // Lỗi khi cấu hình request
               console.error('Error setting up request:', error.message);
           }
       });
 };
-
-
 
 // Get genre by ID
 const getGenreById = (id) => {
     return request.get(`/genres/${id}`);
 };
 
-// Add a new genre
+// Add a new genre (Ensure correct payload format)
 const addGenre = (data) => {
-    return request.post('/genres', data);
+    console.log("📝 Dữ liệu trước khi tạo payload:", data);
+
+    const payload = {
+        genres_name: data?.genres_name?.trim() || "",
+        genres_description: data?.genres_description?.trim() || "",
+        status: data?.status === "active" ? 1 : 0,
+    };
+
+    console.log("📤 Payload gửi đi:", payload); // Log payload gửi lên
+
+    return request.post('/genres', payload);
 };
+
 
 // Update an existing genre
 const updateGenre = (id, data) => {
-    return request.put(`/genres/${id}`, data);
+    const payload = {
+        genres_name: data?.genres_name?.trim() || "",
+        genres_description: data?.genres_description?.trim() || "",
+        status: data?.status === "active" ? 1 : 0,
+    };
+
+    console.log("📤 Payload cập nhật:", payload);
+
+    return request.put(`/genres/${id}`, payload);
 };
+
 
 // Soft delete a genre
 const deleteGenre = (id) => {

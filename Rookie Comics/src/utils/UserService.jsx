@@ -42,7 +42,7 @@ const updateUserRole = (id, role) => {
 
 // Login with Google (handles OAuth)
 const loginWithGoogle = (credential) => {
-    return request.post('/users/login/google', { credential });
+    return request.post('/users/auth/google', { credential });
 };
 
 // Logout

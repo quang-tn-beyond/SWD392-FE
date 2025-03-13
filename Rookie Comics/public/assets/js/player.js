@@ -1762,7 +1762,7 @@ typeof navigator === "object" && (function (global, factory) {
 
       var icon = document.createElementNS(namespace, 'svg');
       setAttributes(icon, extend(attributes, {
-        'aria-hidden': 'true',
+        'inert': 'true',
         focusable: 'false'
       })); // Create the <use> to reference sprite
 
@@ -1965,7 +1965,7 @@ typeof navigator === "object" && (function (global, factory) {
         max: 100,
         value: 0,
         role: 'progressbar',
-        'aria-hidden': true
+        'inert': true
       }, attributes)); // Create the label inside
 
       if (type !== 'volume') {
@@ -2959,7 +2959,7 @@ typeof navigator === "object" && (function (global, factory) {
             }); // Visible label
 
             backButton.appendChild(createElement('span', {
-              'aria-hidden': true
+              'inert': true
             }, i18n.get(type, _this10.config))); // Screen reader label
 
             backButton.appendChild(createElement('span', {
