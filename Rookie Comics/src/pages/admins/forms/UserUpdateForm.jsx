@@ -23,7 +23,29 @@ const UserUpdateForm = ({ user, onSave, onClose }) => {
   };
 
   const handleSubmit = () => {
-    onSave(formData); // Trigger the onSave function to save only the role
+    // Convert role to ID before sending
+    let roleAsByte;
+    switch (formData.role) {
+      case 'Admin':
+        roleAsByte = 1;
+        break;
+      case 'Moderator':
+        roleAsByte = 3;
+        break;
+      case 'StaffPage':
+        roleAsByte = 4;
+        break;
+      case 'Member':
+      default:
+        roleAsByte = 5; // Default role
+    }
+
+    const updatedUser = {
+      ...user, // Include the user data
+      role: roleAsByte, // Send the role as byte (ID)
+    };
+
+    onSave(updatedUser); // Trigger the onSave function to save the role
   };
 
   return (
@@ -36,7 +58,6 @@ const UserUpdateForm = ({ user, onSave, onClose }) => {
           onChange={handleChange}
           label="Vai trò"
         >
-            <MenuItem value="all">Tất cả</MenuItem>
             <MenuItem value="Admin">Admin</MenuItem>
             <MenuItem value="StaffPage">Nhân viên</MenuItem>
             <MenuItem value="Moderator">Moderator</MenuItem>

@@ -61,9 +61,10 @@ const UserManagement = () => {
   useEffect(() => {
     getAllUsers()
       .then((response) => {
+        console.log("All Users:", response.data);  // Log dữ liệu người dùng
         const formattedUsers = response.data.map((user) => ({
           ...user,
-          role: convertRoleIdToName(user.role), // Chuyển đổi role
+          role: convertRoleIdToName(user.role),
         }));
         setUsers(formattedUsers);
         setLoading(false);
@@ -74,6 +75,7 @@ const UserManagement = () => {
         setLoading(false);
       });
   }, []);
+  
 
   const displayedUsers = users.filter((user) => {
     const fullName =
@@ -105,9 +107,12 @@ const UserManagement = () => {
   };
 
   const handleEditUser = (user) => {
-    setEditUser(user);
-    setOpen(true);
+    console.log("Editing User before setting:", user);  // Log user trước khi set vào state
+    setEditUser(user);  // Đặt user vào state
+    setOpen(true);  // Mở modal
   };
+  
+  
 
   const handleDelete = (userId) => {
     deleteUser(userId)
@@ -126,28 +131,32 @@ const UserManagement = () => {
   };
 
   const handleSave = (updatedUser) => {
-    const formattedUser = {
-      ...updatedUser,
-      role: updatedUser.role === "Admin" ? 1 : 
-            updatedUser.role === "Moderator" ? 3 :
-            updatedUser.role === "StaffPage" ? 4 : 5, // Chuyển đổi lại role ID trước khi lưu
-    };
-
-    updateUserRole(formattedUser.userId, formattedUser.role)
+    console.log("Saving User:", updatedUser);  // Log dữ liệu trước khi gửi API
+    if (!updatedUser || !updatedUser.userId) {
+      console.error("User ID is missing");
+      return;
+    }
+  
+    const roleAsByte = updatedUser.role === "Admin" ? 1 : 
+                       updatedUser.role === "Moderator" ? 3 :
+                       updatedUser.role === "StaffPage" ? 4 : 5;
+  
+    updateUserRole(updatedUser.userId, roleAsByte)
       .then((response) => {
         console.log("Cập nhật vai trò thành công:", response.data);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.userId === formattedUser.userId ? { ...user, ...formattedUser } : user
-          )
-        );
-        setOpen(false); // Đóng modal sau khi lưu
-        setEditUser(null); // Reset lại người dùng đang chỉnh sửa
+        setOpen(false);  // Đóng modal
+        setEditUser(null);  // Reset lại dữ liệu người dùng
       })
       .catch((error) => {
-        console.error("Lỗi khi cập nhật vai trò người dùng:", error);
+        console.error("Lỗi khi cập nhật vai trò:", error.response?.data || error.message);
       });
   };
+  
+  
+  
+  
+  
+  
 
   if (loading) {
     return (

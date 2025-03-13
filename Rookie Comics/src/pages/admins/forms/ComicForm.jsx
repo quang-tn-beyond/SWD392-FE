@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, DialogActions, DialogContent, Divider } from '@mui/material';
 import { getAllGenres } from '../../../utils/GenreService';
+import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../firebase/firebase';
 
 const ComicForm = ({ onSave, initialComic, onClose }) => {
   const [comicData, setComicData] = useState({
@@ -49,17 +50,33 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setComicData({
-        ...comicData,
-        imageUrl: file,
-      });
-
       // Generate the preview URL for the selected image
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file); // Read the file as a data URL
+
+      // Save file to Firebase Storage
+      const storageRef = ref(storage, `comics/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          // Handle progress here (optional)
+        }, 
+        (error) => {
+          console.error('Upload failed', error);
+        }, 
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setComicData({
+              ...comicData,
+              imageUrl: downloadURL, // Save the image URL to the comicData
+            });
+          });
+        }
+      );
     }
   };
 
@@ -122,7 +139,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
             onChange={handleChange}
           />
         </Grid>
-        <Divider/>
+        <Divider />
         <Grid item xs={12} md={6}>
           <input
             type="file"

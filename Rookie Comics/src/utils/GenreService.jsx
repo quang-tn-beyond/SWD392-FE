@@ -1,90 +1,57 @@
-import request from "./axios";
+import request from './axios';
 
-// Lấy tất cả các genres
-const getAllGenres = async () => {
-  try {
-    const response = await request.get('/genres');  // Use the correct endpoint
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all genres:', error);
-  }
+// Get all genres
+
+
+const getAllGenres = () => {
+  return request.get('/genres')
+      .then(response => response.data)
+      .catch(error => {
+          if (error.response) {
+              // Lỗi từ server (status code khác 2xx)
+              console.error('API Error:', error.response.data); // Log chi tiết từ response error
+          } else if (error.request) {
+              // Không nhận được phản hồi từ server
+              console.error('No response from server:', error.request);
+          } else {
+              // Lỗi khi cấu hình request
+              console.error('Error setting up request:', error.message);
+          }
+      });
 };
 
-// Lấy genre theo ID
-const getGenreById = async (genreId) => {
-  try {
-    const response = await request.get(`/genres/${genreId}`);  // Use the correct endpoint
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching genre by ID ${genreId}:`, error);
-  }
+
+
+// Get genre by ID
+const getGenreById = (id) => {
+    return request.get(`/genres/${id}`);
 };
 
-// Thêm mới genre
-const saveGenre = async (data) => {
-  try {
-    const token = localStorage.getItem('google_token');  // Giả sử token Google được lưu ở đây
-    const response = await request.post('/genres', data, { // Correct endpoint
-      headers: {
-        Authorization: `Bearer ${token}`,  // Gửi token Google nếu có
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error saving new genre:', error);
-  }
+// Add a new genre
+const addGenre = (data) => {
+    return request.post('/genres', data);
 };
 
-// Cập nhật genre
-const updateGenre = async (genreId, data) => {
-  try {
-    const token = localStorage.getItem('google_token');
-    const response = await request.put(`/genres/${genreId}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(`Error updating genre with ID ${genreId}:`, error);
-  }
+// Update an existing genre
+const updateGenre = (id, data) => {
+    return request.put(`/genres/${id}`, data);
 };
 
-// Xóa genre
-const deleteGenre = async (genreId) => {
-  try {
-    const token = localStorage.getItem('google_token');
-    const response = await request.delete(`/genres/${genreId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(`Error deleting genre with ID ${genreId}:`, error);
-  }
+// Soft delete a genre
+const deleteGenre = (id) => {
+    return request.delete(`/genres/${id}`);
 };
 
-// Khôi phục genre đã xóa
-const restoreGenre = async (genreId) => {
-  try {
-    const token = localStorage.getItem('google_token');
-    const response = await request.put(`/genres/restore/${genreId}`, null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(`Error restoring genre with ID ${genreId}:`, error);
-  }
+// Restore a deleted genre
+const restoreGenre = (id) => {
+    return request.put(`/genres/restore/${id}`);
 };
 
 export {
-  getAllGenres,
-  getGenreById,
-  saveGenre,
-  updateGenre,
-  deleteGenre,
-  restoreGenre,
+    getAllGenres,
+    getGenreById,
+    addGenre,
+    updateGenre,
+    deleteGenre,
+    restoreGenre
 };
