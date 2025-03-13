@@ -68,12 +68,6 @@ export default function Header() {
                         <Link to="/categories">Categories</Link>
                       </li>
                       <li>
-                        <Link to="/staffpage">Staff Page</Link>
-                      </li>
-                      <li>
-                        <Link to="/moderator">Moderator</Link>
-                      </li>
-                      <li>
                         <Link to="/blogdetails">Blog Details</Link>
                       </li>
                       <li>
@@ -86,9 +80,6 @@ export default function Header() {
                         <Link to="/bookshelf">Bookshelf</Link>
                       </li>
                     </ul>
-                  </li>
-                  <li>
-                    <Link to="/blog">Blog</Link>
                   </li>
                   <li>
                     <Link to="/contacts">Contacts</Link>

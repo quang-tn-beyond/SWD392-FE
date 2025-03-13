@@ -1,80 +1,90 @@
-// src/pages/UserManagement.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-    Grid,
-    TextField,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    TableContainer,
-    Paper,
-    Table,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
-    TablePagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    IconButton,
-  } from "@mui/material"; // Updated to @mui/material for Material-UI v5
-  
-  import EditIcon from "@mui/icons-material/Edit"; // Updated to @mui/icons-material
-  import DeleteIcon from "@mui/icons-material/Delete"; // Updated to @mui/icons-material
-import Layout from "../layout";
-  
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TablePagination,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  IconButton,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Layout from "../layout";
+
+// Import các hàm từ userService đã được định nghĩa
+import { getAllUsers, deleteUser, updateUserRole } from "../../../utils/UserService";
+import UserUpdateForm from "../forms/UserUpdateForm";
 
 const UserManagement = () => {
-  // State quản lý tìm kiếm, phân trang và dialog cập nhật người dùng
+  const [users, setUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [open, setOpen] = useState(false);
   const [editUser, setEditUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Giả sử có mảng dữ liệu người dùng
-  const users = [
-    {
-      userId: 1,
-      fullName: "Nguyễn Văn A",
-      dob: "1990-01-01",
-      gender: "Nam",
-      phone: "0123456789",
-      role: "Admin",
-      status: "Active",
-    },
-    {
-      userId: 2,
-      fullName: "Trần Thị B",
-      dob: "1992-05-10",
-      gender: "Nữ",
-      phone: "0987654321",
-      role: "Staff",
-      status: "Inactive",
-    },
-    // Thêm các người dùng khác...
-  ];
+  // Chuyển đổi role ID thành tên role
+  const convertRoleIdToName = (roleId) => {
+    switch (roleId) {
+      case 1:
+      case 2:
+        return "Admin";
+      case 3:
+        return "Moderator";
+      case 4:
+        return "StaffPage";
+      default:
+        return "Member";
+    }
+  };
 
-  // Lọc người dùng theo tìm kiếm và vai trò
+  useEffect(() => {
+    getAllUsers()
+      .then((response) => {
+        const formattedUsers = response.data.map((user) => ({
+          ...user,
+          role: convertRoleIdToName(user.role), // Chuyển đổi role
+        }));
+        setUsers(formattedUsers);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching users:", err);
+        setError("Có lỗi khi tải dữ liệu người dùng.");
+        setLoading(false);
+      });
+  }, []);
+
   const displayedUsers = users.filter((user) => {
-    const matchesSearch = user.fullName.toLowerCase().includes(searchValue.toLowerCase());
+    const fullName =
+      user.fullName || `${user.firstName || ""} ${user.lastName || ""}`.trim();
+    const matchesSearch = fullName.toLowerCase().includes(searchValue.toLowerCase());
     const matchesRole = selectedRole === "all" || user.role === selectedRole;
     return matchesSearch && matchesRole;
   });
 
-  // Phân trang dữ liệu
-  const paginatedUsers = displayedUsers.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  const paginatedUsers = displayedUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-  // Các hàm xử lý
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
     setPage(0);
@@ -89,8 +99,8 @@ const UserManagement = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
 
@@ -100,8 +110,14 @@ const UserManagement = () => {
   };
 
   const handleDelete = (userId) => {
-    // Thực hiện xóa người dùng tại đây
-    console.log("Delete user with ID:", userId);
+    deleteUser(userId)
+      .then((response) => {
+        console.log("Xóa người dùng thành công:", response.data);
+        setUsers(users.filter((user) => user.userId !== userId));
+      })
+      .catch((error) => {
+        console.error("Lỗi khi xóa người dùng:", error);
+      });
   };
 
   const handleClose = () => {
@@ -110,99 +126,139 @@ const UserManagement = () => {
   };
 
   const handleSave = (updatedUser) => {
-    // Thực hiện lưu thông tin người dùng cập nhật tại đây
-    console.log("Save user:", updatedUser);
-    setOpen(false);
-    setEditUser(null);
+    const formattedUser = {
+      ...updatedUser,
+      role: updatedUser.role === "Admin" ? 1 : 
+            updatedUser.role === "Moderator" ? 3 :
+            updatedUser.role === "StaffPage" ? 4 : 5, // Chuyển đổi lại role ID trước khi lưu
+    };
+
+    updateUserRole(formattedUser.userId, formattedUser.role)
+      .then((response) => {
+        console.log("Cập nhật vai trò thành công:", response.data);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.userId === formattedUser.userId ? { ...user, ...formattedUser } : user
+          )
+        );
+        setOpen(false); // Đóng modal sau khi lưu
+        setEditUser(null); // Reset lại người dùng đang chỉnh sửa
+      })
+      .catch((error) => {
+        console.error("Lỗi khi cập nhật vai trò người dùng:", error);
+      });
   };
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Typography variant="h6" color="error" align="center">
+        {error}
+      </Typography>
+    );
+  }
 
   return (
     <Layout>
-    <div className="user-management-container" style={{ padding: "20px" }}>
-      <h1>Quản lý người dùng</h1>
-      <Grid container spacing={2} alignItems="center" className="user-management-controls">
-        <Grid item xs={12} md={9}>
-          <TextField
-            label="Tìm người dùng"
-            variant="outlined"
-            value={searchValue}
-            onChange={handleSearchChange}
-            fullWidth
-          />
+      <div className="user-management-container" style={{ padding: "20px" }}>
+        <h1>Quản lý người dùng</h1>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={9}>
+            <TextField
+              label="Tìm người dùng"
+              variant="outlined"
+              value={searchValue}
+              onChange={handleSearchChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel>Vai trò</InputLabel>
+              <Select
+                value={selectedRole}
+                onChange={handleRoleChange}
+                label="Vai trò"
+              >
+                <MenuItem value="all">Tất cả</MenuItem>
+                <MenuItem value="Admin">Admin</MenuItem>
+                <MenuItem value="StaffPage">Nhân viên</MenuItem>
+                <MenuItem value="Moderator">Moderator</MenuItem>
+                <MenuItem value="Member">Member</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Vai trò</InputLabel>
-            <Select
-              value={selectedRole}
-              onChange={handleRoleChange}
-              label="Vai trò"
-            >
-              <MenuItem value="all">Tất cả</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-              <MenuItem value="Staff">Nhân viên</MenuItem>
-              <MenuItem value="Member">Thành viên</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
-      <TableContainer component={Paper} className="user-management-table-container" style={{ marginTop: "20px" }}>
-        <Table className="user-management-table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Tên người dùng</TableCell>
-              <TableCell>Ngày sinh</TableCell>
-              <TableCell>Giới tính</TableCell>
-              <TableCell>Số điện thoại</TableCell>
-              <TableCell>Vai trò</TableCell>
-              <TableCell>Trạng thái</TableCell>
-              <TableCell>Thao tác</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedUsers.map((user) => (
-              <TableRow key={user.userId}>
-                <TableCell>{user.fullName}</TableCell>
-                <TableCell>{user.dob}</TableCell>
-                <TableCell>{user.gender}</TableCell>
-                <TableCell>{user.phone}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.status}</TableCell>
-                <TableCell className="user-management-actions">
-                  <IconButton onClick={() => handleEditUser(user)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(user.userId)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+        <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Tên người dùng</TableCell>
+                <TableCell>Ngày sinh</TableCell>
+                <TableCell>Giới tính</TableCell>
+                <TableCell>Số điện thoại</TableCell>
+                <TableCell>Vai trò</TableCell>
+                <TableCell>Trạng thái</TableCell>
+                <TableCell>Thao tác</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={displayedUsers.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[15, 30, 50]}
-          className="user-management-pagination"
-        />
-      </TableContainer>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle>Cập Nhật Người Dùng</DialogTitle>
-        <DialogContent>
-          {/* <UserForm onSave={handleSave} initialUser={editUser} /> */}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Hủy
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+            </TableHead>
+            <TableBody>
+              {paginatedUsers.map((user) => {
+                const fullName = user.fullName || `${user.lastName || ""} ${user.firstName || ""}`.trim();
+                return (
+                  <TableRow key={user.userId}>
+                    <TableCell>{fullName}</TableCell>
+                    <TableCell>{user.dob}</TableCell>
+                    <TableCell>{user.gender}</TableCell>
+                    <TableCell>{user.phone}</TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.status}</TableCell>
+                    <TableCell>
+                      <IconButton onClick={() => handleEditUser(user)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDelete(user.userId)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+          <TablePagination
+            component="div"
+            count={displayedUsers.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[15, 30, 50]}
+          />
+        </TableContainer>
+        <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+          <DialogTitle>Cập Nhật Người Dùng</DialogTitle>
+          <DialogContent>
+            <UserUpdateForm
+              user={editUser}
+              onSave={handleSave}
+              onClose={handleClose}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="secondary">
+              Hủy
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </Layout>
   );
 };

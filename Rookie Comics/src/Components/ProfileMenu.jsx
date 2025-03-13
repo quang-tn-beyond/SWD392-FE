@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { Link } from "react-router-dom";
-import { Avatar, Menu, MenuItem, Typography, Divider, IconButton, Box } from "@mui/material";
+import { Avatar, Menu, MenuItem, Typography, Divider, IconButton, Box, Button } from "@mui/material";
 import { Logout, AccountCircle, ShoppingCart, History } from "@mui/icons-material";
 
 const ProfileMenu = ({ onLogout }) => {
@@ -13,7 +13,6 @@ const ProfileMenu = ({ onLogout }) => {
   // Toggle menu (hiện/ẩn menu)
   const handleToggleMenu = () => {
     setShowMenu((prev) => !prev);
-    console.log("Toggle menu", !showMenu);
   };
 
   // Đóng menu khi click ra ngoài
@@ -37,6 +36,12 @@ const ProfileMenu = ({ onLogout }) => {
     setShowMenu(false); // Đóng menu khi đăng xuất
   };
 
+  // Chuyển đến lịch sử giao dịch
+  const handleTransactionHistory = () => {
+    // Thực hiện điều hướng tới trang lịch sử giao dịch
+    console.log("Navigate to Transaction History");
+  };
+
   return (
     <div ref={menuRef} style={{ display: "inline-block" }}>
       <IconButton onClick={handleToggleMenu}>
@@ -58,13 +63,11 @@ const ProfileMenu = ({ onLogout }) => {
             boxShadow: 2,
             borderRadius: 1,
             zIndex: 100,
-            width: 200,
+            width: 250,
             mt: 1,
             border: "1px solid #ddd",
-            padding: "10px",
-            maxWidth: 200, // Đảm bảo menu không rộng quá
-            whiteSpace: "normal", // Đảm bảo email sẽ xuống dòng khi cần thiết
-            wordWrap: "break-word", // Cho phép dòng vượt quá chiều rộng và xuống dòng
+            padding: "15px",
+            maxWidth: 250, // Đảm bảo menu không rộng quá
           }}
         >
           <Typography
@@ -74,16 +77,27 @@ const ProfileMenu = ({ onLogout }) => {
               overflow: "hidden",
               textOverflow: "ellipsis", // Nếu email quá dài, 3 dấu chấm sẽ xuất hiện
               whiteSpace: "nowrap", // Ngăn email xuống dòng
+              marginBottom: 1,
             }}
           >
             {user?.email}
           </Typography>
-          <Typography variant="body2" sx={{ color: "gray", whiteSpace: "nowrap" }}>
+          <Typography variant="body2" sx={{ color: "gray", marginBottom: 2 }}>
             {user?.role}
           </Typography>
+
+          {/* Số dư tài khoản */}
+          <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+            Số dư: <span style={{ color: "green" }}>{user?.coinBalance} Coin</span>
+          </Typography>
+
           <Divider sx={{ my: 1 }} />
+          
           {isLoggedIn ? (
             <>
+              <MenuItem onClick={handleTransactionHistory}>
+                <History sx={{ mr: 1 }} /> Lịch sử giao dịch
+              </MenuItem>
               <MenuItem onClick={handleLogout}>
                 <Logout sx={{ mr: 1 }} /> Đăng xuất
               </MenuItem>
