@@ -66,6 +66,19 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
     }
   };
 
+  const statusLabel = (status) => {
+    switch (status) {
+      case 1:
+        return "DELETED";
+      case 2:
+        return "EDITED";
+      case 3:
+        return "AVAILABLE";
+      default:
+        return "UNKNOWN";
+    }
+  };
+
   return (
     <Layout>
       <div style={{ padding: "20px" }}>
@@ -110,7 +123,7 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
                   <TableRow key={genre.id}>
                     <TableCell align="center">{genre.genresName}</TableCell> {/* Changed name to genresName */}
                     <TableCell align="center">{genre.genresDescription}</TableCell> {/* Changed description to genresDescription */}
-                    <TableCell align="center">{genre.status ? "Active" : "Inactive"}</TableCell>
+                    <TableCell align="center">{statusLabel(genre.status)}</TableCell> {/* Display status with proper label */}
                     <TableCell align="center">
                       <Button
                         variant="contained"

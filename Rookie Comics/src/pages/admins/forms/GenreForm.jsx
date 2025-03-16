@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription = "", status = "active" }) => {
+const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription = "", status = 3 }) => {
   const [newGenre, setNewGenre] = useState({
     genresName,
     genresDescription,
@@ -22,12 +22,12 @@ const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription =
         const formattedGenre = {
             genresDescription: newGenre.genresDescription.trim(),
             genresName: newGenre.genresName.trim(),
-            status: newGenre.status === "active" ? 1 : 0,
+            status: newGenre.status,  // Status đã đồng bộ với 1, 2, 3
         };
 
         console.log("📤 Dữ liệu gửi đi:", formattedGenre); // Log dữ liệu trước khi gửi
         onSave(formattedGenre); // Gửi về API
-        setNewGenre({ genresName: "", genresDescription: "", status: "active" });
+        setNewGenre({ genresName: "", genresDescription: "", status: 3 }); // Reset form và mặc định status = 3
         onClose();
     }
 };
@@ -61,8 +61,9 @@ const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription =
             value={newGenre.status}
             onChange={handleInputChange}
           >
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="inactive">Inactive</MenuItem>
+            <MenuItem value={1}>DELETED</MenuItem>
+            <MenuItem value={2}>EDITED</MenuItem>
+            <MenuItem value={3}>AVAILABLE</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
