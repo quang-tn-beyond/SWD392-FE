@@ -22,6 +22,7 @@ import ComicManagement from "./pages/admins/staff-page/ComicManagement";
 import GenreManagement from "./pages/admins/staff-page/GenreManagement";
 import UserManagement from "./pages/admins/user-management/UserManagement";
 import Dashboard from "./pages/admins/dashboard";
+import Staff from "./pages/admins/staff";
 
 
 const App = () => {
@@ -53,7 +54,8 @@ const App = () => {
             <Route path="/admin/comic-management" element={<ComicManagement />} />
             <Route path="/comic/:comicId/chapters" element={<ChapterManagement />} />
             <Route path="/genre-management" element={<GenreManagement />} />
-            
+            <Route path="/staffpage" element={<Staff />} />
+
           </Routes>
           <Footer />
         </Router>

@@ -1,25 +1,25 @@
 
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import GenreManagement from "./staff-page/GenreManagement";
 import ComicManagement from "./staff-page/ComicManagement";
 import UserManagement from "./user-management/UserManagement";
 import Dashboard from "./dashboard";
 import Layout from "./layout";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../../components/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const { pathname } = useLocation();
-  const { hasRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!hasRole(["ADMIN"])) {
-  //     navigate("/"); // Chuyển về trang chủ nếu không có quyền
-  //   }
-  // }, [hasRole, navigate]);
+  // Lấy role từ token hoặc context
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userRole = user.role || null;
+
+  useEffect(() => {
+    if (userRole !== 1 && userRole !== 2) {
+      navigate("/"); // Chặn truy cập nếu không phải ADMIN hoặc MANAGER
+    }
+  }, [userRole, navigate]);
 
   const renderContent = () => {
     switch (pathname) {

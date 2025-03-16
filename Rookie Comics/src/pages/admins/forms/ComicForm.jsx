@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, DialogActions, Divider } from '@mui/material';
 import { getAllGenres } from '../../../utils/GenreService';
-import { createComic } from '../../../utils/ComicService';
+// import { createComic } from '../../../utils/ComicService'; // Import hàm createComic
 import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../firebase/firebase';
 import { AuthContext } from '../../../components/AuthContext';
 

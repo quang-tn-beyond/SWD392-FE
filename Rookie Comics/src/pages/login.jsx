@@ -27,12 +27,13 @@ export default function Login() {
       const { token } = response.data;
       localStorage.setItem("token", token);
       const decodedToken = jwtDecode(token);
+      decodedToken.role = Number(decodedToken.role); // Chuyển role về số
 
       // Cập nhật trạng thái đăng nhập vào AuthContext
       setUser(decodedToken);
       setIsLoggedIn(true);
 
-      navigate("/admin");
+      navigate(redirectUrl || "/");
       toast.success("Đăng nhập thành công!");
     } catch (error) {
       setError("Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu.");
@@ -44,24 +45,22 @@ export default function Login() {
     console.log("Google Token:", response.credential);
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8080/users/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credential: response.credential }),
+
+      const res = await axios.post("http://localhost:8080/users/auth/google", {
+        credential: response.credential,
       });
 
-      const data = await res.json();
-      console.log("User data:", data);
+      if (res.status === 200) {
+        const { token, redirectUrl } = res.data;
 
-      if (res.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        const decodedToken = jwtDecode(data.token);
+        localStorage.setItem("token", token);
+        const decodedToken = jwtDecode(token);
+        decodedToken.role = Number(decodedToken.role); // Chuyển role về số
 
-        console.log("Decoded Token:", decodedToken); // Kiểm tra xem có email không
+        console.log("Decoded Token:", decodedToken);
 
-        // Đảm bảo user chứa email
         const userData = {
-          email: decodedToken.sub || decodedToken.email, // Đảm bảo lấy email đúng
+          email: decodedToken.sub || decodedToken.email,
           role: decodedToken.role,
         };
 
@@ -73,16 +72,19 @@ export default function Login() {
         setIsLoggedIn(true);
 
         toast.success("Đăng nhập thành công!");
-        navigate(data.redirectUrl || "/");
+
+        // Điều hướng theo redirectUrl từ Back-end
+        navigate(redirectUrl || "/");
       } else {
-        console.error("Server returned an error:", data);
-        toast.error(data.error || "Đăng nhập thất bại!");
+        console.error("Server returned an error:", res.data);
+        toast.error(res.data.error || "Đăng nhập thất bại!");
       }
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Lỗi kết nối đến server!");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
 

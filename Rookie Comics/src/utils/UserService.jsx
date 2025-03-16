@@ -34,11 +34,8 @@ const getCustomerUsers = () => {
 const updateUserRole = (id, role) => {
     console.log("API Request: /users/" + id + "/role", role);  // Log yêu cầu API
     return request.put(`/users/${id}/role`, null, { params: { role } });
-  };
-  
-  
-  
-  
+};
+
 
 // Login with Google (handles OAuth)
 const loginWithGoogle = (credential) => {

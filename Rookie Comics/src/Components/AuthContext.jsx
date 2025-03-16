@@ -1,25 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
+import { getUserById } from "../utils/UserService"; // Import API lấy user
 
 export const AuthContext = createContext();
-
-const ROLE_MAP = {
-  1: "ADMIN",
-  2: "MANAGER",
-  3: "MODERATOR",
-  4: "STAFF",
-  5: "CUSTOMER_NORMAL",
-  6: "CUSTOMER_READER",
-  7: "CUSTOMER_AUTHOR",
-  8: "CUSTOMER_VIP",
-};
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null); // Đảm bảo user được khởi tạo là null
 
-  const checkAuth = () => {
+  // Kiểm tra và lấy user từ API
+  const checkAuth = async () => {
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -33,15 +24,22 @@ export const AuthProvider = ({ children }) => {
           return;
         }
 
-        const userData = {
-          email: decodedToken.sub,
-          role: ROLE_MAP[decodedToken.role] || "UNKNOWN",
+        // Gọi API để lấy thông tin user
+        const response = await getUserById(decodedToken.sub); // sub là email trong token
+        console.log("Dữ liệu từ API:", response.data);
+        const userData = response.data;
+
+        const formattedUser = {
+          userId: userData.userId,
+          email: userData.email,
+          role: userData.roleEnum, // Sử dụng roleEnum thay vì role
+          authorities: Array.isArray(userData.authorities) ? userData.authorities.map((auth) => auth.authority) : [],
         };
 
-        setUser(userData);
+        setUser(formattedUser);
         setIsLoggedIn(true);
       } catch (error) {
-        console.error("Lỗi khi giải mã token:", error);
+        console.error("Lỗi khi lấy thông tin user từ API:", error);
         logout();
       }
     } else {
