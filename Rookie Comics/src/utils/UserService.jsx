@@ -36,6 +36,9 @@ const updateUserRole = (id, role) => {
     return request.put(`/users/${id}/role`, null, { params: { role } });
 };
 
+const getUserIdByEmail = (email) => {
+    return request.get(`/users/getUserIdByEmail`, { params: { email } });
+  };
 
 // Login with Google (handles OAuth)
 const loginWithGoogle = (credential) => {
@@ -55,6 +58,7 @@ export {
     getAdminAndStaffUsers,
     getCustomerUsers,
     updateUserRole,
+    getUserIdByEmail,
     loginWithGoogle,
     logout
 };

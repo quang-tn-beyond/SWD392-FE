@@ -80,7 +80,7 @@ const ProfileMenu = ({ onLogout }) => {
               marginBottom: 1,
             }}
           >
-            {user?.fullName || "Tên người dùng"} {/* Hiển thị fullName hoặc một giá trị mặc định */}
+            {user?.email || "Tên người dùng"} {/* Hiển thị fullName hoặc một giá trị mặc định */}
           </Typography>
           <Typography variant="body2" sx={{ color: "gray", marginBottom: 2 }}>
             {user?.role}

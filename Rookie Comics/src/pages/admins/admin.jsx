@@ -14,11 +14,16 @@ const Admin = () => {
   const { hasRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
+
+  // Lấy role từ token hoặc context
+  // const user = JSON.parse(localStorage.getItem("user")) || {};
+  // const userRole = user.role || null;
+
   // useEffect(() => {
-  //   if (!hasRole(["ADMIN"])) {
-  //     navigate("/"); // Chuyển về trang chủ nếu không có quyền
+  //   if (userRole !== 1 && userRole !== 2) {
+  //     navigate("/"); // Chặn truy cập nếu không phải ADMIN hoặc MANAGER
   //   }
-  // }, [hasRole, navigate]);
+  // }, [userRole, navigate]);
 
 
   const renderContent = () => {
