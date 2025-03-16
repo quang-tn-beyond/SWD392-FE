@@ -5,7 +5,7 @@ import { createComic } from '../../../utils/ComicService';
 import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../firebase/firebase';
 import { AuthContext } from '../../../components/AuthContext';
 import { getUserIdByEmail } from '../../../utils/UserService';
-import { getAuth } from 'firebase/auth';
+
 
 const ComicForm = ({ onSave, initialComic, onClose }) => {
   const { user } = useContext(AuthContext); // Lấy thông tin user từ AuthContext
@@ -54,7 +54,9 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
     fetchGenres();
 
     // Lấy ngày hiện tại dạng ISO 8601 (không timezone)
+
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
     setComicData(prevData => ({
       ...prevData,
       createdDate: currentDate,
@@ -96,11 +98,12 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   
       const storageRef = ref(storage, `comics/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // Xử lý tiến trình upload nếu cần
+          // Xử lý tiến trình upload (nếu cần)
+
         },
         (error) => {
           console.error('Upload failed', error);
