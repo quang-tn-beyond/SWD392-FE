@@ -21,8 +21,8 @@ const getComicsByGenresName = (genresName) => {
 };
 
 // Thêm mới comic
-const saveComic = (data) => {
-  return request.post('/comics/create', data);
+const createComic = (data) => {
+  return request.post('/comics', data);
 };
 
 // Cập nhật comic theo ID
@@ -46,7 +46,7 @@ export {
   getComicsByStatus,
   getComicsByName,
   getComicsByGenresName,
-  saveComic,
+  createComic,
   updateComicById,
   deleteComicById,
 };

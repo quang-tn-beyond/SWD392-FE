@@ -33,7 +33,7 @@ const GoogleAuth = () => {
   const sendTokenToBackend = async (googleToken) => {
     try {
       // Gửi token đến backend để xác thực
-      const response = await axios.post('http://localhost:8080/api/auth/google', {
+      const response = await axios.post('http://localhost:8080/auth/google', {
         token: googleToken,
       });
 

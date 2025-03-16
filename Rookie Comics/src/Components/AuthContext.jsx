@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 
 export const AuthContext = createContext();
 
@@ -16,9 +17,8 @@ const ROLE_MAP = {
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // Đảm bảo user được khởi tạo là null
 
-  // Kiểm tra đăng nhập từ localStorage
   const checkAuth = () => {
     const token = localStorage.getItem("token");
 
@@ -34,8 +34,8 @@ export const AuthProvider = ({ children }) => {
         }
 
         const userData = {
-          email: decodedToken.sub, // Lấy email từ JWT
-          role: ROLE_MAP[decodedToken.role] || "UNKNOWN", // Chuyển đổi role từ số sang tên
+          email: decodedToken.sub,
+          role: ROLE_MAP[decodedToken.role] || "UNKNOWN",
         };
 
         setUser(userData);
@@ -50,6 +50,35 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Xử lý login với Google
+  const handleGoogleLoginSuccess = async (response) => {
+    const { credential } = response;
+    if (!credential) {
+      console.error("Không có credential trong response");
+      return;
+    }
+
+    try {
+      const userData = jwtDecode(credential); // Giải mã token để lấy thông tin người dùng
+      const { email, given_name, family_name, picture } = userData;
+
+      const user = {
+        email,
+        firstName: given_name,
+        lastName: family_name,
+        fullName: `${given_name} ${family_name}`,
+        imageUrl: picture,
+        role: "CUSTOMER_NORMAL", // Thêm role mặc định hoặc từ token nếu có
+      };
+
+      setUser(user);
+      setIsLoggedIn(true);
+      localStorage.setItem("token", credential); // Lưu token vào localStorage
+    } catch (error) {
+      console.error("Lỗi khi xử lý login với Google:", error);
+    }
+  };
+
   // Xử lý logout
   const logout = () => {
     localStorage.removeItem("token");
@@ -57,18 +86,12 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
   };
 
-  // Kiểm tra quyền theo role
-  const hasRole = (roles) => {
-    if (!user || !user.role) return false;
-    return roles.includes(user.role);
-  };
-
   useEffect(() => {
     checkAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, setUser, setIsLoggedIn, checkAuth, logout, hasRole }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, setUser, setIsLoggedIn, checkAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );

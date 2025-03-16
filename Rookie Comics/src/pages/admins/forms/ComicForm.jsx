@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, DialogActions, Divider } from '@mui/material';
 import { getAllGenres } from '../../../utils/GenreService';
-import { createComic } from '../../../utils/ComicService'; // Import hàm createComic
+import { createComic } from '../../../utils/ComicService';
 import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../firebase/firebase';
+import { AuthContext } from '../../../components/AuthContext';
 
 const ComicForm = ({ onSave, initialComic, onClose }) => {
+  const { user } = useContext(AuthContext);  // Access the logged-in user from AuthContext
+
   const [comicData, setComicData] = useState({
     comicName: '',
     genresId: '', // genresId to store selected genre's ID
-    userId: '',
+    userId: '',   // userId of the current logged-in user
     createdDate: '', // The created date (to be updated with current time in LocalDateTime format)
     coverUrl: '',
     description: '',
@@ -26,7 +29,6 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
         const response = await getAllGenres();
         console.log('Raw API Response:', response);
 
-        // Nếu API trả về đối tượng có thuộc tính data chứa mảng
         let data = [];
         if (response && response.data && Array.isArray(response.data)) {
           data = response.data;
@@ -37,7 +39,6 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
           return;
         }
 
-        // Tạo danh sách genres chỉ chứa các trường cần thiết
         const genresList = data.map(item => ({
           genresId: item.genresId,
           genresName: item.genresName,
@@ -56,8 +57,9 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
     setComicData((prevData) => ({
       ...prevData,
       createdDate: currentDate, // Set the current time as createdDate
+      userId: user ? user.email : '', // Get the userId (email or user identifier) from AuthContext
     }));
-  }, []);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,14 +72,12 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Generate the preview URL for the selected image
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
 
-      // Save file to Firebase Storage
       const storageRef = ref(storage, `comics/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on('state_changed',
@@ -100,17 +100,16 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   };
 
   const handleSave = async () => {
-    // Cập nhật payload cho phù hợp với backend
     const payload = {
       comicName: comicData.comicName,
-      userId: comicData.userId,
-      createdDate: comicData.createdDate,  // Đã tự động lấy thời gian hiện tại ở trên
-      quantityChap: comicData.quantityChap || 0,  // Nếu không có giá trị, mặc định là 0
+      userId: comicData.userId, // Ensure userId is set from AuthContext
+      createdDate: comicData.createdDate,
+      quantityChap: comicData.quantityChap || 0,  // If not provided, default to 0
       coverUrl: comicData.coverUrl,
-      description: comicData.description || '',  // Nếu không có mô tả, mặc định là ''
-      status: comicData.status === 'active' ? 1 : 0,  // Chuyển 'active'/'inactive' thành 1/0
-      view: comicData.view || 0,  // Nếu không có, mặc định là 0
-      genresId: comicData.genresId,  // genresId phải khớp với backend
+      description: comicData.description || '',  // If no description, default to ''
+      status: comicData.status === 'active' ? 1 : 0,  // Convert 'active'/'inactive' to 1/0
+      view: comicData.view || 0,  // Default to 0 if no view count
+      genresId: comicData.genresId,
     };
 
     console.log('Payload to send:', payload);
@@ -118,7 +117,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
     try {
       const response = await createComic(payload);
       console.log('Comic created:', response.data);
-      onSave(response.data);  // Gửi dữ liệu trả về cho component cha nếu cần
+      onSave(response.data);
     } catch (error) {
       console.error('Error creating comic:', error);
     }
@@ -149,7 +148,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
             >
               {(genres || []).map((genre) => (
                 <MenuItem key={genre.genresId} value={genre.genresId}>
-                  {genre.genresName} {/* Hiển thị tên thể loại */}
+                  {genre.genresName} {/* Display genre name */}
                 </MenuItem>
               ))}
             </Select>
@@ -164,16 +163,17 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
             fullWidth
             value={comicData.userId}
             onChange={handleChange}
+            disabled // Disable the field as it's automatically set from AuthContext
           />
         </Grid>
-        {/* Ngày phát hành không cần nhập nữa */}
+
         <Grid item xs={12} md={6}>
           <TextField
             label="Ngày phát hành"
             variant="outlined"
             type="date"
             fullWidth
-            value={comicData.createdDate ? comicData.createdDate.slice(0, 10) : ''}  // Hiển thị ngày theo định dạng yyyy-MM-dd
+            value={comicData.createdDate ? comicData.createdDate.slice(0, 10) : ''}  // Display date as yyyy-MM-dd
             InputLabelProps={{
               shrink: true,
             }}

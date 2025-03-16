@@ -75,12 +75,12 @@ const ProfileMenu = ({ onLogout }) => {
             sx={{
               fontWeight: "bold",
               overflow: "hidden",
-              textOverflow: "ellipsis", // Nếu email quá dài, 3 dấu chấm sẽ xuất hiện
-              whiteSpace: "nowrap", // Ngăn email xuống dòng
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
               marginBottom: 1,
             }}
           >
-            {user?.email}
+            {user?.fullName || "Tên người dùng"} {/* Hiển thị fullName hoặc một giá trị mặc định */}
           </Typography>
           <Typography variant="body2" sx={{ color: "gray", marginBottom: 2 }}>
             {user?.role}
