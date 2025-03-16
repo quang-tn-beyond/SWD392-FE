@@ -17,12 +17,12 @@ export const AuthProvider = ({ children }) => {
       try {
         const decodedToken = jwtDecode(token);
 
-        // Kiểm tra token hết hạn
-        if (decodedToken.exp * 1000 < Date.now()) {
-          console.warn("Token đã hết hạn.");
-          logout();
-          return;
-        }
+        // // Kiểm tra token hết hạn
+        // if (decodedToken.exp * 1000 < Date.now()) {
+        //   console.warn("Token đã hết hạn.");
+        //   logout();
+        //   return;
+        // }
 
         // Gọi API để lấy thông tin user
         const response = await getUserById(decodedToken.sub); // sub là email trong token
