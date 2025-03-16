@@ -40,7 +40,7 @@ const ComicCollection = ({ comics, layout, title }) => {
                 <BackgroundComponent imageUrl={comic.imageUrl} />
                 <div className="ep">{comic.episodes}</div>
                 <div className="comment">
-                  <i className="fa fa-comments"></i> {comic.comments}
+                  <i className="fa fa-comments"></i> {comic.comments || 0}
                 </div>
                 <div className="view">
                   <i className="fa fa-eye"></i> {comic.views}
@@ -48,9 +48,9 @@ const ComicCollection = ({ comics, layout, title }) => {
               </div>
               <div className="product__item__text">
                 <ul>
-                  {comic.tags.map((tag, i) => (
-                    <li key={i}>{tag}</li>
-                  ))}
+                  {comic.tags && comic.tags.length > 0
+                    ? comic.tags.map((tag, i) => <li key={i}>{tag}</li>)
+                    : <li>Không có thể loại</li>}
                 </ul>
                 <h5>
                   <Link to={`/comic-detail/${comic.id}`}>
@@ -70,12 +70,12 @@ ComicCollection.propTypes = {
   layout: PropTypes.string,
   comics: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired, // Đảm bảo có id duy nhất cho từng comic
+      id: PropTypes.string.isRequired,
       imageUrl: PropTypes.string.isRequired,
       episodes: PropTypes.string.isRequired,
-      comments: PropTypes.number.isRequired,
+      comments: PropTypes.number, // Có thể null, không bắt buộc
       views: PropTypes.number.isRequired,
-      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string), // Không bắt buộc
       title: PropTypes.string.isRequired,
     })
   ).isRequired,

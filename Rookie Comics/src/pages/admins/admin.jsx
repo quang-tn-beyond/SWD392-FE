@@ -9,7 +9,11 @@ import Layout from "./layout";
 
 const Admin = () => {
   const { pathname } = useLocation();
+
+
+  const { hasRole } = useContext(AuthContext);
   const navigate = useNavigate();
+
 
   // Lấy role từ token hoặc context
   // const user = JSON.parse(localStorage.getItem("user")) || {};
@@ -20,6 +24,7 @@ const Admin = () => {
   //     navigate("/"); // Chặn truy cập nếu không phải ADMIN hoặc MANAGER
   //   }
   // }, [userRole, navigate]);
+
 
   const renderContent = () => {
     switch (pathname) {
