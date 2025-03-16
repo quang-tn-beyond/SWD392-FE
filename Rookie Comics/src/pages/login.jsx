@@ -49,29 +49,29 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential }),
       });
-  
+
       const data = await res.json();
       console.log("User data:", data);
-  
+
       if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
         const decodedToken = jwtDecode(data.token);
-  
+
         console.log("Decoded Token:", decodedToken); // Kiểm tra xem có email không
-  
+
         // Đảm bảo user chứa email
         const userData = {
           email: decodedToken.sub || decodedToken.email, // Đảm bảo lấy email đúng
           role: decodedToken.role,
         };
-  
+
         if (!userData.email) {
           console.error("Email không tồn tại trong token!");
         }
-  
+
         setUser(userData);
         setIsLoggedIn(true);
-  
+
         toast.success("Đăng nhập thành công!");
         navigate(data.redirectUrl || "/");
       } else {
@@ -84,7 +84,7 @@ export default function Login() {
     }
     setLoading(false);
   };
-  
+
 
   const handleGoogleError = () => {
     toast.error("Google Sign In was unsuccessful. Try again later");
