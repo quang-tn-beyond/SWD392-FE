@@ -7,7 +7,7 @@ import UserManagement from "./user-management/UserManagement";
 import Dashboard from "./dashboard";
 import Layout from "./layout";
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../../Components/AuthContext";
+import { AuthContext } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
@@ -15,11 +15,11 @@ const Admin = () => {
   const { hasRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!hasRole(["ADMIN"])) {
-      navigate("/"); // Chuyển về trang chủ nếu không có quyền
-    }
-  }, [hasRole, navigate]);
+  // useEffect(() => {
+  //   if (!hasRole(["ADMIN"])) {
+  //     navigate("/"); // Chuyển về trang chủ nếu không có quyền
+  //   }
+  // }, [hasRole, navigate]);
 
   const renderContent = () => {
     switch (pathname) {
