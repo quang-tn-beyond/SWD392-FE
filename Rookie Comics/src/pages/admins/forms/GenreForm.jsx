@@ -1,35 +1,36 @@
 import React, { useState } from "react";
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-const GenreForm = ({ open, onClose, onSave, genres_name = "", genres_description = "", status = "active" }) => {
+const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription = "", status = "active" }) => {
   const [newGenre, setNewGenre] = useState({
-    genres_name,
-    genres_description,
+    genresName,
+    genresDescription,
     status,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log("Thay đổi giá trị input:", name, value); // Log giá trị thay đổi
     setNewGenre((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddGenre = () => {
     console.log("📝 Dữ liệu từ form trước khi gửi:", newGenre);
 
-    if (newGenre.genres_name.trim()) {
+    if (newGenre.genresName.trim()) {
+        // Chuyển thứ tự của các trường theo yêu cầu của backend
         const formattedGenre = {
-            genres_name: newGenre.genres_name.trim(),
-            genres_description: newGenre.genres_description.trim(),
-            status: newGenre.status === "active" ? 1 : 0, 
+            genresDescription: newGenre.genresDescription.trim(),
+            genresName: newGenre.genresName.trim(),
+            status: newGenre.status === "active" ? 1 : 0,
         };
 
-        console.log("📤 Dữ liệu gửi đi:", formattedGenre); // Log trước khi gửi
+        console.log("📤 Dữ liệu gửi đi:", formattedGenre); // Log dữ liệu trước khi gửi
         onSave(formattedGenre); // Gửi về API
-        setNewGenre({ genres_name: "", genres_description: "", status: "active" });
+        setNewGenre({ genresName: "", genresDescription: "", status: "active" });
         onClose();
     }
 };
-
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -39,8 +40,8 @@ const GenreForm = ({ open, onClose, onSave, genres_name = "", genres_description
           label="Tên Thể Loại"
           variant="outlined"
           fullWidth
-          name="genres_name"
-          value={newGenre.genres_name}
+          name="genresName"
+          value={newGenre.genresName}
           onChange={handleInputChange}
           autoFocus
         />
@@ -48,8 +49,8 @@ const GenreForm = ({ open, onClose, onSave, genres_name = "", genres_description
           label="Mô Tả"
           variant="outlined"
           fullWidth
-          name="genres_description"
-          value={newGenre.genres_description}
+          name="genresDescription"
+          value={newGenre.genresDescription}
           onChange={handleInputChange}
           style={{ marginTop: 20 }}
         />

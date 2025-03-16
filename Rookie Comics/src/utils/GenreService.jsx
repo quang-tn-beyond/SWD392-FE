@@ -21,43 +21,46 @@ const getGenreById = (id) => {
 };
 
 // Add a new genre (Ensure correct payload format)
+// Thêm thể loại mới
+// Thêm thể loại mới
 const addGenre = (data) => {
     console.log("📝 Dữ liệu trước khi tạo payload:", data);
 
+    // Tạo payload để gửi đi theo đúng định dạng của backend
     const payload = {
-        genres_name: data?.genres_name?.trim() || "",
-        genres_description: data?.genres_description?.trim() || "",
-        status: data?.status === "active" ? 1 : 0,
+        genresDescription: data?.genresDescription?.trim() || "",  // 'description' đổi thành 'genresDescription'
+        genresName: data?.genresName?.trim() || "",  // 'name' đổi thành 'genresName'
+        status: data?.status === "active" ? 1 : 0,  // Chuyển 'active' thành 1 và 'inactive' thành 0
     };
 
-    console.log("📤 Payload gửi đi:", payload); // Log payload gửi lên
+    console.log("📤 Payload gửi đi:", payload); // Log payload gửi lên để kiểm tra
 
-    return request.post('/genres', payload);
+    return request.post('/genres', payload);  // Gửi dữ liệu tới backend
 };
 
-
-// Update an existing genre
+// Cập nhật thể loại đã có
 const updateGenre = (id, data) => {
     const payload = {
-        genres_name: data?.genres_name?.trim() || "",
-        genres_description: data?.genres_description?.trim() || "",
-        status: data?.status === "active" ? 1 : 0,
+        genresDescription: data?.genresDescription?.trim() || "",  // 'description' đổi thành 'genresDescription'
+        genresName: data?.genresName?.trim() || "",  // 'name' đổi thành 'genresName'
+        status: data?.status === "active" ? 1 : 0,  // Chuyển 'active' thành 1 và 'inactive' thành 0
     };
 
-    console.log("📤 Payload cập nhật:", payload);
+    console.log("📤 Payload cập nhật:", payload);  // Log payload gửi lên để kiểm tra
 
-    return request.put(`/genres/${id}`, payload);
+    return request.put(`/genres/${id}`, payload);  // Gửi dữ liệu PUT để cập nhật thể loại
 };
+
 
 
 // Soft delete a genre
 const deleteGenre = (id) => {
-    return request.delete(`/genres/${id}`);
+    return request.delete(`/genres/${id}`);  // Gửi request DELETE để xóa thể loại
 };
 
 // Restore a deleted genre
 const restoreGenre = (id) => {
-    return request.put(`/genres/restore/${id}`);
+    return request.put(`/genres/restore/${id}`);  // Gửi request PUT để phục hồi thể loại đã xóa
 };
 
 export {

@@ -36,7 +36,7 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
   }, []);
 
   const filteredGenres = (genres || []).filter((genre) =>
-    genre?.name?.toLowerCase().includes(searchValue.toLowerCase()) // Check for the existence of genre.name
+    genre?.genresName?.toLowerCase().includes(searchValue.toLowerCase()) // Check for the existence of genre.genresName
   );
 
   const paginatedGenres = filteredGenres.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -108,8 +108,8 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
               <TableBody>
                 {paginatedGenres.map((genre) => (
                   <TableRow key={genre.id}>
-                    <TableCell align="center">{genre.name}</TableCell>
-                    <TableCell align="center">{genre.description}</TableCell>
+                    <TableCell align="center">{genre.genresName}</TableCell> {/* Changed name to genresName */}
+                    <TableCell align="center">{genre.genresDescription}</TableCell> {/* Changed description to genresDescription */}
                     <TableCell align="center">{genre.status ? "Active" : "Inactive"}</TableCell>
                     <TableCell align="center">
                       <Button

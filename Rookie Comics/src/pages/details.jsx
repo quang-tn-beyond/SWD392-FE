@@ -48,6 +48,20 @@ const ComicDetails = () => {
     }
   };
 
+  // useEffect(() => {
+  //   // Gọi API lấy chi tiết comic
+  //   const fetchComicDetails = async () => {
+  //     try {
+  //       const response = await ComicService.getComicDetails(id);
+  //       setComic(response.data); // Set dữ liệu comic từ API
+
+  //       // Sau khi có dữ liệu, gọi API để tăng lượt xem
+  //       await ComicService.incrementViews(id);
+  //     } catch (error) {
+  //       console.error("Error fetching comic details:", error);
+  //     }
+  //   };
+
   useEffect(() => {
     const comicData = comics.find((comic) => comic.id === id);
 
