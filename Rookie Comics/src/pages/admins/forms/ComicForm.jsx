@@ -40,7 +40,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
           console.error('Dữ liệu trả về không hợp lệ hoặc không phải mảng:', response);
           return;
         }
-  
+
         const genresList = data.map(item => ({
           genresId: item.genresId,
           genresName: item.genresName,
@@ -50,23 +50,19 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
         console.error('Error fetching genres:', error);
       }
     };
-  
+
     fetchGenres();
-  
+
     // Lấy ngày hiện tại dạng ISO 8601 (không timezone)
-
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-
     setComicData(prevData => ({
       ...prevData,
       createdDate: currentDate,
       userEmail: user ? user.email : '', // Gán email để hiển thị
     }));
 
-
     // Nếu có email, gọi API để ánh xạ email sang userId và cập nhật vào state
-    if (user && user.email && !comicData.userId) {
+    if (user && user.email) {
       getUserIdByEmail(user.email)
         .then(response => {
           // Giả sử API trả về { userId: "123456" }
@@ -79,8 +75,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
           console.error('Error mapping email to userId:', error);
         });
     }
-  }, [user, comicData.createdDate, comicData.userId, isEdit]); // Thêm dependencies để tránh gọi lại khi không cần thiết
-  
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,12 +96,11 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   
       const storageRef = ref(storage, `comics/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
+  
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // Xử lý tiến trình upload (nếu cần)
-
+          // Xử lý tiến trình upload nếu cần
         },
         (error) => {
           console.error('Upload failed', error);
