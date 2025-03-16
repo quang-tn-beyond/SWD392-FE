@@ -19,11 +19,13 @@ const Admin = () => {
   // const user = JSON.parse(localStorage.getItem("user")) || {};
   // const userRole = user.role || null;
 
+
   // useEffect(() => {
   //   if (userRole !== 1 && userRole !== 2) {
   //     navigate("/"); // Chặn truy cập nếu không phải ADMIN hoặc MANAGER
   //   }
   // }, [userRole, navigate]);
+
 
 
   const renderContent = () => {
