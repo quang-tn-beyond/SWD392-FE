@@ -49,13 +49,13 @@ const ComicManagement = () => {
     navigate(`/comic/${comicId}/chapters`); // Điều hướng đến trang quản lý chapter của truyện
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const handleSave = () => {
-    setOpen(false);
-  };
+  // const handleSave = () => {
+  //   setOpen(false);
+  // };
 
   const filteredComics = comicsList.filter((comic) =>
     comic.title.toLowerCase().includes(searchValue.toLowerCase())
@@ -78,13 +78,13 @@ const ComicManagement = () => {
             />
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="contained"
               color="primary"
               onClick={handleAddComic}
             >
               Thêm Truyện Tranh
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
 
@@ -130,12 +130,12 @@ const ComicManagement = () => {
           </Table>
         </TableContainer>
 
-        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+        {/* <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
           <DialogTitle>{initialComic ? 'Cập nhật Truyện' : 'Thêm Truyện'}</DialogTitle>
           <DialogContent>
             <ComicForm onSave={handleSave} initialComic={initialComic} onClose={handleClose} />
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
     </Layout>
   );

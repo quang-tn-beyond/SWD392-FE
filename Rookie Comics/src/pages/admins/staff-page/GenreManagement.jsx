@@ -19,18 +19,31 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
       try {
         const fetchedGenres = await getAllGenres();
         if (Array.isArray(fetchedGenres)) {
-          setGenres(fetchedGenres); // Set to the fetched genres
+          // Lọc và giữ lại chỉ các trường cần thiết, không cần genresId
+          const validGenres = fetchedGenres.map((genre) => ({
+            genresName: genre.genresName,
+            genresDescription: genre.genresDescription,
+            status: genre.status,
+          }));
+    
+          // Loại bỏ các thể loại bị trùng lặp
+          const genresWithoutDuplicates = validGenres.filter((value, index, self) =>
+            index === self.findIndex((t) => t.genresName === value.genresName)
+          );
+    
+          setGenres(genresWithoutDuplicates); // Cập nhật lại state genres
         } else {
           console.error("Invalid data format for genres:", fetchedGenres);
-          setGenres([]); // Set empty if the format is wrong
+          setGenres([]);
         }
       } catch (error) {
         console.error("Error fetching genres:", error);
-        setGenres([]); // Fallback to empty if there's an error
+        setGenres([]);
       } finally {
         setLoading(false);
       }
     };
+    
 
     fetchGenres();
   }, []);
@@ -120,7 +133,7 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
               </TableHead>
               <TableBody>
                 {paginatedGenres.map((genre) => (
-                  <TableRow key={genre.id}>
+                  <TableRow key={genre.genresId}>
                     <TableCell align="center">{genre.genresName}</TableCell> {/* Changed name to genresName */}
                     <TableCell align="center">{genre.genresDescription}</TableCell> {/* Changed description to genresDescription */}
                     <TableCell align="center">{statusLabel(genre.status)}</TableCell> {/* Display status with proper label */}
@@ -128,7 +141,7 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => console.log("Managing books for genre ID:", genre.id)}
+                        onClick={() => console.log("Managing books for genre ID:", genre.genresId)}
                       >
                         Quản lý
                       </Button>
