@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Grid, TextField, IconButton, Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Grid, TextField, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { comics } from '../../../data';
-import ComicForm from '../forms/ComicForm';
+import { getAllComics, deleteComicById } from '../../../utils/ComicService';
 import Layout from '../layout';
 
 const ComicManagement = () => {
   const [comicsList, setComicsList] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [open, setOpen] = useState(false);
-  const [initialComic, setInitialComic] = useState(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchComics = () => {
-      setComicsList(comics); // Set comics state from mock data
+    const fetchComics = async () => {
+      try {
+        const response = await getAllComics();
+        // Giả sử API trả về data là mảng các đối tượng comic
+        // Nếu backend chưa join thêm genresName và tác giả,
+        // bạn có thể xử lý thêm mapping dựa trên genresId và userId
+        setComicsList(response.data);
+      } catch (error) {
+        console.error('Error fetching comics:', error);
+      }
     };
 
     fetchComics();
@@ -29,42 +31,31 @@ const ComicManagement = () => {
     setSearchValue(e.target.value);
   };
 
-  const handleAddComic = () => {
-    setInitialComic(null);
-    setOpen(true);
-  };
-
   const handleEditComic = (comic) => {
-    setInitialComic(comic);
-    setOpen(true);
+    navigate(`/comic/edit/${comic.id}`);
   };
 
-  const handleDelete = (comicId) => {
+  const handleDelete = async (comicId) => {
     if (window.confirm('Bạn có chắc muốn xóa truyện này?')) {
-      setComicsList(comicsList.filter((comic) => comic.id !== comicId));
+      try {
+        await deleteComicById(comicId);
+        setComicsList(comicsList.filter((comic) => comic.id !== comicId));
+      } catch (error) {
+        console.error('Error deleting comic:', error);
+      }
     }
   };
 
   const handleManageChapters = (comicId) => {
-    navigate(`/comic/${comicId}/chapters`); // Điều hướng đến trang quản lý chapter của truyện
+    navigate(`/comic/${comicId}/chapters`);
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
-  // const handleSave = () => {
-  //   setOpen(false);
-  // };
-
   const filteredComics = comicsList.filter((comic) =>
-    comic.title.toLowerCase().includes(searchValue.toLowerCase())
+    comic.comicName.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  const paginatedComics = filteredComics.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
   return (
-    <Layout> 
+    <Layout>
       <div style={{ padding: '20px' }}>
         <h1>Quản lý Truyện Tranh</h1>
         <Grid container spacing={2} alignItems="center">
@@ -77,15 +68,6 @@ const ComicManagement = () => {
               fullWidth
             />
           </Grid>
-          <Grid item>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddComic}
-            >
-              Thêm Truyện Tranh
-            </Button> */}
-          </Grid>
         </Grid>
 
         <TableContainer component={Paper} style={{ marginTop: '20px' }}>
@@ -95,19 +77,23 @@ const ComicManagement = () => {
                 <TableCell>Tên truyện</TableCell>
                 <TableCell>Thể loại</TableCell>
                 <TableCell>Tác giả</TableCell>
-                <TableCell>Ngày phát hành</TableCell>
+                <TableCell>Mô tả</TableCell>
                 <TableCell>Ảnh bìa</TableCell>
                 <TableCell>Thao tác</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedComics.map((comic) => (
+              {filteredComics.map((comic) => (
                 <TableRow key={comic.id}>
-                  <TableCell>{comic.title}</TableCell>
-                  <TableCell>{comic.genre}</TableCell>
-                  <TableCell>{comic.author}</TableCell>
-                  <TableCell>{comic.releaseDate}</TableCell>
-                  <TableCell><img src={comic.imageUrl} alt={comic.title} width="50" /></TableCell>
+                  <TableCell>{comic.comicName}</TableCell>
+                  {/* Nếu API trả về genresName thay vì genresId */}
+                  <TableCell>{comic.genresName || comic.genresId}</TableCell>
+                  {/* Nếu API trả về thông tin tác giả (firstName, lastName) hoặc authorName */}
+                  <TableCell>{comic.authorName || comic.userId}</TableCell>
+                  <TableCell>{comic.description}</TableCell>
+                  <TableCell>
+                    <img src={comic.coverUrl} alt={comic.comicName} width="50" />
+                  </TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEditComic(comic)}>
                       <EditIcon />
@@ -115,7 +101,6 @@ const ComicManagement = () => {
                     <IconButton onClick={() => handleDelete(comic.id)}>
                       <DeleteIcon />
                     </IconButton>
-                    {/* Nút Quản lý Chapter */}
                     <Button
                       variant="contained"
                       color="secondary"
@@ -129,13 +114,6 @@ const ComicManagement = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-          <DialogTitle>{initialComic ? 'Cập nhật Truyện' : 'Thêm Truyện'}</DialogTitle>
-          <DialogContent>
-            <ComicForm onSave={handleSave} initialComic={initialComic} onClose={handleClose} />
-          </DialogContent>
-        </Dialog> */}
       </div>
     </Layout>
   );
