@@ -13,27 +13,21 @@ const getChapterById = (chapterId) => {
 // Create a new chapter
 const createChapter = (token, data) => {
   return request.post('chapters', data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+     
   });
 };
 
 // Update a chapter by ID
 const updateChapterById = (token, data, chapterId) => {
   return request.put(`chapters/${chapterId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+     
   });
 };
 
 // Delete a chapter by ID
 const deleteChapterById = (token, chapterId) => {
   return request.delete(`chapters/${chapterId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+     
   });
 };
 
