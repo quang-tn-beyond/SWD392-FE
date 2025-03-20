@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer class="footer">
+        <footer className="footer">
             <div className="page-up">
                 <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
             </div>
@@ -14,7 +14,7 @@ export default function Footer() {
                     <div className="col-lg-6">
                         <div className="footer__nav">
                             <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
+                                <li className="active"><a href="./index.html">Homepage</a></li>
                                 <li><a href="./categories.html">Categories</a></li>
                                 <li><a href="./blog.html">Our Blog</a></li>
                                 <li><a href="#">Contacts</a></li>

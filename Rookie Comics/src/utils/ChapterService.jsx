@@ -11,21 +11,21 @@ const getChapterById = (chapterId) => {
 };
 
 // Create a new chapter
-const createChapter = (token, data) => {
+const createChapter = (data) => {
   return request.post('chapters', data, {
      
   });
 };
 
 // Update a chapter by ID
-const updateChapterById = (token, data, chapterId) => {
+const updateChapterById = ( data, chapterId) => {
   return request.put(`chapters/${chapterId}`, data, {
      
   });
 };
 
 // Delete a chapter by ID
-const deleteChapterById = (token, chapterId) => {
+const deleteChapterById = (chapterId) => {
   return request.delete(`chapters/${chapterId}`, {
      
   });

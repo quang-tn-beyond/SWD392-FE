@@ -43,6 +43,10 @@ const Sidebar = ({ open, toggleDrawer }) => {
           <ListItemText primary="Biểu đồ" />
         </ListItem>
         <Divider />
+        <ListItem button onClick={() => handleSelect("/moderator")}>
+          <ListItemText primary="Kiểm duyệt nội dung" />
+        </ListItem>
+        <Divider />
 
         <ListItem button onClick={toggleProductMenu}>
           <ListItemText primary="Sản phẩm" />

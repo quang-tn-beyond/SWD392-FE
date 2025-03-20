@@ -61,9 +61,9 @@ const GenreForm = ({ open, onClose, onSave, genresName = "", genresDescription =
             value={newGenre.status}
             onChange={handleInputChange}
           >
-            <MenuItem value={1}>DELETED</MenuItem>
-            <MenuItem value={2}>EDITED</MenuItem>
-            <MenuItem value={3}>AVAILABLE</MenuItem>
+            <MenuItem value={1}>Đã xóa</MenuItem>
+            <MenuItem value={2}>Đã sửa</MenuItem>
+            <MenuItem value={3}>Có sẵn</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>

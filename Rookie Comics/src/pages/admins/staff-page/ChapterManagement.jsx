@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getChapterById, deleteChapterById } from '../../../utils/ChapterService';
 import Layout from '../layout';
 import ChapterForm from '../forms/ChapterForm';
+import { getAllChapters } from '../../../utils/ChapterService';
 
 const ChapterManagement = () => {
   const { comicId } = useParams(); // Lấy comicId từ URL
@@ -19,7 +20,7 @@ const ChapterManagement = () => {
   useEffect(() => {
     const fetchChapters = async () => {
       try {
-        const response = await getChapterById(comicId);
+        const response = await getAllChapters(comicId);
         setChapters(response.data);
       } catch (error) {
         console.error('Error fetching chapters:', error);
