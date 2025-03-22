@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getChapterById, deleteChapterById, updateChapterById } from '../../../utils/ChapterService';
+import { deleteChapterById, updateChapterById, getAllChapters } from '../../../utils/ChapterService';
 import Layout from '../layout';
 
 const mapStatusToString = (status) => {
@@ -48,7 +48,7 @@ const ChapterManagement4Mod = () => {
   useEffect(() => {
     const fetchChapters = async () => {
       try {
-        const response = await getChapterById(comicId);
+        const response = await getAllChapters(comicId);
         setChapters(response.data.filter(chapter => mapStatusToString(chapter.status) === "PENDING"));
       } catch (error) {
         console.error('Error fetching chapters:', error);

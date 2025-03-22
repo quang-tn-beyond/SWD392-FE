@@ -3,10 +3,6 @@ import {
   TextField,
   Button,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   DialogActions,
 } from "@mui/material";
 import { getAllComics } from "../../../utils/ComicService";
@@ -135,12 +131,16 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
           <TextField label="Tên chương" name="chapterName" variant="outlined" fullWidth value={chapterData.chapterName} onChange={handleChange} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Truyện</InputLabel>
-            <Select name="comicId" value={chapterData.comicId} disabled label="Truyện">
-              <MenuItem value={chapterData.comicId}>{selectedComicName}</MenuItem>
-            </Select>
-          </FormControl>
+          {/* Display selected comic name instead of a dropdown */}
+          <TextField
+            label="Truyện"
+            value={selectedComicName || "Chưa chọn truyện"}
+            variant="outlined"
+            fullWidth
+            InputProps={{
+              readOnly: true, // Make it read-only
+            }}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField label="Mô tả" name="description" variant="outlined" fullWidth value={chapterData.description} onChange={handleChange} />
