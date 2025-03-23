@@ -30,7 +30,7 @@ import ChapterManagement4Mod from "./pages/admins/moderator-page/ChapterManageme
 const App = () => {
   return (
 
-    <GoogleOAuthProvider clientId="717866262643-77vit52fq5r4i29pmpkomtjaq3fv7vu8.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="492020139313-sjvetclndtvnqqose7en21v75o5iv7e3.apps.googleusercontent.com">
       <AuthProvider>
         <Router>
           <Header />

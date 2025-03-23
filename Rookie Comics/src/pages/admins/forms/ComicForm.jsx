@@ -56,6 +56,21 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      setComicData((prevData) => ({
+        ...prevData,
+        userEmail: user.email, // Set the user email from AuthContext
+        userId: user.userId,   // Make sure userId is set if needed
+        createdDate: new Date().toISOString().slice(0, 19), // ISO format (yyyy-MM-ddTHH:mm:ss)
+      }));
+    }
+  }, [user]);
+  
+  
+  
+  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComicData({
@@ -98,10 +113,25 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
   
 
   const handleSave = async () => {
-    // Payload gửi API sẽ dùng userId đã được ánh xạ (không phải email)
+    // Kiểm tra nếu có thông tin user và email
+    if (!user || !user.email) {
+      console.error('Không có email người dùng để lấy userId');
+      return;
+    }
+  
+    // Gọi hàm getUserIdByEmail để lấy userId từ email của người dùng
+    const userIdFromApi = await getUserIdByEmail(user.email);
+  
+    // Kiểm tra nếu không lấy được userId từ API
+    if (!userIdFromApi) {
+      console.error('Không tìm thấy userId cho email:', user.email);
+      return;
+    }
+  
+    // Tạo payload để gửi API
     const payload = {
       comicName: comicData.comicName,
-      userId: comicData.userId,
+      userId: userIdFromApi,  // Sử dụng userId lấy từ API
       createdDate: comicData.createdDate,
       quantityChap: comicData.quantityChap || 0,
       coverUrl: comicData.coverUrl,
@@ -110,18 +140,23 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
       view: comicData.view || 0,
       genresId: comicData.genresId,
     };
-
+  
     console.log('Payload to send:', payload);
-
+  
     try {
       const response = await createComic(payload);
       console.log('Comic created:', response.data);
-      onSave(response.data);
+      onSave(response.data); // Callback khi thành công
     } catch (error) {
       console.error('Error creating comic:', error);
     }
-    onClose();
+  
+    onClose(); // Đóng form sau khi xử lý xong
   };
+  
+  
+  
+  
 
   return (
     <form>

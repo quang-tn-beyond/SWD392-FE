@@ -46,8 +46,9 @@ const GenreManagement = ({ onSave = () => {} }) => {
   }, []);
   
   const searchedGenres = genres.filter((genre) =>
-    genre.genresName.toLowerCase().includes(searchValue.toLowerCase())
+    genre?.genresName?.toLowerCase().includes(searchValue.toLowerCase())
   );
+  
 
   const filteredGenres = searchedGenres.filter(
     (genre) => selectedStatus === "all" || genre.status === parseInt(selectedStatus, 10)
