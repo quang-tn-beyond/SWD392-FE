@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Grid, TextField, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Grid, TextField, IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteChapterById, updateChapterById, getAllChapters } from '../../../utils/ChapterService';
+import { getAllChapters } from '../../../utils/ChapterService';
+import { reviewChapter } from '../../../utils/ChapterService'; // Import reviewChapter function
 import Layout from '../layout';
 
 const mapStatusToString = (status) => {
@@ -38,12 +37,10 @@ const mapStatusToByte = (status) => {
 
 const ChapterManagement4Mod = () => {
   const { comicId } = useParams();
-  const navigate = useNavigate();
   const [chapters, setChapters] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [currentChapter, setCurrentChapter] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState("PENDING");
 
   useEffect(() => {
     const fetchChapters = async () => {
@@ -57,43 +54,24 @@ const ChapterManagement4Mod = () => {
     fetchChapters();
   }, [comicId]);
 
-  const handleEditChapter = (chapter) => {
+  const handleReviewChapter = (chapter, isApproved) => {
     setCurrentChapter(chapter);
-    setSelectedStatus(mapStatusToString(chapter.status));
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleSaveStatus = async () => {
-    if (currentChapter) {
-      try {
-        await updateChapterById(currentChapter.chapterId, { status: mapStatusToByte(selectedStatus) });
-        setChapters(chapters.map(chapter => chapter.chapterId === currentChapter.chapterId ? { ...chapter, status: mapStatusToByte(selectedStatus) } : chapter));
-        handleCloseDialog();
-      } catch (error) {
-        console.error('Error updating chapter status:', error);
-      }
-    }
-  };
-
-  const handleDeleteChapter = async (chapterId) => {
-    if (window.confirm('Bạn có chắc muốn xóa chương này?')) {
-      try {
-        await deleteChapterById(chapterId);
-        setChapters(chapters.filter((chapter) => chapter.chapterId !== chapterId));
-      } catch (error) {
-        console.error('Error deleting chapter:', error);
-      }
-    }
+    // Gọi hàm reviewChapter để duyệt hoặc từ chối chương
+    const modComment = isApproved ? "Approved" : "Declined";
+    reviewChapter(chapter.chapterId, isApproved, modComment)
+      .then(() => {
+        // Cập nhật lại danh sách chương sau khi duyệt hoặc từ chối
+        setChapters(chapters.filter(chap => chap.chapterId !== chapter.chapterId)); // Xóa chương đã duyệt ra khỏi danh sách
+      })
+      .catch((error) => {
+        console.error('Error reviewing chapter:', error);
+      });
   };
 
   return (
     <Layout>
       <div style={{ padding: '20px' }}>
-        <h2>Quản lý Chương</h2>
+        <h2>Kiểm duyệt Chương</h2>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={9}>
             <TextField
@@ -123,37 +101,18 @@ const ChapterManagement4Mod = () => {
                   <TableCell>{chapter.publishedDate}</TableCell>
                   <TableCell>{mapStatusToString(chapter.status)}</TableCell>
                   <TableCell>
-                    <IconButton onClick={() => handleEditChapter(chapter)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => handleDeleteChapter(chapter.chapterId)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    <Button onClick={() => handleReviewChapter(chapter, true)} color="primary">
+                      Đồng ý duyệt
+                    </Button>
+                    <Button onClick={() => handleReviewChapter(chapter, false)} color="secondary">
+                      Từ chối duyệt
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>Chỉnh sửa trạng thái chương</DialogTitle>
-          <DialogContent>
-            <FormControl fullWidth>
-              <InputLabel>Trạng thái</InputLabel>
-              <Select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                <MenuItem value="PENDING">PENDING</MenuItem>
-                <MenuItem value="LOCKED">LOCKED</MenuItem>
-                <MenuItem value="UNLOCKED">UNLOCKED</MenuItem>
-                <MenuItem value="DELETED">DELETED</MenuItem>
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} color="secondary">Hủy</Button>
-            <Button onClick={handleSaveStatus} color="primary">Lưu</Button>
-          </DialogActions>
-        </Dialog>
       </div>
     </Layout>
   );

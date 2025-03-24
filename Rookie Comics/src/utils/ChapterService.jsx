@@ -12,7 +12,7 @@ const getChapterById = (chapterId) => {
 
 // Create a new chapter
 const createChapter = (data) => {
-  return request.post('chapters', data, {
+  return request.post('chapters', JSON.stringify(data), {
      
   });
 };
@@ -36,6 +36,20 @@ const searchChapters = (params) => {
   return request.get('chapters/search', { params });
 };
 
+const reviewChapter = (chapterId, isApproved, modComment) => {
+  return request.post(
+    'chapters/review',
+    null, // Không có body trong request, thông tin sẽ được truyền qua params
+    {
+      params: {
+        chapterId,
+        isApproved,
+        modComment
+      }
+    }
+  );
+};
+
 export {
   getAllChapters,
   getChapterById,
@@ -43,4 +57,5 @@ export {
   updateChapterById,
   deleteChapterById,
   searchChapters,
+  reviewChapter,
 };

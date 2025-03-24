@@ -12,6 +12,7 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
   const [chapterData, setChapterData] = useState({
     chapterName: "",
     comicId: comicId, // Đặt comicId lấy từ URL
+    modComment: "",
     description: "",
     publishedDate: "", // Ngày phát hành
     status: "PENDING",
@@ -24,11 +25,11 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
 
   // Khởi tạo dữ liệu nếu có initialChapter, nếu không gán ngày hiện tại cho publishedDate
   useEffect(() => {
-    console.log(initialChapter); // Kiểm tra xem initialChapter có đúng không
     if (initialChapter) {
       setChapterData({
         chapterName: initialChapter.chapterName,
         comicId: initialChapter.comicId, // comicId phải có trong initialChapter
+        modComment: initialChapter.modComment,
         description: initialChapter.description,
         publishedDate: initialChapter.publishedDate
           ? initialChapter.publishedDate.slice(0, 10)
@@ -52,10 +53,7 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
         try {
           // Gọi API để lấy comicName theo comicId
           const response = await getComicsById(chapterData.comicId);
-          console.log("API response:", response); // Kiểm tra dữ liệu trả về
-
           if (response && response.data) {
-            // Lấy comicName từ dữ liệu trả về
             setSelectedComicName(response.data.comicName);
           } else {
             setSelectedComicName("Truyện không tìm thấy");
@@ -67,25 +65,18 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
       }
     };
 
-    // Nếu comicId có sẵn, gọi hàm fetchComicName
     if (chapterData.comicId) {
       fetchComicName();
     }
-  }, [chapterData.comicId]); // Khi comicId thay đổi, gọi lại API
+  }, [chapterData.comicId]);
 
-  // Các hàm xử lý khác
   const mapStatusToString = (status) => {
     switch (status) {
-      case 0:
-        return "PENDING";
-      case 1:
-        return "LOCKED";
-      case 2:
-        return "UNLOCKED";
-      case 3:
-        return "DELETED";
-      default:
-        return "PENDING";
+      case 0: return "PENDING";
+      case 1: return "LOCKED";
+      case 2: return "UNLOCKED";
+      case 3: return "DELETED";
+      default: return "PENDING";
     }
   };
 
@@ -98,40 +89,30 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
         const storageRef = ref(storage, `comics/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
   
-        // Create a promise for each file upload
         const uploadPromise = new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
-            (snapshot) => {
-              // You can add progress tracking here if needed
-            },
-            (error) => {
-              reject(error); // Reject the promise on error
-            },
-            () => {
-              // Get the download URL after the upload is complete
-              getDownloadURL(uploadTask.snapshot.ref)
-                .then((downloadURL) => {
-                  resolve(downloadURL); // Resolve the promise with the download URL
-                })
-                .catch((error) => {
-                  reject(error); // Reject if getting the download URL fails
-                });
+            () => {},
+            (error) => reject(error),
+            async () => {
+              try {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve({ imageURL: downloadURL });
+              } catch (error) {
+                reject(error);
+              }
             }
           );
         });
   
-        // Add the upload promise to the array
         uploadPromises.push(uploadPromise);
       });
   
-      // Wait for all files to be uploaded and then update the state with the URLs
       Promise.all(uploadPromises)
-        .then((urls) => {
-          // Add the URLs to the chapterImages array in state
+        .then((uploadedImages) => {
           setChapterData((prevData) => ({
             ...prevData,
-            chapterImages: [...prevData.chapterImages, ...urls],
+            chapterImages: [...prevData.chapterImages, ...uploadedImages],
           }));
         })
         .catch((error) => {
@@ -139,56 +120,51 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
         });
     }
   };
-  
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setChapterData({ ...chapterData, [name]: value });
-  };
-
-
 
   const handleSave = async () => {
     const payload = {
       chapterName: chapterData.chapterName,
       comicId: chapterData.comicId,
+      modComment: chapterData.modComment || "",
+      publishedDate: new Date(chapterData.publishedDate).toISOString(),
       description: chapterData.description || "",
-      publishedDate: chapterData.publishedDate,
-      status: mapStatusToByte(chapterData.status),
-      type: chapterData.type,
-      chapterImages: chapterData.chapterImages,
+      status: Number(mapStatusToByte(chapterData.status)),
+      type: Number(chapterData.type),
+      chapterImages: chapterData.chapterImages.map((image) => ({
+        imageURL: image.imageURL?.trim() || "",
+      })),
     };
 
-    console.log("Payload data gửi về:", payload);
+    console.log("Payload data gửi về:", JSON.stringify(payload, null, 2));
 
     try {
+      let response;
       if (isEdit) {
-        const response = await updateChapterById(user.token, payload, initialChapter.chapterId);
-        onSave(response.data);
+        response = await updateChapterById(payload, initialChapter.chapterId);
       } else {
-        const response = await createChapter(user.token, payload);
-        onSave(response.data);
+        response = await createChapter(payload);
       }
+
+      
     } catch (error) {
-      console.error("Lỗi khi lưu chương:", error);
+      console.error("Lỗi khi lưu chương:", error.response ? error.response.data : error.message);
     }
     onClose();
   };
 
   const mapStatusToByte = (status) => {
     switch (status) {
-      case "PENDING":
-        return 0;
-      case "LOCKED":
-        return 1;
-      case "UNLOCKED":
-        return 2;
-      case "DELETED":
-        return 3;
-      default:
-        return 0;
+      case "PENDING": return 0;
+      case "LOCKED": return 1;
+      case "UNLOCKED": return 2;
+      case "DELETED": return 3;
+      default: return 0;
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setChapterData({ ...chapterData, [name]: value });
   };
 
   return (
@@ -240,28 +216,13 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
             {chapterData.chapterImages.map((image, index) => (
               <img
                 key={index}
-                src={image}
+                src={image.imageURL}
                 alt={`chapter-img-${index}`}
                 style={{ width: "100px", height: "100px", objectFit: "cover" }}
               />
             ))}
           </div>
-
         </Grid>
-        {imagePreview && (
-          <Grid item xs={12} md={6}>
-            <img
-              src={imagePreview}
-              alt="Image Preview"
-              style={{
-                width: '100%',
-                height: 'auto',
-                marginTop: '10px',
-                objectFit: 'cover',
-              }}
-            />
-          </Grid>
-        )}
       </Grid>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
