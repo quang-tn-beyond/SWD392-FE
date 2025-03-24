@@ -64,7 +64,7 @@ const ComicManagement = () => {
   const paginatedComics = filteredComics.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <Layout> 
+    <Layout>
       <div style={{ padding: '20px' }}>
         <h1>Quản lý Truyện Tranh</h1>
         <Grid container spacing={2} alignItems="center">
