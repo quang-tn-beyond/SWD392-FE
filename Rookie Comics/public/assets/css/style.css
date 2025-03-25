@@ -39,6 +39,17 @@ body {
 	background: #0b0c2a;
 }
 
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+  }
+  
+footer {
+	margin-top: auto;
+  }
+  
+
 h1,
 h2,
 h3,

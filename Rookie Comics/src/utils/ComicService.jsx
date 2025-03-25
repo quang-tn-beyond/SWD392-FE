@@ -11,8 +11,8 @@ const getComicsByStatus = (status) => {
 };
 
 // Lấy comic theo tên
-const getComicsByName = (comicName) => {
-  return request.get(`/comics/${comicName}`);
+const getComicsById = (comicId) => {
+  return request.get(`/comics/${comicId}`);
 };
 
 // Lấy comic theo thể loại
@@ -44,7 +44,7 @@ const deleteComicById = (comicId) => {
 export {
   getAllComics,
   getComicsByStatus,
-  getComicsByName,
+  getComicsById,
   getComicsByGenresName,
   createComic,
   updateComicById,

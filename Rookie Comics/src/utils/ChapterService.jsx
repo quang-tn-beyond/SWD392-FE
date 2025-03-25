@@ -11,21 +11,21 @@ const getChapterById = (chapterId) => {
 };
 
 // Create a new chapter
-const createChapter = (token, data) => {
-  return request.post('chapters', data, {
+const createChapter = (data) => {
+  return request.post('chapters', JSON.stringify(data), {
      
   });
 };
 
 // Update a chapter by ID
-const updateChapterById = (token, data, chapterId) => {
+const updateChapterById = ( data, chapterId) => {
   return request.put(`chapters/${chapterId}`, data, {
      
   });
 };
 
 // Delete a chapter by ID
-const deleteChapterById = (token, chapterId) => {
+const deleteChapterById = (chapterId) => {
   return request.delete(`chapters/${chapterId}`, {
      
   });
@@ -36,6 +36,20 @@ const searchChapters = (params) => {
   return request.get('chapters/search', { params });
 };
 
+const reviewChapter = (chapterId, isApproved, modComment) => {
+  return request.post(
+    'chapters/review',
+    null, // Không có body trong request, thông tin sẽ được truyền qua params
+    {
+      params: {
+        chapterId,
+        isApproved,
+        modComment
+      }
+    }
+  );
+};
+
 export {
   getAllChapters,
   getChapterById,
@@ -43,4 +57,5 @@ export {
   updateChapterById,
   deleteChapterById,
   searchChapters,
+  reviewChapter,
 };

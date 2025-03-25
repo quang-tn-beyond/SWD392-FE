@@ -76,7 +76,7 @@ const ProfileMenu = ({ onLogout }) => {
       <IconButton onClick={handleToggleMenu}>
         <Avatar
           alt="Profile"
-          src={user?.avatar || defaultAvatarUrl} // Nếu không có avatar thì dùng ảnh mặc định
+          src={user?.imageUrl || defaultAvatarUrl} // Nếu không có avatar thì dùng ảnh mặc định
           sx={{ width: 40, height: 40, cursor: "pointer" }}
         />
       </IconButton>
@@ -109,9 +109,8 @@ const ProfileMenu = ({ onLogout }) => {
               marginBottom: 1,
             }}
           >
-            {user?.fullName || "Tên người dùng"}{" "}
-            {/* Hiển thị fullName hoặc một giá trị mặc định */}
-
+            {user?.fullName || `${user?.givenName} ${user?.familyName}`} 
+            {/* Hiển thị fullName từ user context */}
           </Typography>
           <Typography variant="body2" sx={{ color: "gray", marginBottom: 2 }}>
             {user?.role}

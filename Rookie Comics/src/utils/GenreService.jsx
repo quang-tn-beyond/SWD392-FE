@@ -2,17 +2,7 @@ import request from './axios';
 
 // Get all genres
 const getAllGenres = () => {
-  return request.get('/genres')
-      .then(response => response.data)
-      .catch(error => {
-          if (error.response) {
-              console.error('API Error:', error.response.data);
-          } else if (error.request) {
-              console.error('No response from server:', error.request);
-          } else {
-              console.error('Error setting up request:', error.message);
-          }
-      });
+  return request.get('/genres');
 };
 
 // Get genre by ID

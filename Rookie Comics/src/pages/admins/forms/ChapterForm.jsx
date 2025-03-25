@@ -1,85 +1,170 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { TextField, Button, Grid, FormControl, InputLabel, Select, MenuItem, DialogActions, Divider } from '@mui/material';
-import { getAllComics } from '../../../utils/ComicService';  // Giả sử bạn có hàm này để lấy danh sách truyện
-import { createChapter } from '../../../utils/ChapterService';  // Giả sử bạn có hàm này để tạo chương
-import { AuthContext } from '../../../components/AuthContext';
+import React, { useState, useEffect, useContext } from "react";
+import { TextField, Button, Grid, DialogActions } from "@mui/material";
+import { getComicsById } from "../../../utils/ComicService";
+import { createChapter, updateChapterById } from "../../../utils/ChapterService";
+import { AuthContext } from "../../../components/AuthContext";
+import { useParams } from "react-router-dom"; // Import useParams
+import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../firebase/firebase';
 
 const ChapterForm = ({ onSave, initialChapter, onClose }) => {
-  const { user } = useContext(AuthContext); // Lấy thông tin user từ AuthContext
-
+  const { comicId } = useParams(); // Lấy comicId từ URL
+  const { user } = useContext(AuthContext);
   const [chapterData, setChapterData] = useState({
-    chapterName: '',
-    comicId: '',    // ID của truyện sẽ được chọn từ Select
-    description: '',
-    publishedDate: '', // Ngày phát hành
-    status: 'active', // Trạng thái
-    type: 1,          // Type 1 hoặc 0
+    chapterName: "",
+    comicId: comicId, // Đặt comicId lấy từ URL
+    modComment: "",
+    description: "",
+    publishedDate: "", // Ngày phát hành
+    status: "PENDING",
+    type: 1,
+    chapterImages: [],
   });
-  const [comics, setComics] = useState([]); // Lưu danh sách truyện
+  const [selectedComicName, setSelectedComicName] = useState(""); // Tên truyện sẽ được lấy từ API
   const [isEdit, setIsEdit] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
+  // Khởi tạo dữ liệu nếu có initialChapter, nếu không gán ngày hiện tại cho publishedDate
   useEffect(() => {
-    // Lấy danh sách truyện
-    const fetchComics = async () => {
-      try {
-        const response = await getAllComics(); // Giả sử bạn có API để lấy danh sách truyện
-        let data = [];
-        if (response && response.data && Array.isArray(response.data)) {
-          data = response.data;
-        } else {
-          console.error('Dữ liệu trả về không hợp lệ hoặc không phải mảng:', response);
-        }
-        setComics(data);
-      } catch (error) {
-        console.error('Error fetching comics:', error);
-      }
-    };
-
-    fetchComics();
-
-    // Nếu có initialChapter, thiết lập dữ liệu ban đầu
     if (initialChapter) {
       setChapterData({
         chapterName: initialChapter.chapterName,
-        comicId: initialChapter.comicId,
+        comicId: initialChapter.comicId, // comicId phải có trong initialChapter
+        modComment: initialChapter.modComment,
         description: initialChapter.description,
-        publishedDate: initialChapter.publishedDate,
-        status: initialChapter.status === 1 ? 'active' : 'inactive',
+        publishedDate: initialChapter.publishedDate
+          ? initialChapter.publishedDate.slice(0, 10)
+          : "",
+        status: mapStatusToString(initialChapter.status),
         type: initialChapter.type,
+        chapterImages: initialChapter.chapterImages || [],
       });
       setIsEdit(true);
+    } else {
+      setChapterData((prevData) => ({
+        ...prevData,
+        publishedDate: new Date().toISOString().slice(0, 10),
+      }));
     }
+  }, [initialChapter, comicId]); // Đảm bảo useEffect chạy lại khi comicId thay đổi
 
-  }, [initialChapter]);
+  useEffect(() => {
+    const fetchComicName = async () => {
+      if (chapterData.comicId) {
+        try {
+          // Gọi API để lấy comicName theo comicId
+          const response = await getComicsById(chapterData.comicId);
+          if (response && response.data) {
+            setSelectedComicName(response.data.comicName);
+          } else {
+            setSelectedComicName("Truyện không tìm thấy");
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy truyện theo id:", error);
+          setSelectedComicName("Truyện không tìm thấy");
+        }
+      }
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setChapterData({
-      ...chapterData,
-      [name]: value,
-    });
+    if (chapterData.comicId) {
+      fetchComicName();
+    }
+  }, [chapterData.comicId]);
+
+  const mapStatusToString = (status) => {
+    switch (status) {
+      case 0: return "PENDING";
+      case 1: return "LOCKED";
+      case 2: return "UNLOCKED";
+      case 3: return "DELETED";
+      default: return "PENDING";
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const uploadPromises = [];
+  
+      Array.from(files).forEach((file) => {
+        const storageRef = ref(storage, `comics/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        const uploadPromise = new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            () => {},
+            (error) => reject(error),
+            async () => {
+              try {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve({ imageURL: downloadURL });
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
+        });
+  
+        uploadPromises.push(uploadPromise);
+      });
+  
+      Promise.all(uploadPromises)
+        .then((uploadedImages) => {
+          setChapterData((prevData) => ({
+            ...prevData,
+            chapterImages: [...prevData.chapterImages, ...uploadedImages],
+          }));
+        })
+        .catch((error) => {
+          console.error("Error uploading files:", error);
+        });
+    }
   };
 
   const handleSave = async () => {
     const payload = {
       chapterName: chapterData.chapterName,
       comicId: chapterData.comicId,
-      description: chapterData.description || '',
-      publishedDate: chapterData.publishedDate,
-      status: chapterData.status === 'active' ? 1 : 0,
-      type: chapterData.type,
+      modComment: chapterData.modComment || "",
+      publishedDate: new Date(chapterData.publishedDate).toISOString(),
+      description: chapterData.description || "",
+      status: Number(mapStatusToByte(chapterData.status)),
+      type: Number(chapterData.type),
+      chapterImages: chapterData.chapterImages.map((image) => ({
+        imageURL: image.imageURL?.trim() || "",
+      })),
     };
 
-    console.log('Payload to send:', payload);
+    console.log("Payload data gửi về:", JSON.stringify(payload, null, 2));
 
     try {
-      const response = await createChapter(payload); // Gửi yêu cầu tạo chương mới
-      console.log('Chapter created:', response.data);
-      onSave(response.data); // Thực hiện callback để lưu dữ liệu
+      let response;
+      if (isEdit) {
+        response = await updateChapterById(payload, initialChapter.chapterId);
+      } else {
+        response = await createChapter(payload);
+      }
+
+      
     } catch (error) {
-      console.error('Error creating chapter:', error);
+      console.error("Lỗi khi lưu chương:", error.response ? error.response.data : error.message);
     }
     onClose();
+  };
+
+  const mapStatusToByte = (status) => {
+    switch (status) {
+      case "PENDING": return 0;
+      case "LOCKED": return 1;
+      case "UNLOCKED": return 2;
+      case "DELETED": return 3;
+      default: return 0;
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setChapterData({ ...chapterData, [name]: value });
   };
 
   return (
@@ -96,21 +181,13 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Truyện</InputLabel>
-            <Select
-              name="comicId"
-              value={chapterData.comicId}
-              onChange={handleChange}
-              label="Truyện"
-            >
-              {(comics || []).map((comic) => (
-                <MenuItem key={comic.comicId} value={comic.comicId}>
-                  {comic.comicName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <TextField
+            label="Truyện"
+            value={selectedComicName || "Chưa chọn truyện"}
+            variant="outlined"
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
@@ -125,44 +202,26 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
         <Grid item xs={12} md={6}>
           <TextField
             label="Ngày phát hành"
-            name="publishedDate"
             variant="outlined"
             type="date"
             fullWidth
-            value={chapterData.publishedDate ? chapterData.publishedDate.slice(0, 10) : ''}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleChange}
+            value={chapterData.publishedDate}
+            InputLabelProps={{ shrink: true }}
+            disabled
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Trạng thái</InputLabel>
-            <Select
-              name="status"
-              value={chapterData.status}
-              onChange={handleChange}
-              label="Trạng thái"
-            >
-              <MenuItem value="active">Active</MenuItem>
-              <MenuItem value="inactive">Inactive</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Type</InputLabel>
-            <Select
-              name="type"
-              value={chapterData.type}
-              onChange={handleChange}
-              label="Type"
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={0}>0</MenuItem>
-            </Select>
-          </FormControl>
+        <Grid item xs={12}>
+          <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            {chapterData.chapterImages.map((image, index) => (
+              <img
+                key={index}
+                src={image.imageURL}
+                alt={`chapter-img-${index}`}
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              />
+            ))}
+          </div>
         </Grid>
       </Grid>
       <DialogActions>
@@ -170,7 +229,7 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
           Hủy
         </Button>
         <Button type="button" onClick={handleSave} color="primary">
-          {isEdit ? 'Cập nhật' : 'Thêm'} Chương
+          {isEdit ? "Cập nhật" : "Thêm"} Chương
         </Button>
       </DialogActions>
     </form>
