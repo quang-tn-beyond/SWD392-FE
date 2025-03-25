@@ -31,9 +31,9 @@ export const AuthProvider = ({ children }) => {
         const formattedUser = {
           userId: userData.userId,
           email: userData.email,
-          firstName: userData.firstName || '',
-          lastName: userData.lastName || '',
-          fullName: `${userData.firstName || ''} ${userData.lastName || ''}`,
+          firstName: userData.family_name || '',
+          lastName: userData.given_name || '',
+          fullName: `${userData.family_name || ''} ${userData.given_name || ''}`,
           role: userData.roleEnum,  // Sử dụng roleEnum thay vì role
           authorities: Array.isArray(userData.authorities)
             ? userData.authorities.map((auth) => auth.authority)
@@ -53,31 +53,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token from localStorage:", token);  // Log token ra console
+    if (token) {
+      checkAuth();  // Kiểm tra trạng thái xác thực khi ứng dụng tải
+    }
+  }, []);
+  
+  
+
   // Xử lý đăng nhập thành công qua Google
   const handleGoogleLoginSuccess = async (response) => {
     console.log("Google Login Success:", response);  // Log toàn bộ response
-  
+
     const { credential } = response;
     if (!credential) {
       console.error("Không có credential trong response");
       return;
     }
-  
+
     try {
       // Giải mã token và log toàn bộ dữ liệu người dùng
       const userData = jwtDecode(credential);  
       console.log("Decoded User Data:", userData);  // Log dữ liệu đã giải mã
-  
-      // Log toàn bộ thông tin có trong token
-      console.log("Email:", userData.email);
-      console.log("Given Name:", userData.given_name);
-      console.log("Family Name:", userData.family_name);
-      console.log("Picture URL:", userData.picture);
-      console.log("Sub (Google User ID):", userData.sub);
-      console.log("Full Token Data:", userData);
-  
-      // Kiểm tra thêm các thuộc tính khác trong userData
-      console.log("Other properties in userData:", Object.keys(userData));  // Log các thuộc tính trong userData
 
       // Lấy thêm thông tin người dùng từ People API
       const peopleApiResponse = await fetch(`https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,photos`, {
@@ -105,15 +104,15 @@ export const AuthProvider = ({ children }) => {
 
       // Log thông tin người dùng đã được tạo
       console.log("User Object:", user);
-  
+
       setUser(user);
       setIsLoggedIn(true);
       localStorage.setItem("token", credential);  // Lưu token vào localStorage
+      checkAuth();
     } catch (error) {
       console.error("Lỗi khi xử lý đăng nhập Google:", error);
     }
   };
-  
 
   // Xử lý đăng xuất
   const logout = () => {
@@ -123,8 +122,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token from localStorage:", token);  // Log token ra console
     checkAuth();  // Kiểm tra trạng thái xác thực khi ứng dụng tải
   }, []);
+  
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, user, setUser, setIsLoggedIn, checkAuth, logout, handleGoogleLoginSuccess }}>

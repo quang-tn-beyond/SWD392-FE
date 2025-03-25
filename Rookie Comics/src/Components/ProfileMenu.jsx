@@ -17,13 +17,25 @@ import { Logout, History } from "@mui/icons-material";
 import ComicForm from "../pages/admins/forms/ComicForm";
 
 const ProfileMenu = ({ onLogout }) => {
-  const { user, logout, isLoggedIn } = useContext(AuthContext);
+  const { user, logout, isLoggedIn } = useContext(AuthContext); // Lấy user từ AuthContext
   const [showMenu, setShowMenu] = useState(false);
   const [openDialog, setOpenDialog] = useState(false); // Điều khiển việc mở/đóng dialog
   const [initialComic, setInitialComic] = useState(null); // Truyền comic ban đầu nếu có
   const menuRef = useRef(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // Hook điều hướng
   const defaultAvatarUrl = "/assets/img/default-avatar.png"; // Đường dẫn ảnh mặc định nếu không có avatar
+
+  // Đối tượng ánh xạ các role với tên hiển thị
+  const roleMap = {
+    1: "ADMIN",
+    2: "MANAGER",
+    3: "MODERATOR",
+    4: "STAFF",
+    5: "CUSTOMER_NORMAL",
+    6: "CUSTOMER_READER",
+    7: "CUSTOMER_AUTHOR",
+    8: "CUSTOMER_VIP",
+  };
 
   // Toggle menu (hiện/ẩn menu)
   const handleToggleMenu = () => {
@@ -49,6 +61,7 @@ const ProfileMenu = ({ onLogout }) => {
     logout();
     if (onLogout) onLogout(); // gọi onLogout nếu có
     setShowMenu(false); // Đóng menu khi đăng xuất
+    navigate("/login"); // Điều hướng về trang login
   };
 
   // Chuyển đến lịch sử giao dịch
@@ -109,11 +122,11 @@ const ProfileMenu = ({ onLogout }) => {
               marginBottom: 1,
             }}
           >
-            {user?.fullName || `${user?.givenName} ${user?.familyName}`} 
+            {`${user?.family_name} ${user?.given_name}`} 
             {/* Hiển thị fullName từ user context */}
           </Typography>
           <Typography variant="body2" sx={{ color: "gray", marginBottom: 2 }}>
-            {user?.role}
+            {roleMap[user?.role] || "Chưa xác định"}  {/* Hiển thị role theo quy luật */}
           </Typography>
 
           {/* Số dư tài khoản */}

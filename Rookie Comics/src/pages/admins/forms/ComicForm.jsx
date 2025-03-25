@@ -60,12 +60,13 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
     if (user) {
       setComicData((prevData) => ({
         ...prevData,
-        userEmail: user.email, // Set the user email from AuthContext
+        userName: `${user?.family_name} ${user?.given_name}`, // Set the user name correctly
         userId: user.userId,   // Make sure userId is set if needed
         createdDate: new Date().toISOString().slice(0, 19), // ISO format (yyyy-MM-ddTHH:mm:ss)
       }));
     }
   }, [user]);
+  
   
   
   
@@ -195,7 +196,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
             name="userEmail"
             variant="outlined"
             fullWidth
-            value={comicData.userEmail}
+            value={comicData.userName}
             disabled
           />
         </Grid>

@@ -5,6 +5,9 @@ import ProfileMenu from "./ProfileMenu";
 import { AuthContext } from "./AuthContext";
 import { comics } from "../data";
 import { useRef, useEffect } from "react";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 
 export default function Header() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -57,10 +60,10 @@ export default function Header() {
               <nav className="header__menu mobile-menu">
                 <ul>
                   <li className="active">
-                    <Link to="/">Homepage</Link>
+                    <Link to="/" style={{ fontSize: '30px' }}>Homepage</Link>
                   </li>
-                  <li>
-                    <Link to="/categories">
+                  <li className="active" > 
+                    <Link to="/categories" style={{ fontSize: '30px' }}>
                       Categories <span className="arrow_carrot-down"></span>
                     </Link>
                     <ul className="dropdown">
@@ -84,9 +87,6 @@ export default function Header() {
                       </li>
                     </ul>
                   </li>
-                  <li>
-                    <Link to="/contacts">Contacts</Link>
-                  </li>
                 </ul>
               </nav>
             </div>
@@ -95,13 +95,13 @@ export default function Header() {
           <div className="col-lg-2">
             <div className="header__right">
               <Link to="/cart" className="cart-switch">
-                <span className="icon_cart"></span>
+              <span className="icon_cart"></span>
               </Link>
               <Link to="/pricing" className="pricing-switch">
-                <span className="fas fa-dollar-sign"></span>
+              <span className="fas fa-dollar-sign" style={{ color: 'black' }}></span>
               </Link>
               <a to="/search" className="search-switch" onClick={toggleSearch}>
-                <span className="icon_search"></span>
+              <span className="icon_search" style={{ color: 'black' }}></span>
               </a>
               {isLoggedIn ? (
                 <ProfileMenu />
