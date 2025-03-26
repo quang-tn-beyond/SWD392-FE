@@ -34,7 +34,7 @@
 html,
 body {
 	height: 100%;
-	font-family: "Mulish", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	background: #ffffff;
 }
@@ -59,7 +59,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Mulish", sans-serif;
+	font-family: "Nerko One", sans-serif;
 }
 
 h1 {
@@ -375,27 +375,42 @@ ol {
 
 .section-title {
 	margin-bottom: 30px;
+	position: relative;
+  
 }
 
+.section-title h2 {
+	color: black;
+  font-weight: 700;
+  line-height: 21px;
+  text-transform: uppercase;
+  padding-left: 20px;
+  position: relative;
+  font-family: "Nerko One", sans-serif;
+  margin: 0; /* Loại bỏ margin mặc định */
+  }
+
+.section-title h3,
 .section-title h4,
 .section-title h5 {
-	color: #8D8EED;
-	font-weight: 600;
+	color: black;
+	font-weight: 700;
 	line-height: 21px;
 	text-transform: uppercase;
 	padding-left: 20px;
 	position: relative;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
+	
 }
-
+.section-title h3:after,
 .section-title h4:after,
 .section-title h5:after {
 	position: absolute;
 	left: 0;
 	top: -6px;
-	height: 32px;
+	height: 28px;
 	width: 4px;
-	background: #e53637;
+	background: #8D8EED;
 	content: "";
 }
 
@@ -612,6 +627,7 @@ ol {
 
 .header__menu {
 	text-align: center;
+	font-family: "Nerko One", sans-serif;
 }
 
 .header__menu ul li {
@@ -623,7 +639,7 @@ ol {
 
 .header__menu ul li.active a {
 	
-	color: #8D8EED;
+	color: black;
 }
 
 .header__menu ul li:hover a {
@@ -824,7 +840,7 @@ ol {
 .hero__text h2 {
 	color: #ffffff;
 	font-size: 42px;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	font-weight: 700;
 	line-height: 52px;
 	margin-top: 35px;
@@ -1001,12 +1017,12 @@ ol {
 
 .product__item {
 	margin-bottom: 30px;
-	width: 100%;
+
 }
 
 .product__item__pic {
 	height: 324px;
-	width: 50%;
+	width: 100%;
 	aspect-ratio: 16 / 9;
 	position: relative;
 	border-radius: 5px;
@@ -1053,6 +1069,8 @@ ol {
 
 .product__item__text {
 	padding-top: 20px;
+	text-align: center;
+ 	width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng */
 }
 
 .product__item__text ul {
@@ -1072,14 +1090,16 @@ ol {
 
 .product__item__text h4 a {
 	color: #8D8EED;
+	text-align: center;
 	font-weight: 700;
 	line-height: 26px;
+	font-family: "Nerko One", sans-serif;
 }
 
 .product__sidebar .section-title h5 {
 	color: #8D8EED;
 	font-weight: 600;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	line-height: 21px;
 	text-transform: uppercase;
 	padding-left: 20px;
@@ -1758,7 +1778,7 @@ ol {
 	right: -14px;
 	top: 0;
 	content: "";
-	font-family: "FontAwesome";
+	font-family: "Nerko One";
 }
 
 .breadcrumb__links span {
@@ -1787,7 +1807,7 @@ ol {
 .normal__breadcrumb__text h2 {
 	color: #ffffff;
 	font-size: 48px;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	font-weight: 700;
 	margin-bottom: 22px;
 }
@@ -2183,7 +2203,7 @@ ol {
 .login__form h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2262,7 +2282,7 @@ ol {
 .login__register h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2362,7 +2382,7 @@ ol {
 .signup .login__social__links h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Nerko One", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -3147,3 +3167,310 @@ ol {
 	  width: 90%;
 	}
   }
+
+  /* ComicSwiper.css */
+.comic-card {
+	position: relative;
+	overflow: hidden;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+  }
+  
+  .comic-card:hover {
+	transform: scale(1.05);
+  }
+  
+  .comic-image {
+	width: 100%;
+	height: 220px; /* Fixed height for consistency */
+	object-fit: cover;
+	border-radius: 10px;
+  }
+  
+  .comic-info {
+	padding: 10px;
+  }
+  
+  .comic-title {
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #333;
+	margin-top: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+  }
+  
+  .comic-views {
+	font-size: 12px;
+	color: #777;
+	margin-top: 5px;
+  }
+  
+  .read-link {
+	font-size: 14px;
+	font-weight: 600;
+	color: #3498db;
+	display: inline-block;
+	margin-top: 10px;
+	text-decoration: none;
+	transition: color 0.2s ease;
+  }
+  
+  .read-link:hover {
+	color: #2980b9;
+  }
+  
+  .swiper-pagination {
+	bottom: -20px; /* Position pagination lower */
+	z-index: 10;
+  }
+  
+  .swiper-pagination-bullet {
+	background-color: #3498db !important;
+  }
+  
+  .swiper-pagination-bullet-active {
+	background-color: #2980b9 !important;
+  }
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #3498db; /* Màu của mũi tên */
+  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px; /* Kích thước mũi tên */
+  font-weight: bold;
+  color: #fff; /* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #2980b9; /* Thay đổi màu nền khi hover */
+  color: #fff; /* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+  right: 10px; /* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+  left: 10px; /* Đặt mũi tên prev ở bên trái */
+}
+  /* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
+  display: flex;
+  justify-content: center; /* Căn giữa Swiper */
+  align-items: center;
+  width: 100%;
+}
+
+/* CSS cho banner */
+.banner-slide {
+  width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
+  text-align: center;
+}
+
+.banner-image {
+  width: 100%;
+  height: 300px; /* Điều chỉnh chiều cao của banner */
+  object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+/* Các truyện */
+.comic-card {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.comic-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.comic-info {
+  margin-top: 10px;
+}
+
+.comic-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.comic-views {
+  font-size: 14px;
+  color: #666;
+}
+
+.read-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #3498db;
+  text-decoration: none;
+}
+
+.read-link:hover {
+  text-decoration: underline;
+}
+
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #3498db; /* Màu của mũi tên */
+  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px; /* Kích thước mũi tên */
+  font-weight: bold;
+  color: #fff; /* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #2980b9; /* Thay đổi màu nền khi hover */
+  color: #fff; /* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+  right: 10px; /* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+  left: 10px; /* Đặt mũi tên prev ở bên trái */
+}
+/* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
+	display: flex;
+	justify-content: center; /* Căn giữa Swiper */
+	align-items: center;
+	width: 100%;
+  }
+  
+  /* CSS cho banner */
+  .banner-slide {
+	width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
+	text-align: center;
+  }
+  
+  .banner-image {
+	width: 100%;
+	height: 300px; /* Điều chỉnh chiều cao của banner */
+	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+  }
+  
+  /* Các truyện */
+  .comic-card {
+	text-align: center;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	padding: 10px;
+  }
+  
+  .comic-image {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 8px;
+  }
+  
+  .comic-info {
+	margin-top: 10px;
+  }
+  
+  .comic-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+  }
+  
+  .comic-views {
+	font-size: 14px;
+	color: #666;
+  }
+  
+  .read-link {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 14px;
+	color: #3498db;
+	text-decoration: none;
+  }
+  
+  .read-link:hover {
+	text-decoration: underline;
+  }
+  
+  /* Mũi tên điều hướng */
+  .swiper-button-next,
+  .swiper-button-prev {
+	color: #3498db; /* Màu của mũi tên */
+	background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10; /* Đảm bảo mũi tên ở trên */
+  }
+  
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+	font-size: 18px; /* Kích thước mũi tên */
+	font-weight: bold;
+	color: #fff; /* Màu của mũi tên */
+  }
+  
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+	background-color: #2980b9; /* Thay đổi màu nền khi hover */
+	color: #fff; /* Màu mũi tên khi hover */
+  }
+  
+  .swiper-button-next {
+	right: 10px; /* Đặt mũi tên next ở bên phải */
+  }
+  
+  .swiper-button-prev {
+	left: 10px; /* Đặt mũi tên prev ở bên trái */
+  }
+  .centered-container {
+	display: flex;
+	justify-content: center; /* Căn giữa phần tử con theo chiều ngang */
+	width: 100%; /* Đảm bảo phần tử chiếm toàn bộ chiều rộng */
+  }
+  
+  .centered-container > div {
+	width: 66.67%; /* Chiếm 8 cột (2/3 chiều rộng màn hình) */
+  }
+  

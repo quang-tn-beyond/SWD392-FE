@@ -10,7 +10,8 @@ const BackgroundComponent = ({ imageUrl, className, style }) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "324px", // Giá trị mặc định
+        height: "324px",
+        aspectRatio: "16 / 9",
         
         ...style, // Gộp thêm các style truyền vào
       }}
@@ -29,7 +30,7 @@ const ComicCollection = ({ comics, layout, title }) => {
     <div className="comic-collection mt-35">
       {title && (
         <div className="section-title">
-          <h4>{title}</h4>
+          <h3>{title}</h3>
         </div>
       )}
 
@@ -49,11 +50,6 @@ const ComicCollection = ({ comics, layout, title }) => {
                 </div>
                 </Link>
               <div className="product__item__text">
-                <ul>
-                  {comic.tags && comic.tags.length > 0
-                    ? comic.tags.map((tag, i) => <li key={i}>{tag}</li>)
-                    : <li>Không có thể loại</li>}
-                </ul>
                 <h4>
                   <Link to={`/comic-detail/${comic.id}`}>
                     {comic.title}
