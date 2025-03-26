@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getComicsById } from "../utils/ComicService";
+import { getAllChapters } from "../utils/ChapterService"; // Thêm API này
 import Review from "../wrapper/comics/review";
 
 const BackgroundComponent = ({ imageUrl }) => (
@@ -16,21 +17,33 @@ const BackgroundComponent = ({ imageUrl }) => (
 );
 
 const ComicDetails = () => {
-  const { comicId } = useParams(); // Lấy comicId từ URL
+  const { comicId } = useParams();
   const [comic, setComic] = useState(null);
+  const [chapters, setChapters] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [selectedChapter, setSelectedChapter] = useState(null);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   useEffect(() => {
     if (comicId) {
-      console.log("Fetching comic details for:", comicId);
+      // Lấy thông tin truyện
       getComicsById(comicId)
         .then((response) => {
-          console.log("API Response:", response.data);
           setComic(response.data);
         })
         .catch((error) => console.error("Lỗi khi tải chi tiết truyện:", error));
+
+      // Lấy danh sách chapter của truyện
+      getAllChapters()
+        .then((response) => {
+          if (Array.isArray(response.data)) {
+            const filteredChapters = response.data.filter(
+              (chap) => chap.comicId === comicId // Lọc chapter theo comicId
+            );
+            setChapters(filteredChapters);
+            console.log("Danh sách chapter:", filteredChapters); // Debug
+          }
+        })
+        .catch((error) => console.error("Lỗi khi tải danh sách chapter:", error));
     }
   }, [comicId]);
 
@@ -41,9 +54,7 @@ const ComicDetails = () => {
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
-
     let followedComics = JSON.parse(localStorage.getItem("followedComics")) || [];
-
     if (!isFollowing) {
       if (!followedComics.includes(comicId)) {
         followedComics.push(comicId);
@@ -51,9 +62,14 @@ const ComicDetails = () => {
     } else {
       followedComics = followedComics.filter((id) => id !== comicId);
     }
-
     localStorage.setItem("followedComics", JSON.stringify(followedComics));
   };
+
+
+  const handleLockedChapterClick = (chapter) => {
+    setShowPurchaseModal(true);
+  };
+
 
   if (!comic) return <div>Loading...</div>;
 
@@ -64,7 +80,7 @@ const ComicDetails = () => {
           <div className="row">
             <div className="col-lg-3">
               <div className="anime__details__pic set-bg">
-                <BackgroundComponent imageUrl={comic.imageUrl} />
+                <BackgroundComponent imageUrl={comic.coverUrl} />
                 <div className="comment">
                   <i className="fa fa-comments"></i> {comic.comments}
                 </div>
@@ -110,13 +126,8 @@ const ComicDetails = () => {
                     {isFollowing ? "Following" : "Follow"}
                   </button>
                   <Link
-                    to={() => {
-                      if (!comic?.chapters?.length) return "#";
-                      const chapterOne = comic.chapters.find(chap =>
-                        chap.title.match(/\d+/) && parseInt(chap.title.match(/\d+/)[0], 10) === 1
-                      );
-                      return chapterOne ? `/reading/${comic.comicId}/1` : "#";
-                    }}
+
+                    to={chapters.length ? `/reading/${comic.comicId}/1` : "#"}
                     className="read-btn"
                   >
                     <span>Read Now</span> <i className="fa fa-angle-right"></i>
@@ -126,9 +137,45 @@ const ComicDetails = () => {
             </div>
           </div>
         </div>
-        <Review />
-      </div>
 
+        {/* Danh sách Chapter */}
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="details__chapters">
+              <h4>Chapters</h4>
+              <div className="chapter-list">
+                {chapters.length > 0 ? (
+                  chapters
+                    .sort((a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)) // Sắp xếp theo ngày tăng dần
+                    .map((chapter, index, sortedChapters) => {
+                      const chapterNumber = index + 1; // Đánh số chapter tự động
+                      const isLocked = chapterNumber <= sortedChapters.length - 5; // Khóa trừ 5 chap mới nhất
+
+                      return (
+                        <Link
+                          key={chapter.chapterId}
+                          to={isLocked ? "#" : `/reading/${comicId}/${chapter.chapterId}`}
+                          className={`chapter-item ${isLocked ? "locked" : ""}`}
+                          onClick={isLocked ? (e) => { e.preventDefault(); handleLockedChapterClick(chapter); } : null}
+                        >
+                          <div className="chapter-item__content">
+                            <span className="chapter-item__number">Chapter {chapterNumber}</span>
+                          </div>
+                          <i className={isLocked ? "fa fa-lock chapter-item__icon" : "fa fa-arrow-right chapter-item__icon"}></i>
+                        </Link>
+                      );
+                    })
+                    .reverse() // Đảo ngược danh sách để chap lớn hơn nằm dưới
+                ) : (
+                  <p>Chưa có chapter nào</p>
+                )}
+              </div>
+
+            </div>
+            <Review />
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
