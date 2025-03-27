@@ -85,8 +85,13 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
     if (files && files.length > 0) {
       const uploadPromises = [];
   
-      Array.from(files).forEach((file) => {
-        const storageRef = ref(storage, `comics/${file.name}`);
+      Array.from(files).forEach((file, index) => {
+        // Tạo đường dẫn lưu theo tên truyện, tên chương và số thứ tự ảnh
+        const sanitizedComicName = selectedComicName.replace(/\s+/g, "_"); // Loại bỏ khoảng trắng
+        const chapterName = chapterData.chapterName.replace(/\s+/g, "_"); // Loại bỏ khoảng trắng trong tên chương
+  
+        const storageRef = ref(storage, `chapters/${sanitizedComicName}/${chapterName}/${file.name}`);
+  
         const uploadTask = uploadBytesResumable(storageRef, file);
   
         const uploadPromise = new Promise((resolve, reject) => {
@@ -120,6 +125,9 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
         });
     }
   };
+  
+  
+  
 
   const handleSave = async () => {
     const payload = {

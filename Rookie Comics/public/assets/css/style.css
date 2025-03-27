@@ -360,13 +360,15 @@ ol {
 	flex-direction: column;
 	align-items: center;
 	margin-top: 20px;
+	
 }
 
-.comic-image {
+.comic-images {
 	max-width: 100%;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 	margin-bottom: 10px;
+    height: auto; /* Giữ nguyên tỷ lệ ảnh */
 }
 
 /*---------------------
@@ -1618,7 +1620,9 @@ ol {
 
 .chapter-item__number {
 	font-weight: bold;
-	text-transform: lowercase;
+	font-family: "Coiny";
+	font-size: 32px;
+	
 }
 
 .chapter-item__title {
@@ -3211,6 +3215,7 @@ ol {
 	border-radius: 10px;
 	min-height: 450px;
   }
+
   
   .comic-info {
 	padding: 10px;
@@ -3322,19 +3327,6 @@ ol {
 }
 
 
-
-
-.comic-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.comic-info {
-  margin-top: 10px;
-}
-
 .read-link {
   display: inline-block;
   margin-top: 8px;
@@ -3400,20 +3392,8 @@ ol {
 	height: 300px; /* Điều chỉnh chiều cao của banner */
 	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
   }
-  
-  
-  
-  .comic-image {
-	width: 100%;
-	height: 180px;
-	object-fit: cover;
-	border-radius: 8px;
 
-  }
   
-  .comic-info {
-	margin-top: 10px;
-  }
   
   .read-link {
 	display: inline-block;

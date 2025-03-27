@@ -11,7 +11,7 @@ const BackgroundComponent = ({ imageUrl }) => (
       backgroundSize: "cover",
       backgroundPosition: "center",
       width: "100%",
-      height: "300px",
+      height: "450px",
     }}
   />
 );
