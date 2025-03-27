@@ -104,7 +104,7 @@ const ChapterManagement = () => {
           <Grid item xs={12} md={3}>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               fullWidth
               onClick={() => setOpenDialog(true)}
             >
