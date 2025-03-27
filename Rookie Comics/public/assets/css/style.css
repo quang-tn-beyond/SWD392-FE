@@ -34,10 +34,21 @@
 html,
 body {
 	height: 100%;
-	font-family: "Mulish", sans-serif;
+	font-family: "Coiny", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	background: #0b0c2a;
+	background: #ffffff;
 }
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+  }
+  
+footer {
+	margin-top: auto;
+  }
+  
 
 h1,
 h2,
@@ -48,7 +59,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Mulish", sans-serif;
+	font-family: "Coiny", sans-serif;
 }
 
 h1 {
@@ -114,7 +125,7 @@ ol {
 -----------------------*/
 .orders-container {
 	max-width: 1100px;
-	margin: auto;
+	margin: 0;
 }
 
 .orders-header,
@@ -379,27 +390,42 @@ ol {
 
 .section-title {
 	margin-bottom: 30px;
+	position: relative;
+  
 }
 
+.section-title h2 {
+	color: black;
+  font-weight: 700;
+  line-height: 21px;
+  text-transform: uppercase;
+  padding-left: 20px;
+  position: relative;
+  font-family: "Coiny", sans-serif;
+  margin: 0; /* Loại bỏ margin mặc định */
+  }
+
+.section-title h3,
 .section-title h4,
 .section-title h5 {
-	color: #ffffff;
-	font-weight: 600;
+	color: black;
+	font-weight: 700;
 	line-height: 21px;
 	text-transform: uppercase;
 	padding-left: 20px;
 	position: relative;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
+	
 }
-
+.section-title h3:after,
 .section-title h4:after,
 .section-title h5:after {
 	position: absolute;
 	left: 0;
 	top: -6px;
-	height: 32px;
+	height: 28px;
 	width: 4px;
-	background: #e53637;
+	background: #8D8EED;
 	content: "";
 }
 
@@ -596,20 +622,27 @@ ol {
 -----------------------*/
 
 .header {
-	background: #070720;
+	background: #ffffff;
 	align-items: center;
 }
 
 .header__logo {
-	padding: 20px 0 17px;
-}
+	padding: 15px 0 12px 0; /* Đảm bảo không có khoảng trống bên trái */
+	display: flex; /* Đảm bảo flex hoạt động */
+	align-items: center;
+	justify-content: flex-start;
+  }
+  
 
-.header__logo a {
-	display: inline-block;
-}
+  .header__logo a {
+	display: flex; /* Chắc chắn nó nằm sát trái */
+	align-items: center;
+  }
+  
 
 .header__menu {
 	text-align: center;
+	font-family: "Coiny", sans-serif;
 }
 
 .header__menu ul li {
@@ -620,13 +653,18 @@ ol {
 }
 
 .header__menu ul li.active a {
-	background: #e53637;
-	color: #ffffff;
+	
+	color: black;
 }
 
 .header__menu ul li:hover a {
+	background: #4D4FC1;
 	color: #ffffff;
-}
+	border-radius: 28px; /* Điều chỉnh giá trị để bo tròn nhiều hay ít */
+	padding: 14px 28px; /* Đảm bảo phần nền bo tròn đẹp */
+	display: inline-block; /* Để padding hoạt động đúng */
+  }
+  
 
 .header__menu ul li:hover .dropdown {
 	top: 62px;
@@ -673,7 +711,7 @@ ol {
 .header__menu ul li a {
 	font-size: 15px;
 	color: #b7b7b7;
-	display: block;
+	display: flex;
 	font-weight: 700;
 	-webkit-transition: all, 0.5s;
 	-o-transition: all, 0.5s;
@@ -817,7 +855,7 @@ ol {
 .hero__text h2 {
 	color: #ffffff;
 	font-size: 42px;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	font-weight: 700;
 	line-height: 52px;
 	margin-top: 35px;
@@ -993,19 +1031,33 @@ ol {
 }
 
 .product__item {
-	margin-bottom: 30px;
+	margin-bottom: 100px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	overflow: hidden;
+
 }
+.product__item:hover {
+	transform: scale(1.05);
+  }
 
 .product__item__pic {
-	height: 325px;
+	
+	width: 100%;
 	position: relative;
 	border-radius: 5px;
-}
+	object-fit: cover;  /* Đảm bảo ảnh nền bao phủ toàn bộ phần tử */
+	background-position: center;  /* Đảm bảo ảnh nền căn giữa */
+	min-height: 600px;
+	height: 700px;
+  }
+  
 
 .product__item__pic .ep {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #8D8EED;
 	display: inline-block;
 	padding: 2px 12px;
 	border-radius: 4px;
@@ -1017,7 +1069,7 @@ ol {
 .product__item__pic .comment {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #8D8EED;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1029,7 +1081,7 @@ ol {
 .product__item__pic .view {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #8D8EED;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1039,7 +1091,19 @@ ol {
 }
 
 .product__item__text {
-	padding-top: 20px;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+	background: #8D8EED;
+	min-height: 30px;
+	height: 50px;
+	display: flex;
+  justify-content: center;  /* Căn giữa theo chiều ngang */
+  align-items: center;   
 }
 
 .product__item__text ul {
@@ -1048,8 +1112,8 @@ ol {
 
 .product__item__text ul li {
 	list-style: none;
-	font-size: 10px;
-	color: #ffffff;
+	font-size: 15px;
+	color: #8D8EED;
 	font-weight: 700;
 	padding: 1px 10px;
 	background: rgba(255, 255, 255, 0.2);
@@ -1057,16 +1121,20 @@ ol {
 	display: inline-block;
 }
 
-.product__item__text h5 a {
+.product__item__text h4 a {
 	color: #ffffff;
+	background: #8D8EED;
+	text-align: center;
 	font-weight: 700;
 	line-height: 26px;
+	font-family: "Coiny", sans-serif;
+	padding-top: 50px;
 }
 
 .product__sidebar .section-title h5 {
-	color: #ffffff;
+	color: #8D8EED;
 	font-weight: 600;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	line-height: 21px;
 	text-transform: uppercase;
 	padding-left: 20px;
@@ -1079,7 +1147,7 @@ ol {
 	top: -6px;
 	height: 32px;
 	width: 4px;
-	background: #e53637;
+	background: #8D8EED;
 	content: "";
 }
 
@@ -1097,14 +1165,14 @@ ol {
 .product__sidebar__view .filter__controls li {
 	list-style: none;
 	font-size: 13px;
-	color: #b7b7b7;
+	color: #8D8EED;
 	display: inline-block;
 	margin-right: 7px;
 	cursor: pointer;
 }
 
 .product__sidebar__view .filter__controls li.active {
-	color: #ffffff;
+	color: #8D8EED;
 }
 
 .product__sidebar__view .filter__controls li:last-child {
@@ -1121,7 +1189,7 @@ ol {
 .product__sidebar__view__item .ep {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #8D8EED;
 	display: inline-block;
 	padding: 2px 12px;
 	border-radius: 4px;
@@ -1133,7 +1201,7 @@ ol {
 .product__sidebar__view__item .view {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #8D8EED;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1303,7 +1371,7 @@ ol {
 }
 
 .anime__details__text p {
-	color: #b7b7b7;
+	color: 4D4FC1;
 	font-size: 18px;
 	line-height: 30px;
 }
@@ -1317,7 +1385,7 @@ ol {
 .anime__details__pic .comment {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #4D4FC1;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1329,7 +1397,7 @@ ol {
 .anime__details__pic .view {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #4D4FC1;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1350,7 +1418,7 @@ ol {
 
 .anime__details__title span {
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #4D4FC1;
 	display: block;
 }
 
@@ -1363,14 +1431,14 @@ ol {
 
 .anime__details__rating .rating i {
 	font-size: 24px;
-	color: #e89f12;
+	color: #4D4FC1;
 	display: inline-block;
 }
 
 .anime__details__rating span {
 	display: block;
 	font-size: 18px;
-	color: #b7b7b7;
+	color: #4D4FC1;
 }
 
 .anime__details__widget {
@@ -1384,7 +1452,7 @@ ol {
 .anime__details__widget ul li {
 	list-style: none;
 	font-size: 15px;
-	color: #ffffff;
+	color: #4D4FC1;
 	line-height: 30px;
 	position: relative;
 	padding-left: 18px;
@@ -1396,12 +1464,12 @@ ol {
 	top: 12px;
 	height: 6px;
 	width: 6px;
-	background: #b7b7b7;
+	background: #4D4FC1;
 	content: "";
 }
 
 .anime__details__widget ul li span {
-	color: #b7b7b7;
+	color: #4D4FC1;
 	width: 115px;
 	display: inline-block;
 }
@@ -1409,7 +1477,7 @@ ol {
 .anime__details__btn .follow-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #4D4FC1;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1422,7 +1490,7 @@ ol {
 .anime__details__btn .read-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #4D4FC1;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1454,7 +1522,7 @@ ol {
 	right: -30px;
 	top: 15px;
 	border-top: 15px solid transparent;
-	border-left: 15px solid #1d1e39;
+	border-left: 15px solid #4D4FC1;
 	content: "";
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -1469,7 +1537,7 @@ ol {
 
 .anime__review__item__text {
 	overflow: hidden;
-	background: #1d1e39;
+	background: #4D4FC1;
 	padding: 18px 30px 16px 20px;
 	border-radius: 10px;
 }
@@ -1481,12 +1549,12 @@ ol {
 }
 
 .anime__review__item__text h6 span {
-	color: #b7b7b7;
+	color: #ffffff;
 	font-weight: 400;
 }
 
 .anime__review__item__text p {
-	color: #b7b7b7;
+	color: #ffffff;
 	line-height: 23px;
 	margin-bottom: 0;
 }
@@ -1494,7 +1562,7 @@ ol {
 .anime__details__form form textarea {
 	width: 100%;
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #ffffff;
 	padding-left: 20px;
 	padding-top: 12px;
 	height: 110px;
@@ -1510,7 +1578,7 @@ ol {
 	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	background: #e53637;
+	background: #4D4FC1;
 	border: none;
 	padding: 10px 15px;
 	border-radius: 2px;
@@ -1519,7 +1587,7 @@ ol {
 /* Chapter list */
 .details__chapters {
 	padding: 20px;
-	background: #1d1e39;
+	background: #4D4FC1;
 	border-radius: 10px;
 	font-family: 'Poppins', sans-serif;
 }
@@ -1533,7 +1601,7 @@ ol {
 }
 
 .chapter-list {
-	background: #0b0c2a;
+	background: #4D4FC1;
 	padding: 10px;
 	border-radius: 10px;
 }
@@ -1542,7 +1610,7 @@ ol {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #1d1e39;
+	background: #4D4FC1;
 	padding: 12px 15px;
 	border-radius: 5px;
 	margin-bottom: 5px;
@@ -1553,7 +1621,7 @@ ol {
 }
 
 .chapter-item:hover {
-	color: #000;
+	color: #4D4FC1;
 	background: #e0e0e0;
 }
 
@@ -1574,7 +1642,7 @@ ol {
 
 .chapter-item__icon {
 	font-size: 16px;
-	color: #000;
+	color: #4D4FC1;
 }
 
 .chapter-item.locked {
@@ -1587,7 +1655,7 @@ ol {
 }
 
 .chapter-item .new-badge {
-	background: #6c8cd5;
+	background: #4D4FC1;
 	color: white;
 	font-size: 12px;
 	font-weight: bold;
@@ -1600,7 +1668,7 @@ ol {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #6c8cd5;
+	background: #4D4FC1;
 	color: #ffffff;
 	font-weight: bold;
 	padding: 14px 20px;
@@ -1745,7 +1813,7 @@ ol {
 	right: -14px;
 	top: 0;
 	content: "";
-	font-family: "FontAwesome";
+	font-family: "Coiny";
 }
 
 .breadcrumb__links span {
@@ -1774,7 +1842,7 @@ ol {
 .normal__breadcrumb__text h2 {
 	color: #ffffff;
 	font-size: 48px;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	font-weight: 700;
 	margin-bottom: 22px;
 }
@@ -2170,7 +2238,7 @@ ol {
 .login__form h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2249,7 +2317,7 @@ ol {
 .login__register h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2349,7 +2417,7 @@ ol {
 .signup .login__social__links h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Oswald", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2363,7 +2431,7 @@ ol {
 -----------------------*/
 
 .footer {
-	background: #070720;
+	background: #ffffff;
 	padding-top: 60px;
 	padding-bottom: 40px;
 	position: relative;
@@ -2382,7 +2450,7 @@ ol {
 	color: #ffffff;
 	height: 50px;
 	width: 50px;
-	background: #e53637;
+	background: #8D8EED;
 	line-height: 50px;
 	text-align: center;
 	border-radius: 50%;
@@ -2411,7 +2479,7 @@ ol {
 
 .footer__nav ul li a {
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #8D8EED;
 	display: block;
 	font-weight: 700;
 }
@@ -2436,7 +2504,8 @@ ol {
 
 @media only screen and (min-width: 1200px) {
 	.container {
-		max-width: 1170px;
+		max-width: 100%;
+		
 	}
 }
 
@@ -3005,3 +3074,415 @@ ol {
 .browse-button:hover {
 	background-color: #0056b3;
 }
+/*login css*/
+
+.form-container {
+	border-radius: 8px;
+	padding: 30px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	z-index: 2;
+	background-color: #fff;
+  }
+  .form-title {
+	font-size: 20px;
+	font-weight: 600;
+	color: #000;
+	margin-bottom: 24px;
+	text-align: center;
+  }
+  .sign-in-button {
+	width: 100%;
+	height: 48px;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	margin-bottom: 16px;
+	background-color: #2563eb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+  }
+  .register-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	padding-top: 16px;
+	border-top: 1px solid #e5e7eb;
+  }
+  .register-text {
+	color: #000;
+	font-size: 14px;
+  }
+  .register-link {
+	color: #2563eb;
+	text-decoration: none;
+	font-size: 14px;
+  }
+  @media (max-width: 991px) {
+	.form-container {
+	  margin: 20px;
+	  max-width: none;
+	}
+  }
+  @media (max-width: 640px) {
+	.form-container {
+	  margin: 16px;
+	  padding: 20px;
+	}
+	.form-title {
+	  font-size: 18px;
+	}
+	.sign-in-button {
+	  height: 40px;
+	}
+  }
+  .page-container {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center; /* Căn giữa theo chiều ngang */
+	flex-direction: column;
+	align-items: center;
+	font-family: "Inter", sans-serif;
+	background-color: #fff;
+  }
+  .site-header {
+	margin: 20px 0;
+	z-index: 2;
+  }
+  .site-title {
+	font-size: 24px;
+	font-weight: 600;
+	color: #000;
+  }
+  .background-images {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	overflow: hidden;
+	object-fit: cover;
+  }
+  .top-image {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	
+  }
+  .bottom-image {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+  }
+  @media (max-width: 991px) {
+	.top-image {
+	  width: 80%;
+	  height: auto;
+	}
+  }
+  @media (max-width: 640px) {
+	.top-image {
+	  width: 90%;
+	}
+  }
+
+  /* ComicSwiper.css */
+.comic-card {
+	position: relative;
+	overflow: hidden;
+	border-radius: 10px;
+	background: #8D8EED;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	margin-bottom: 50px;
+	
+  }
+  
+  .comic-card:hover {
+	transform: scale(1.05);
+  }
+  
+  .comic-image {
+	width: 100%;
+	height: 300px; /* Fixed height for consistency */
+	object-fit: cover;
+	border-radius: 10px;
+	min-height: 450px;
+  }
+  
+  .comic-info {
+	padding: 10px;
+	border-radius: 10px;
+  }
+  
+  .comic-title {
+	font-size: 26px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #fff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+	
+  }
+  
+  .comic-views {
+	font-size: 13px;
+	color: #ffffff;
+	background: #8D8EED;
+	display: inline-block;
+	padding: 0px 10px;
+	border-radius: 4px;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+  }
+  
+  .read-link {
+	font-size: 14px;
+	font-weight: 600;
+	color: #3498db;
+	display: inline-block;
+	margin-top: 10px;
+	text-decoration: none;
+	transition: color 0.2s ease;
+  }
+  
+  .read-link:hover {
+	color: #2980b9;
+  }
+  
+  .swiper-pagination {
+	bottom: -20px; /* Position pagination lower */
+	z-index: 10;
+  }
+  
+  .swiper-pagination-bullet {
+	background-color: #8D8EED !important;
+  }
+  
+  .swiper-pagination-bullet-active {
+	background-color: #8D8EED !important;
+  }
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #8D8EED; /* Màu của mũi tên */
+  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px; /* Kích thước mũi tên */
+  font-weight: bold;
+  color: #fff; /* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
+  color: #fff; /* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+  right: 10px; /* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+  left: 10px; /* Đặt mũi tên prev ở bên trái */
+}
+  /* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
+  display: flex;
+  justify-content: center; /* Căn giữa Swiper */
+  align-items: center;
+  width: 100%;
+}
+
+/* CSS cho banner */
+.banner-slide {
+  width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
+  text-align: center;
+}
+
+.banner-image {
+  width: 100%;
+  height: 300px; /* Điều chỉnh chiều cao của banner */
+  object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+
+
+
+.comic-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.comic-info {
+  margin-top: 10px;
+}
+
+.read-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #8D8EED;
+  text-decoration: none;
+}
+
+.read-link:hover {
+  text-decoration: underline;
+}
+
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #8D8EED; /* Màu của mũi tên */
+  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px; /* Kích thước mũi tên */
+  font-weight: bold;
+  color: #fff; /* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
+  color: #fff; /* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+  right: 10px; /* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+  left: 10px; /* Đặt mũi tên prev ở bên trái */
+}
+/* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
+	display: flex;
+	justify-content: center; /* Căn giữa Swiper */
+	align-items: center;
+	width: 100%;
+  }
+  
+  /* CSS cho banner */
+  .banner-slide {
+	width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
+	text-align: center;
+  }
+  
+  .banner-image {
+	width: 100%;
+	height: 300px; /* Điều chỉnh chiều cao của banner */
+	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+  }
+  
+  
+  
+  .comic-image {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 8px;
+
+  }
+  
+  .comic-info {
+	margin-top: 10px;
+  }
+  
+  .read-link {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 14px;
+	color: #8D8EED;
+	text-decoration: none;
+  }
+  
+  .read-link:hover {
+	text-decoration: underline;
+  }
+  
+  /* Mũi tên điều hướng */
+  .swiper-button-next,
+  .swiper-button-prev {
+	color: #8D8EED; /* Màu của mũi tên */
+	background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10; /* Đảm bảo mũi tên ở trên */
+  }
+  
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+	font-size: 18px; /* Kích thước mũi tên */
+	font-weight: bold;
+	color: #fff; /* Màu của mũi tên */
+  }
+  
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+	background-color: #8D8EED; /* Thay đổi màu nền khi hover */
+	color: #fff; /* Màu mũi tên khi hover */
+  }
+  
+  .swiper-button-next {
+	right: 10px; /* Đặt mũi tên next ở bên phải */
+  }
+  
+  .swiper-button-prev {
+	left: 10px; /* Đặt mũi tên prev ở bên trái */
+  }
+  .centered-container {
+	display: flex;
+	justify-content: center; /* Căn giữa phần tử con theo chiều ngang */
+	width: 100%; /* Đảm bảo phần tử chiếm toàn bộ chiều rộng */
+  }
+  
+  .centered-container > div {
+	width: 66.67%; /* Chiếm 8 cột (2/3 chiều rộng màn hình) */
+  }
+  

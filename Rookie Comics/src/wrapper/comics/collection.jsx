@@ -10,7 +10,9 @@ const BackgroundComponent = ({ imageUrl, className, style }) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "300px", // Giá trị mặc định
+        height: "450px",
+        aspectRatio: "16 / 9",
+        
         ...style, // Gộp thêm các style truyền vào
       }}
     />
@@ -28,16 +30,17 @@ const ComicCollection = ({ comics, layout, title }) => {
     <div className="comic-collection mt-35">
       {title && (
         <div className="section-title">
-          <h4>{title}</h4>
+          <h3>{title}</h3>
         </div>
       )}
 
       <div className={`row ${layout}`}>
         {comics.map((comic) => (
-          <div key={comic.id} className="col-lg-4 col-md-6 col-sm-6">
+          <div key={comic.id} className="col-lg-2 col-md-3 col-sm-3">
             <div className="product__item">
-              <div className="product__item__pic set-bg">
-                <BackgroundComponent imageUrl={comic.imageUrl} />
+            <Link to={`/comic-detail/${comic.id}`} className="product__item__pic">
+                <BackgroundComponent imageUrl={comic.imageUrl} 
+                />
                 <div className="ep">{comic.episodes}</div>
                 <div className="comment">
                   <i className="fa fa-comments"></i> {comic.comments || 0}
@@ -45,18 +48,13 @@ const ComicCollection = ({ comics, layout, title }) => {
                 <div className="view">
                   <i className="fa fa-eye"></i> {comic.views}
                 </div>
-              </div>
+                </Link>
               <div className="product__item__text">
-                <ul>
-                  {comic.tags && comic.tags.length > 0
-                    ? comic.tags.map((tag, i) => <li key={i}>{tag}</li>)
-                    : <li>Không có thể loại</li>}
-                </ul>
-                <h5>
+                <h4>
                   <Link to={`/comic-detail/${comic.id}`}>
                     {comic.title}
                   </Link>
-                </h5>
+                </h4>
               </div>
             </div>
           </div>

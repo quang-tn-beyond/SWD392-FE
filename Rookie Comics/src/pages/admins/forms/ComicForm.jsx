@@ -6,6 +6,7 @@ import { storage, ref, uploadBytesResumable, getDownloadURL } from '../../../fir
 import { AuthContext } from '../../../components/AuthContext';
 import { getUserIdByEmail } from '../../../utils/UserService';
 
+
 const ComicForm = ({ onSave, initialComic, onClose }) => {
   const { user } = useContext(AuthContext); // Lấy thông tin user từ AuthContext
 
@@ -39,42 +40,37 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
           console.error('Dữ liệu trả về không hợp lệ hoặc không phải mảng:', response);
           return;
         }
-
+  
+        // Chuyển dữ liệu thành mảng thể loại với genresId và genresName
         const genresList = data.map(item => ({
           genresId: item.genresId,
           genresName: item.genresName,
         }));
-        setGenres(genresList);
+        setGenres(genresList);  // Lưu vào state genres
       } catch (error) {
         console.error('Error fetching genres:', error);
       }
     };
-
+  
     fetchGenres();
+  
+  }, []);
 
-    // Lấy ngày hiện tại dạng ISO 8601 (không timezone)
-    const currentDate = new Date().toISOString().slice(0, 19);
-    setComicData(prevData => ({
-      ...prevData,
-      createdDate: currentDate,
-      userEmail: user ? user.email : '', // Gán email để hiển thị
-    }));
-
-    // Nếu có email, gọi API để ánh xạ email sang userId và cập nhật vào state
-    if (user && user.email) {
-      getUserIdByEmail(user.email)
-        .then(response => {
-          // Giả sử API trả về { userId: "123456" }
-          setComicData(prevData => ({
-            ...prevData,
-            userId: response.data.userId,
-          }));
-        })
-        .catch(error => {
-          console.error('Error mapping email to userId:', error);
-        });
+  useEffect(() => {
+    if (user) {
+      setComicData((prevData) => ({
+        ...prevData,
+        userName: `${user?.family_name} ${user?.given_name}`, // Set the user name correctly
+        userId: user.userId,   // Make sure userId is set if needed
+        createdDate: new Date().toISOString().slice(0, 19), // ISO format (yyyy-MM-ddTHH:mm:ss)
+      }));
     }
   }, [user]);
+  
+  
+  
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,13 +88,14 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
-
+  
       const storageRef = ref(storage, `comics/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
+  
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // Xử lý tiến trình upload (nếu cần)
+          // Xử lý tiến trình upload nếu cần
         },
         (error) => {
           console.error('Upload failed', error);
@@ -114,12 +111,28 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
       );
     }
   };
+  
 
   const handleSave = async () => {
-    // Payload gửi API sẽ dùng userId đã được ánh xạ (không phải email)
+    // Kiểm tra nếu có thông tin user và email
+    if (!user || !user.email) {
+      console.error('Không có email người dùng để lấy userId');
+      return;
+    }
+  
+    // Gọi hàm getUserIdByEmail để lấy userId từ email của người dùng
+    const userIdFromApi = await getUserIdByEmail(user.email);
+  
+    // Kiểm tra nếu không lấy được userId từ API
+    if (!userIdFromApi) {
+      console.error('Không tìm thấy userId cho email:', user.email);
+      return;
+    }
+  
+    // Tạo payload để gửi API
     const payload = {
       comicName: comicData.comicName,
-      userId: comicData.userId,
+      userId: userIdFromApi,  // Sử dụng userId lấy từ API
       createdDate: comicData.createdDate,
       quantityChap: comicData.quantityChap || 0,
       coverUrl: comicData.coverUrl,
@@ -128,18 +141,23 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
       view: comicData.view || 0,
       genresId: comicData.genresId,
     };
-
+  
     console.log('Payload to send:', payload);
-
+  
     try {
       const response = await createComic(payload);
       console.log('Comic created:', response.data);
-      onSave(response.data);
+      onSave(response.data); // Callback khi thành công
     } catch (error) {
       console.error('Error creating comic:', error);
     }
-    onClose();
+  
+    onClose(); // Đóng form sau khi xử lý xong
   };
+  
+  
+  
+  
 
   return (
     <form>
@@ -178,7 +196,7 @@ const ComicForm = ({ onSave, initialComic, onClose }) => {
             name="userEmail"
             variant="outlined"
             fullWidth
-            value={comicData.userEmail}
+            value={comicData.userName}
             disabled
           />
         </Grid>

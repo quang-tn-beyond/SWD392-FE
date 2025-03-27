@@ -43,7 +43,18 @@ const Sidebar = ({ open, toggleDrawer }) => {
           <ListItemText primary="Biểu đồ" />
         </ListItem>
         <Divider />
-
+        <ListItem button onClick={() => handleSelect("/moderator")}>
+          <ListItemText primary="Kiểm duyệt nội dung" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={() => handleSelect("/orders")}>
+          <ListItemText primary="Quản lý đơn hàng" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={() => handleSelect("/user")}>
+              <ListItemText primary="Quản lý người dùng" />
+            </ListItem>
+        <Divider />
         <ListItem button onClick={toggleProductMenu}>
           <ListItemText primary="Sản phẩm" />
           {isProductMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -59,13 +70,6 @@ const Sidebar = ({ open, toggleDrawer }) => {
           </List>
         </Collapse>
 
-        <Divider />
-
-        
-            <ListItem button onClick={() => handleSelect("/user")}>
-              <ListItemText primary="Quản lý người dùng" />
-            </ListItem>
-          
         <Divider />
       </List>
     </Drawer>

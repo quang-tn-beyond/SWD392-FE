@@ -1,83 +1,189 @@
-import React from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Breadcrumbs, Link, Typography } from "@mui/material";
-import { comics } from "../../../data";
+import React, { useState, useEffect } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Grid,
+  TextField,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useParams } from "react-router-dom";
+import {
+  getAllChapters,
+  deleteChapterById,
+  getChapterById,
+} from "../../../utils/ChapterService";
 import Layout from "../layout";
+import ChapterForm from "../forms/ChapterForm";
+
+const mapStatusToString = (status) => {
+  switch (status) {
+    case 0:
+      return "PENDING";
+    case 1:
+      return "LOCKED";
+    case 2:
+      return "UNLOCKED";
+    case 3:
+      return "DELETED";
+    default:
+      return "PENDING";
+  }
+};
+
+const mapTypeToString = (type) => (type === 0 ? "FREE" : "PREMIUM");
 
 const ChapterManagement = () => {
-  const { comicId } = useParams(); // Lấy comicId từ URL
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { comicId } = useParams();
+  const [chapters, setChapters] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openImageDialog, setOpenImageDialog] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
 
-  // Tìm truyện dựa trên comicId
-  const comic = comics.find((comic) => comic.id === comicId);
+  // Hàm này có thể gọi để lấy lại danh sách chương sau khi thêm/chỉnh sửa/xóa
+  const fetchChapters = async () => {
+    try {
+      const response = await getAllChapters(comicId);
+      setChapters(response.data);
+    } catch (error) {
+      console.error("Error fetching chapters:", error);
+    }
+  };
 
-  if (!comic) {
-    return <div>Truyện không tồn tại.</div>;
-  }
+  useEffect(() => {
+    fetchChapters();
+  }, [comicId]);
 
-  // Xử lý đường dẫn Breadcrumbs động
-  const pathnames = location.pathname.split("/").filter((x) => x);
+  const handleViewImages = async (chapterId) => {
+    try {
+      const response = await getChapterById(chapterId);
+      setSelectedImages(response.data.chapterImages?.map((img) => img.imageURL) || []);
+      setOpenImageDialog(true);
+    } catch (error) {
+      console.error("Error fetching chapter images:", error);
+    }
+  };
 
-  const breadcrumbs = (
-    <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: "20px" }}>
-      <Link underline="hover" color="inherit" onClick={() => navigate("/")}>
-        Trang chủ
-      </Link>
-      <Link underline="hover" color="inherit" onClick={() => navigate("/admin/comic-management")}>
-        Quản lý Truyện Tranh
-      </Link>
-      <Typography color="text.primary">Quản lý Chương</Typography>
-    </Breadcrumbs>
-  );
+  const handleDeleteChapter = async (chapterId) => {
+    if (window.confirm("Bạn có chắc muốn xóa chương này?")) {
+      try {
+        await deleteChapterById(chapterId);
+        setChapters(chapters.filter((chapter) => chapter.chapterId !== chapterId));
+      } catch (error) {
+        console.error("Error deleting chapter:", error);
+      }
+    }
+  };
 
   return (
     <Layout>
-    <div style={{ padding: "20px" }}>
-      {breadcrumbs}
+      <div style={{ padding: "20px" }}>
+        <h2>Quản lý Chương</h2>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={9}>
+            <TextField
+              label="Tìm chương"
+              variant="outlined"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth
+              onClick={() => setOpenDialog(true)}
+            >
+              Thêm Chương
+            </Button>
+          </Grid>
+        </Grid>
 
-      <h2>Quản lý Chương - {comic.title}</h2>
-
-      <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Tên chương</TableCell>
-              <TableCell>Link</TableCell>
-              <TableCell>Thao tác</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {comic.chapters.map((chapter, index) => (
-              <TableRow key={index}>
-                <TableCell>{chapter.title}</TableCell>
-                <TableCell>
-                  <a href={chapter.link} target="_blank" rel="noopener noreferrer">Đọc chương</a>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => alert(`Quản lý chương ${chapter.title}`)}
-                  >
-                    Quản lý
-                  </Button>
-                </TableCell>
+        <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Tên chương</TableCell>
+                <TableCell>Ngày xuất bản</TableCell>
+                <TableCell>Mô tả</TableCell>
+                <TableCell>Loại</TableCell>
+                <TableCell>Trạng thái</TableCell>
+                <TableCell>Thao tác</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {chapters.map((chapter) => (
+                <TableRow key={chapter.chapterId}>
+                  <TableCell>{chapter.chapterName}</TableCell>
+                  <TableCell>{chapter.publishedDate}</TableCell>
+                  <TableCell>{chapter.description}</TableCell>
+                  <TableCell>{mapTypeToString(chapter.type)}</TableCell>
+                  <TableCell>{mapStatusToString(chapter.status)}</TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => handleDeleteChapter(chapter.chapterId)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleViewImages(chapter.chapterId)}>
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ marginTop: "20px" }}
-        onClick={() => navigate("/admin/comic-management")}
-      >
-        Quay lại
-      </Button>
-    </div>
+        {/* Dialog thêm chương */}
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
+          <DialogTitle>Thêm Chương</DialogTitle>
+          <DialogContent>
+            <ChapterForm
+              comicId={comicId}
+              onClose={() => {
+                setOpenDialog(false);
+                fetchChapters();
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog hiển thị ảnh */}
+        <Dialog open={openImageDialog} onClose={() => setOpenImageDialog(false)} maxWidth="md" fullWidth>
+          <DialogTitle>Danh Sách Ảnh</DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2}>
+              {selectedImages.length > 0 ? (
+                selectedImages.map((url, index) => (
+                  <Grid item xs={6} md={4} key={index}>
+                    <img src={url} alt={`Chapter Image ${index + 1}`} style={{ width: "100%", borderRadius: "8px" }} />
+                  </Grid>
+                ))
+              ) : (
+                <p>Không có ảnh nào</p>
+              )}
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenImageDialog(false)} color="secondary">
+              Đóng
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </Layout>
   );
 };
