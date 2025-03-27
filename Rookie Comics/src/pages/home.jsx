@@ -32,12 +32,12 @@ export default function Home() {
   return (
     <section className="product spad">
       <div className="container">
-      <div className="section-title">
+        <div className="section-title">
           <h2>Top View Comics</h2>
         </div>
         <div className="centered-container">
-  <ComicSwiper comics={comics} />
-</div>
+          <ComicSwiper comics={comics} />
+        </div>
 
         <div className="row">
           <div className="col-lg-12">
@@ -48,11 +48,9 @@ export default function Home() {
             <ComicCollection comics={comics} layout="custom-layout-class" title="Etc.. Comics" />
           </div>
 
-          
+
         </div>
       </div>
     </section>
   );
 }
-
-

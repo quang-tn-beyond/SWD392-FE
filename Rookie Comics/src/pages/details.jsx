@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getComicsById } from "../utils/ComicService";
@@ -22,6 +23,7 @@ const ComicDetails = () => {
   const [chapters, setChapters] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(null);
 
   useEffect(() => {
     if (comicId) {
@@ -65,10 +67,36 @@ const ComicDetails = () => {
     localStorage.setItem("followedComics", JSON.stringify(followedComics));
   };
 
-
   const handleLockedChapterClick = (chapter) => {
+    const sortedChapters = [...chapters].sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate));
+    const chapterIndex = sortedChapters.findIndex((chap) => chap.chapterId === chapter.chapterId);
+    const chapterNumber = sortedChapters.length - chapterIndex;
+
+    setSelectedChapter({ ...chapter, chapterNumber });
     setShowPurchaseModal(true);
   };
+
+
+  const addToCart = () => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const newItem = {
+      chapterId: selectedChapter.chapterId,
+      title: selectedChapter.chapterName,
+      name: selectedChapter.chapterNumber,
+      price: 999,
+      coverUrl: comic.coverUrl
+    };
+
+    cart.push(newItem);
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Đã thêm vào giỏ hàng!");
+    console.log("Selected Chapter:", selectedChapter);
+  };
+
+
+
 
 
   if (!comic) return <div>Loading...</div>;
@@ -145,11 +173,11 @@ const ComicDetails = () => {
               <h4>Chapters</h4>
               <div className="chapter-list">
                 {chapters.length > 0 ? (
-                  chapters
-                    .sort((a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)) // Sắp xếp theo ngày tăng dần
+                  [...chapters]
+                    .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)) // Sắp xếp từ mới nhất đến cũ nhất
                     .map((chapter, index, sortedChapters) => {
-                      const chapterNumber = index + 1; // Đánh số chapter tự động
-                      const isLocked = chapterNumber <= sortedChapters.length - 5; // Khóa trừ 5 chap mới nhất
+                      const chapterNumber = sortedChapters.length - index; // Đánh số chapter theo thứ tự
+                      const isLocked = sortedChapters.length >= 6 && index < 2; // Chỉ khóa nếu có từ 6 chapter trở lên (2 chapter mới nhất)
 
                       return (
                         <Link
@@ -165,17 +193,31 @@ const ComicDetails = () => {
                         </Link>
                       );
                     })
-                    .reverse() // Đảo ngược danh sách để chap lớn hơn nằm dưới
                 ) : (
                   <p>Chưa có chapter nào</p>
                 )}
               </div>
+
 
             </div>
             <Review />
           </div>
         </div>
       </div>
+
+      {showPurchaseModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h4>Purchase Chapter</h4>
+            <p>{selectedChapter?.title}</p> <span>999 xu</span>
+            <div className="modal-buttons">
+              <button className="cart-btn" onClick={addToCart}>Add to Cart</button>
+            </div>
+            <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };
