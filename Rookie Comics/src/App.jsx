@@ -43,7 +43,6 @@ const AppWrapper = () => {
         <Route path="/comic" element={<ComicManagement />} />
         <Route path="/blogdetails" element={<BlogDetails />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/details" element={<Details />} />
         <Route path="/reading" element={<ReadingPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/bookshelf" element={<Bookshelf />} />
