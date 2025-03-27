@@ -1356,7 +1356,7 @@ ol {
 }
 
 .anime__details__text p {
-	color: #b7b7b7;
+	color: 4D4FC1;
 	font-size: 18px;
 	line-height: 30px;
 }
@@ -1370,7 +1370,7 @@ ol {
 .anime__details__pic .comment {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #4D4FC1;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1382,7 +1382,7 @@ ol {
 .anime__details__pic .view {
 	font-size: 13px;
 	color: #ffffff;
-	background: #3d3d3d;
+	background: #4D4FC1;
 	display: inline-block;
 	padding: 2px 10px;
 	border-radius: 4px;
@@ -1403,7 +1403,7 @@ ol {
 
 .anime__details__title span {
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #4D4FC1;
 	display: block;
 }
 
@@ -1416,14 +1416,14 @@ ol {
 
 .anime__details__rating .rating i {
 	font-size: 24px;
-	color: #e89f12;
+	color: #4D4FC1;
 	display: inline-block;
 }
 
 .anime__details__rating span {
 	display: block;
 	font-size: 18px;
-	color: #b7b7b7;
+	color: #4D4FC1;
 }
 
 .anime__details__widget {
@@ -1437,7 +1437,7 @@ ol {
 .anime__details__widget ul li {
 	list-style: none;
 	font-size: 15px;
-	color: #ffffff;
+	color: #4D4FC1;
 	line-height: 30px;
 	position: relative;
 	padding-left: 18px;
@@ -1449,12 +1449,12 @@ ol {
 	top: 12px;
 	height: 6px;
 	width: 6px;
-	background: #b7b7b7;
+	background: #4D4FC1;
 	content: "";
 }
 
 .anime__details__widget ul li span {
-	color: #b7b7b7;
+	color: #4D4FC1;
 	width: 115px;
 	display: inline-block;
 }
@@ -1462,7 +1462,7 @@ ol {
 .anime__details__btn .follow-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #4D4FC1;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1475,7 +1475,7 @@ ol {
 .anime__details__btn .read-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #4D4FC1;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1507,7 +1507,7 @@ ol {
 	right: -30px;
 	top: 15px;
 	border-top: 15px solid transparent;
-	border-left: 15px solid #1d1e39;
+	border-left: 15px solid #4D4FC1;
 	content: "";
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -1522,7 +1522,7 @@ ol {
 
 .anime__review__item__text {
 	overflow: hidden;
-	background: #1d1e39;
+	background: #4D4FC1;
 	padding: 18px 30px 16px 20px;
 	border-radius: 10px;
 }
@@ -1534,12 +1534,12 @@ ol {
 }
 
 .anime__review__item__text h6 span {
-	color: #b7b7b7;
+	color: #ffffff;
 	font-weight: 400;
 }
 
 .anime__review__item__text p {
-	color: #b7b7b7;
+	color: #ffffff;
 	line-height: 23px;
 	margin-bottom: 0;
 }
@@ -1547,7 +1547,7 @@ ol {
 .anime__details__form form textarea {
 	width: 100%;
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #ffffff;
 	padding-left: 20px;
 	padding-top: 12px;
 	height: 110px;
@@ -1563,7 +1563,7 @@ ol {
 	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	background: #e53637;
+	background: #4D4FC1;
 	border: none;
 	padding: 10px 15px;
 	border-radius: 2px;
@@ -1572,7 +1572,7 @@ ol {
 /* Chapter list */
 .details__chapters {
 	padding: 20px;
-	background: #1d1e39;
+	background: #4D4FC1;
 	border-radius: 10px;
 	font-family: 'Poppins', sans-serif;
 }
@@ -1586,7 +1586,7 @@ ol {
 }
 
 .chapter-list {
-	background: #0b0c2a;
+	background: #4D4FC1;
 	padding: 10px;
 	border-radius: 10px;
 }
@@ -1595,7 +1595,7 @@ ol {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #1d1e39;
+	background: #4D4FC1;
 	padding: 12px 15px;
 	border-radius: 5px;
 	margin-bottom: 5px;
@@ -1606,7 +1606,7 @@ ol {
 }
 
 .chapter-item:hover {
-	color: #000;
+	color: #4D4FC1;
 	background: #e0e0e0;
 }
 
@@ -1627,7 +1627,7 @@ ol {
 
 .chapter-item__icon {
 	font-size: 16px;
-	color: #000;
+	color: #4D4FC1;
 }
 
 .chapter-item.locked {
@@ -1640,7 +1640,7 @@ ol {
 }
 
 .chapter-item .new-badge {
-	background: #6c8cd5;
+	background: #4D4FC1;
 	color: white;
 	font-size: 12px;
 	font-weight: bold;
@@ -1653,7 +1653,7 @@ ol {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #6c8cd5;
+	background: #4D4FC1;
 	color: #ffffff;
 	font-weight: bold;
 	padding: 14px 20px;
