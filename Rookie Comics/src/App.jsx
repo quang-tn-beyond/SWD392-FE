@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google"; // ✅ Import this!
 
-
 import Header from "./components/Header";
 import Home from "./pages/home";
 import Footer from "./components/Footer";

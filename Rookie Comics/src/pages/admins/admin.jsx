@@ -10,22 +10,6 @@ import Layout from "./layout";
 const Admin = () => {
   const { pathname } = useLocation();
 
-
-  // const { hasRole } = useContext(AuthContext);
-  // const navigate = useNavigate();
-
-
-  // Lấy role từ token hoặc context
-  // const user = JSON.parse(localStorage.getItem("user")) || {};
-  // const userRole = user.role || null;
-
-  // useEffect(() => {
-  //   if (userRole !== 1 && userRole !== 2) {
-  //     navigate("/"); // Chặn truy cập nếu không phải ADMIN hoặc MANAGER
-  //   }
-  // }, [userRole, navigate]);
-
-
   const renderContent = () => {
     switch (pathname) {
       case "/genre":
