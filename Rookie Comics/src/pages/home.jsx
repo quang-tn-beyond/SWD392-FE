@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ComicCollection from "../wrapper/comics/collection";
 import { getAllComics } from "../utils/ComicService"; // Import API
-
+import ComicSwiper from "../Components/ComicSwiper";
 export default function Home() {
   const [comics, setComics] = useState([]);
 
@@ -32,8 +32,15 @@ export default function Home() {
   return (
     <section className="product spad">
       <div className="container">
+      <div className="section-title">
+          <h2>Top View Comics</h2>
+        </div>
+        <div className="centered-container">
+  <ComicSwiper comics={comics} />
+</div>
+
         <div className="row">
-          <div className="col-lg-8">
+          <div className="col-lg-12">
             {/* Các danh mục truyện */}
             <ComicCollection comics={comics} layout="custom-layout-class" title="Trending Comics" />
             <ComicCollection comics={comics} layout="custom-layout-class" title="Popular Comics" />
@@ -41,64 +48,11 @@ export default function Home() {
             <ComicCollection comics={comics} layout="custom-layout-class" title="Etc.. Comics" />
           </div>
 
-          {/* Sidebar */}
-          <SidebarTopViews comics={comics} />
+          
         </div>
       </div>
     </section>
   );
 }
 
-// 🔹 Di chuyển SidebarTopViews ra ngoài Home
-const SidebarTopViews = ({ comics }) => {
-  const [filter, setFilter] = useState("day"); // State lưu bộ lọc
 
-  // Hàm lọc truyện theo điều kiện
-  const filteredComics = comics.filter((comic) => {
-    if (filter === "day") return comic.filterType === "day";
-    if (filter === "week") return comic.filterType === "week";
-    if (filter === "month") return comic.filterType === "month";
-    if (filter === "years") return comic.filterType === "years";
-    return true;
-  });
-
-  return (
-    <div className="col-lg-4 col-md-6 col-sm-8">
-      <div className="product__sidebar">
-        <div className="product__sidebar__view">
-          <div className="section-title">
-            <h5>Top Views</h5>
-          </div>
-          <ul className="filter__controls">
-            {["day", "week", "month", "years"].map((time) => (
-              <li
-                key={time}
-                className={filter === time ? "active" : ""}
-                onClick={() => setFilter(time)}
-              >
-                {time.charAt(0).toUpperCase() + time.slice(1)}
-              </li>
-            ))}
-          </ul>
-          <div className="filter__gallery">
-            {filteredComics.map((comic) => (
-              <div
-                key={comic.id}
-                className="product__sidebar__view__item set-bg"
-                style={{ backgroundImage: `url(${comic.imageUrl})` }}
-              >
-                <div className="ep">{comic.episodes}</div>
-                <div className="view">
-                  <i className="fa fa-eye"></i> {comic.views}
-                </div>
-                <h5>
-                  <Link to={`/comic-detail/${comic.id}`}>{comic.title}</Link>
-                </h5>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};

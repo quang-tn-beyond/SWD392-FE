@@ -85,7 +85,7 @@ const Dashboard = () => {
         <Typography variant="h3" sx={{ color: "#ffffff" }}>
           Admin Dashboard
         </Typography>
-        <Typography variant="h6" sx={{ color: "#ccc" }}>
+        <Typography variant="h2" sx={{ color: "#black" }}>
           Welcome, Admin! Manage your website here.
         </Typography>
       </Box>

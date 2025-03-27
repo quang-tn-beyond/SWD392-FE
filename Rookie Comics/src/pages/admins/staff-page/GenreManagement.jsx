@@ -1,45 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Button } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TablePagination,
+  Button,
+} from "@mui/material";
 import GenreForm from "../forms/GenreForm";
 import Layout from "../layout";
-import { getAllGenres, addGenre } from "../../../utils/GenreService"; // Use addGenre instead of saveGenre
+import { getAllGenres, addGenre } from "../../../utils/GenreService";
 
-const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function if onSave is not passed
+const GenreManagement = ({ onSave = () => {} }) => {
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [openDialog, setOpenDialog] = useState(false);
-  const [genres, setGenres] = useState([]); // Initialize genres to an empty array
+  const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("all");
 
-  // Fetch genres from API on component mount
   useEffect(() => {
     const fetchGenres = async () => {
-      setLoading(true);
       try {
-        const fetchedGenres = await getAllGenres();
-        if (Array.isArray(fetchedGenres)) {
-          setGenres(fetchedGenres); // Set to the fetched genres
+        const response = await getAllGenres();
+        console.log("API getAllGenres response:", response.data); // Kiểm tra phản hồi từ API
+  
+        // Kiểm tra nếu response.data là mảng
+        if (Array.isArray(response.data)) {
+          setGenres(response.data);
         } else {
-          console.error("Invalid data format for genres:", fetchedGenres);
-          setGenres([]); // Set empty if the format is wrong
+          console.error("Dữ liệu không phải là mảng:", response.data);
         }
       } catch (error) {
-        console.error("Error fetching genres:", error);
-        setGenres([]); // Fallback to empty if there's an error
-      } finally {
-        setLoading(false);
+        console.error('Lỗi khi lấy danh sách thể loại:', error);
       }
     };
-
+  
     fetchGenres();
   }, []);
+  
+  const searchedGenres = genres.filter((genre) =>
+    genre?.genresName?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  
 
-  const filteredGenres = (genres || []).filter((genre) =>
-    genre?.genresName?.toLowerCase().includes(searchValue.toLowerCase()) // Check for the existence of genre.genresName
+  const filteredGenres = searchedGenres.filter(
+    (genre) => selectedStatus === "all" || genre.status === parseInt(selectedStatus, 10)
   );
 
-  const paginatedGenres = filteredGenres.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginatedGenres = filteredGenres.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
@@ -57,10 +75,10 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
 
   const handleSaveGenre = async (newGenre) => {
     try {
-      const savedGenre = await addGenre(newGenre); // Use addGenre to add a new genre
-      setGenres((prevGenres) => [...prevGenres, savedGenre]); // Update the genres state with the new genre
-      onSave(savedGenre); // Optionally notify the parent component
-      setOpenDialog(false); // Close the form dialog
+      const savedGenre = await addGenre(newGenre);
+      setGenres((prevGenres) => [...prevGenres, savedGenre]);
+      onSave(savedGenre);
+      setOpenDialog(false);
     } catch (error) {
       console.error("Error saving genre:", error);
     }
@@ -69,11 +87,11 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
   const statusLabel = (status) => {
     switch (status) {
       case 1:
-        return "DELETED";
+        return "Đã xóa";
       case 2:
-        return "EDITED";
+        return "Đã sửa";
       case 3:
-        return "AVAILABLE";
+        return "Có sẵn";
       default:
         return "UNKNOWN";
     }
@@ -84,7 +102,7 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
       <div style={{ padding: "20px" }}>
         <h1>Quản lý Thể Loại</h1>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} md={6}>
             <TextField
               label="Tìm thể loại"
               variant="outlined"
@@ -94,19 +112,30 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
             />
           </Grid>
           <Grid item xs={12} md={3}>
-            <Button
-              variant="contained"
-              color="primary"
+            <TextField
+              select
+              label="Trạng thái"
+              variant="outlined"
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
               fullWidth
-              onClick={() => setOpenDialog(true)} // Open the dialog to add a new genre
+              SelectProps={{ native: true }}
             >
+              <option value="all">Tất cả</option>
+              <option value="1">Đã xóa</option>
+              <option value="2">Đã sửa</option>
+              <option value="3">Có sẵn</option>
+            </TextField>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Button variant="contained" color="secondary" fullWidth onClick={() => setOpenDialog(true)}>
               Thêm Thể Loại
             </Button>
           </Grid>
         </Grid>
 
         {loading ? (
-          <p>Loading genres...</p> // Show loading message while fetching genres
+          <p>Loading genres...</p>
         ) : (
           <TableContainer component={Paper} style={{ marginTop: "20px" }}>
             <Table>
@@ -120,16 +149,12 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
               </TableHead>
               <TableBody>
                 {paginatedGenres.map((genre) => (
-                  <TableRow key={genre.id}>
-                    <TableCell align="center">{genre.genresName}</TableCell> {/* Changed name to genresName */}
-                    <TableCell align="center">{genre.genresDescription}</TableCell> {/* Changed description to genresDescription */}
-                    <TableCell align="center">{statusLabel(genre.status)}</TableCell> {/* Display status with proper label */}
+                  <TableRow key={genre.genresId}>
+                    <TableCell align="center">{genre.genresName}</TableCell>
+                    <TableCell align="center">{genre.genresDescription}</TableCell>
+                    <TableCell align="center">{statusLabel(genre.status)}</TableCell>
                     <TableCell align="center">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => console.log("Managing books for genre ID:", genre.id)}
-                      >
+                      <Button variant="contained" color="secondary">
                         Quản lý
                       </Button>
                     </TableCell>
@@ -149,8 +174,6 @@ const GenreManagement = ({ onSave = () => {} }) => {  // Default empty function 
           </TableContainer>
         )}
       </div>
-
-      {/* Pass the genres and onSave to GenreForm */}
       <GenreForm open={openDialog} onClose={() => setOpenDialog(false)} onSave={handleSaveGenre} />
     </Layout>
   );

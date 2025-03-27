@@ -11,35 +11,43 @@ const getChapterById = (chapterId) => {
 };
 
 // Create a new chapter
-const createChapter = (token, data) => {
-  return request.post('chapters', data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+const createChapter = (data) => {
+  return request.post('chapters', JSON.stringify(data), {
+     
   });
 };
 
 // Update a chapter by ID
-const updateChapterById = (token, data, chapterId) => {
+const updateChapterById = ( data, chapterId) => {
   return request.put(`chapters/${chapterId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+     
   });
 };
 
 // Delete a chapter by ID
-const deleteChapterById = (token, chapterId) => {
+const deleteChapterById = (chapterId) => {
   return request.delete(`chapters/${chapterId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+     
   });
 };
 
 // Search chapters (you can modify this if there are specific search parameters)
 const searchChapters = (params) => {
   return request.get('chapters/search', { params });
+};
+
+const reviewChapter = (chapterId, isApproved, modComment) => {
+  return request.post(
+    'chapters/review',
+    null, // Không có body trong request, thông tin sẽ được truyền qua params
+    {
+      params: {
+        chapterId,
+        isApproved,
+        modComment
+      }
+    }
+  );
 };
 
 export {
@@ -49,4 +57,5 @@ export {
   updateChapterById,
   deleteChapterById,
   searchChapters,
+  reviewChapter,
 };
