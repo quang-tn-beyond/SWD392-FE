@@ -9,7 +9,6 @@ import Admin from "./pages/admins/admin";
 import Categories from "./pages/categories";
 import BlogDetails from "./pages/blog-details";
 import Blog from "./pages/blog";
-import Details from "./pages/details";
 import { AuthProvider } from "./components/AuthContext";
 import ComicDetails from "./pages/details";
 import ReadingPage from "./pages/readingpage";

@@ -15,6 +15,11 @@ const getComicsById = (comicId) => {
   return request.get(`/comics/${comicId}`);
 };
 
+// Lấy comic theo ID
+const getComicsById = (comicId) => {
+  return request.get(`/comics/${comicId}`);
+};
+
 // Lấy comic theo thể loại
 const getComicsByGenresName = (genresName) => {
   return request.get(`/comics/genres/${genresName}`);
@@ -46,6 +51,7 @@ export {
   getComicsByStatus,
   getComicsById,
   getComicsByGenresName,
+  getComicsById,
   createComic,
   updateComicById,
   deleteComicById,
