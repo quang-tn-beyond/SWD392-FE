@@ -75,40 +75,47 @@ const ReadingPage = () => {
                     <a href="#"><i className="fas fa-bars"></i></a>
                     <a href="#"><i className="fas fa-undo"></i></a>
 
-                    {/* Nút chương trước */}
-                    <button
-                        disabled={chapters[0]?.chapterId === currentChapter.chapterId}
-                    >
-                        <Link to={`/reading/${comic.comicId}/${chapters.find(chap => chap.chapterId < currentChapter.chapterId)?.chapterId}`}>
-                            <i className="fas fa-arrow-left"></i>
-                        </Link>
-                    </button>
+                    {/* Lấy danh sách chap đã sắp xếp theo thứ tự */}
+                    {chapters.length > 0 && (() => {
+                        const sortedChapters = [...chapters].sort((a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)); // Sắp xếp chap tăng dần
+                        const currentIndex = sortedChapters.findIndex(chap => chap.chapterId === currentChapter.chapterId);
 
-                    <select
-                        className="scroll"
-                        value={`/reading/${comic.comicId}/${currentChapter.chapterId}`}
-                        onChange={(e) => window.location.href = e.target.value}
-                    >
-                        {chapters.map((chapter, index) => {
-                            const chapterNumber = index + 1; // Đánh số chương tự động
-                            return (
-                                <option key={chapter.chapterId} value={`/reading/${comic.comicId}/${chapter.chapterId}`}>
-                                    Chapter {chapterNumber}
-                                </option>
-                            );
-                        })}
-                    </select>
+                        const prevChapter = currentIndex > 0 ? sortedChapters[currentIndex - 1] : null;
+                        const nextChapter = currentIndex < sortedChapters.length - 1 ? sortedChapters[currentIndex + 1] : null;
 
+                        return (
+                            <>
+                                {/* Nút chương trước */}
+                                <button disabled={!prevChapter}>
+                                    {prevChapter && <Link to={`/reading/${comic.comicId}/${prevChapter.chapterId}`}>
+                                        <i className="fas fa-arrow-left"></i>
+                                    </Link>}
+                                </button>
 
-                    {/* Nút chương sau */}
-                    <button
-                        disabled={chapters[chapters.length - 1]?.chapterId === currentChapter.chapterId}
-                    >
-                        <Link to={`/reading/${comic.comicId}/${chapters.find(chap => chap.chapterId > currentChapter.chapterId)?.chapterId}`}>
-                            <i className="fas fa-arrow-right"></i>
-                        </Link>
-                    </button>
+                                {/* Select danh sách chương */}
+                                <select
+                                    className="scroll"
+                                    value={`/reading/${comic.comicId}/${currentChapter.chapterId}`}
+                                    onChange={(e) => window.location.href = e.target.value}
+                                >
+                                    {sortedChapters.map((chapter, index) => (
+                                        <option key={chapter.chapterId} value={`/reading/${comic.comicId}/${chapter.chapterId}`}>
+                                            Chapter {index + 1}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {/* Nút chương sau */}
+                                <button disabled={!nextChapter}>
+                                    {nextChapter && <Link to={`/reading/${comic.comicId}/${nextChapter.chapterId}`}>
+                                        <i className="fas fa-arrow-right"></i>
+                                    </Link>}
+                                </button>
+                            </>
+                        );
+                    })()}
                 </div>
+
 
                 {/* Comic Page */}
                 <div className="comic-container">
