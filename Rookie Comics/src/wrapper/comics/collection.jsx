@@ -10,7 +10,7 @@ const BackgroundComponent = ({ imageUrl, className, style }) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "324px",
+        height: "450px",
         aspectRatio: "16 / 9",
         
         ...style, // Gộp thêm các style truyền vào

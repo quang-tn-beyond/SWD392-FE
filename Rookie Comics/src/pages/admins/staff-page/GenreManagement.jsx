@@ -128,7 +128,7 @@ const GenreManagement = ({ onSave = () => {} }) => {
             </TextField>
           </Grid>
           <Grid item xs={12} md={3}>
-            <Button variant="contained" color="primary" fullWidth onClick={() => setOpenDialog(true)}>
+            <Button variant="contained" color="secondary" fullWidth onClick={() => setOpenDialog(true)}>
               Thêm Thể Loại
             </Button>
           </Grid>
@@ -154,7 +154,7 @@ const GenreManagement = ({ onSave = () => {} }) => {
                     <TableCell align="center">{genre.genresDescription}</TableCell>
                     <TableCell align="center">{statusLabel(genre.status)}</TableCell>
                     <TableCell align="center">
-                      <Button variant="contained" color="primary">
+                      <Button variant="contained" color="secondary">
                         Quản lý
                       </Button>
                     </TableCell>

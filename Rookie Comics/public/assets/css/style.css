@@ -34,7 +34,7 @@
 html,
 body {
 	height: 100%;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	background: #ffffff;
 }
@@ -59,7 +59,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 }
 
 h1 {
@@ -386,7 +386,7 @@ ol {
   text-transform: uppercase;
   padding-left: 20px;
   position: relative;
-  font-family: "Nerko One", sans-serif;
+  font-family: "Coiny", sans-serif;
   margin: 0; /* Loại bỏ margin mặc định */
   }
 
@@ -399,7 +399,7 @@ ol {
 	text-transform: uppercase;
 	padding-left: 20px;
 	position: relative;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	
 }
 .section-title h3:after,
@@ -627,7 +627,7 @@ ol {
 
 .header__menu {
 	text-align: center;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 }
 
 .header__menu ul li {
@@ -840,7 +840,7 @@ ol {
 .hero__text h2 {
 	color: #ffffff;
 	font-size: 42px;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	font-weight: 700;
 	line-height: 52px;
 	margin-top: 35px;
@@ -1016,18 +1016,26 @@ ol {
 }
 
 .product__item {
-	margin-bottom: 30px;
+	margin-bottom: 100px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	overflow: hidden;
 
 }
+.product__item:hover {
+	transform: scale(1.05);
+  }
 
 .product__item__pic {
-	height: 324px;
+	
 	width: 100%;
-	aspect-ratio: 16 / 9;
 	position: relative;
 	border-radius: 5px;
-	background-size: cover;  /* Đảm bảo ảnh nền bao phủ toàn bộ phần tử */
+	object-fit: cover;  /* Đảm bảo ảnh nền bao phủ toàn bộ phần tử */
 	background-position: center;  /* Đảm bảo ảnh nền căn giữa */
+	min-height: 600px;
+	height: 700px;
   }
   
 
@@ -1068,9 +1076,19 @@ ol {
 }
 
 .product__item__text {
-	padding-top: 20px;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	text-align: center;
- 	width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng */
+	background: #8D8EED;
+	min-height: 30px;
+	height: 50px;
+	display: flex;
+  justify-content: center;  /* Căn giữa theo chiều ngang */
+  align-items: center;   
 }
 
 .product__item__text ul {
@@ -1089,17 +1107,19 @@ ol {
 }
 
 .product__item__text h4 a {
-	color: #8D8EED;
+	color: #ffffff;
+	background: #8D8EED;
 	text-align: center;
 	font-weight: 700;
 	line-height: 26px;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
+	padding-top: 50px;
 }
 
 .product__sidebar .section-title h5 {
 	color: #8D8EED;
 	font-weight: 600;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	line-height: 21px;
 	text-transform: uppercase;
 	padding-left: 20px;
@@ -1778,7 +1798,7 @@ ol {
 	right: -14px;
 	top: 0;
 	content: "";
-	font-family: "Nerko One";
+	font-family: "Coiny";
 }
 
 .breadcrumb__links span {
@@ -1807,7 +1827,7 @@ ol {
 .normal__breadcrumb__text h2 {
 	color: #ffffff;
 	font-size: 48px;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	font-weight: 700;
 	margin-bottom: 22px;
 }
@@ -2203,7 +2223,7 @@ ol {
 .login__form h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2282,7 +2302,7 @@ ol {
 .login__register h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -2382,7 +2402,7 @@ ol {
 .signup .login__social__links h3 {
 	color: #ffffff;
 	font-weight: 700;
-	font-family: "Nerko One", sans-serif;
+	font-family: "Coiny", sans-serif;
 	margin-bottom: 30px;
 }
 
@@ -3173,9 +3193,11 @@ ol {
 	position: relative;
 	overflow: hidden;
 	border-radius: 10px;
-	background-color: #fff;
+	background: #8D8EED;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease;
+	margin-bottom: 50px;
+	
   }
   
   .comic-card:hover {
@@ -3184,30 +3206,39 @@ ol {
   
   .comic-image {
 	width: 100%;
-	height: 220px; /* Fixed height for consistency */
+	height: 300px; /* Fixed height for consistency */
 	object-fit: cover;
 	border-radius: 10px;
+	min-height: 450px;
   }
   
   .comic-info {
 	padding: 10px;
+	border-radius: 10px;
   }
   
   .comic-title {
-	font-size: 16px;
+	font-size: 26px;
 	font-weight: bold;
 	line-height: 1.2;
-	color: #333;
-	margin-top: 10px;
+	color: #fff;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	text-align: center;
+	
   }
   
   .comic-views {
-	font-size: 12px;
-	color: #777;
-	margin-top: 5px;
+	font-size: 13px;
+	color: #ffffff;
+	background: #8D8EED;
+	display: inline-block;
+	padding: 0px 10px;
+	border-radius: 4px;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
   }
   
   .read-link {
@@ -3230,16 +3261,16 @@ ol {
   }
   
   .swiper-pagination-bullet {
-	background-color: #3498db !important;
+	background-color: #8D8EED !important;
   }
   
   .swiper-pagination-bullet-active {
-	background-color: #2980b9 !important;
+	background-color: #8D8EED !important;
   }
 /* Mũi tên điều hướng */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #3498db; /* Màu của mũi tên */
+  color: #8D8EED; /* Màu của mũi tên */
   background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
   border-radius: 50%;
   width: 40px;
@@ -3259,7 +3290,7 @@ ol {
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #2980b9; /* Thay đổi màu nền khi hover */
+  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
   color: #fff; /* Màu mũi tên khi hover */
 }
 
@@ -3290,14 +3321,8 @@ ol {
   object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
 }
 
-/* Các truyện */
-.comic-card {
-  text-align: center;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-}
+
+
 
 .comic-image {
   width: 100%;
@@ -3310,22 +3335,11 @@ ol {
   margin-top: 10px;
 }
 
-.comic-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
-.comic-views {
-  font-size: 14px;
-  color: #666;
-}
-
 .read-link {
   display: inline-block;
   margin-top: 8px;
   font-size: 14px;
-  color: #3498db;
+  color: #8D8EED;
   text-decoration: none;
 }
 
@@ -3336,7 +3350,7 @@ ol {
 /* Mũi tên điều hướng */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #3498db; /* Màu của mũi tên */
+  color: #8D8EED; /* Màu của mũi tên */
   background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
   border-radius: 50%;
   width: 40px;
@@ -3356,7 +3370,7 @@ ol {
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #2980b9; /* Thay đổi màu nền khi hover */
+  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
   color: #fff; /* Màu mũi tên khi hover */
 }
 
@@ -3387,42 +3401,25 @@ ol {
 	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
   }
   
-  /* Các truyện */
-  .comic-card {
-	text-align: center;
-	background-color: #fff;
-	border-radius: 8px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	padding: 10px;
-  }
+  
   
   .comic-image {
 	width: 100%;
 	height: 180px;
 	object-fit: cover;
 	border-radius: 8px;
+
   }
   
   .comic-info {
 	margin-top: 10px;
   }
   
-  .comic-title {
-	font-size: 16px;
-	font-weight: bold;
-	color: #333;
-  }
-  
-  .comic-views {
-	font-size: 14px;
-	color: #666;
-  }
-  
   .read-link {
 	display: inline-block;
 	margin-top: 8px;
 	font-size: 14px;
-	color: #3498db;
+	color: #8D8EED;
 	text-decoration: none;
   }
   
@@ -3433,7 +3430,7 @@ ol {
   /* Mũi tên điều hướng */
   .swiper-button-next,
   .swiper-button-prev {
-	color: #3498db; /* Màu của mũi tên */
+	color: #8D8EED; /* Màu của mũi tên */
 	background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
 	border-radius: 50%;
 	width: 40px;
@@ -3453,7 +3450,7 @@ ol {
   
   .swiper-button-next:hover,
   .swiper-button-prev:hover {
-	background-color: #2980b9; /* Thay đổi màu nền khi hover */
+	background-color: #8D8EED; /* Thay đổi màu nền khi hover */
 	color: #fff; /* Màu mũi tên khi hover */
   }
   

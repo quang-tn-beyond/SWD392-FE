@@ -1,24 +1,25 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation"; // Import css cho navigation (mũi tên)
-import { Link } from "react-router-dom";
+import "swiper/css/navigation";
 
 const ComicSwiper = ({ comics }) => {
   return (
     <div className="flex justify-center">
-      {/* Container Swiper chỉ chiếm 8 cột */}
-      <div className="w-full max-w-screen-lg"> {/* max-w-screen-lg cho phép chiếm 8/12 cột */}
+      <div className="w-full max-w-screen-lg">
         <Swiper
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Autoplay]} // Thêm Autoplay
           spaceBetween={20}
-          slidesPerView={4} // Hiển thị 4 truyện mỗi lần cuộn
-          pagination={{ clickable: true }} // Dấu chấm chỉ mục
-          navigation={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+          slidesPerView={4}
+          pagination={{ clickable: true }}
+          navigation={true}
+          loop={true} // Cho phép chạy vòng lặp vô hạn
+          autoplay={{
+            delay: 2000, // Độ trễ giữa các slide (ms)
+            disableOnInteraction: false, // Không dừng khi người dùng tương tác
+            pauseOnMouseEnter: true, // Dừng khi di chuột vào swiper (tuỳ chọn)
           }}
           className="w-full"
         >
@@ -33,19 +34,12 @@ const ComicSwiper = ({ comics }) => {
                 <div className="comic-info">
                   <h3 className="comic-title">{comic.title}</h3>
                   <p className="comic-views">
-                    <i className="fa fa-eye"></i> {comic.views} views
+                    <i className="fa fa-eye"></i> {comic.views}
                   </p>
-                  <Link to={`/comic-detail/${comic.id}`} className="read-link">
-                    Đọc ngay
-                  </Link>
                 </div>
               </div>
             </SwiperSlide>
           ))}
-
-          {/* Mũi tên điều hướng */}
-          <div className="swiper-button-next"></div>
-          <div className="swiper-button-prev"></div>
         </Swiper>
       </div>
     </div>

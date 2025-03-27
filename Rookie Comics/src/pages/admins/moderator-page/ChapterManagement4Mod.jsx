@@ -101,10 +101,10 @@ const ChapterManagement4Mod = () => {
                   <TableCell>{chapter.publishedDate}</TableCell>
                   <TableCell>{mapStatusToString(chapter.status)}</TableCell>
                   <TableCell>
-                    <Button onClick={() => handleReviewChapter(chapter, true)} color="primary">
+                    <Button onClick={() => handleReviewChapter(chapter, true)} color="btn btn-success" variant="contained">
                       Đồng ý duyệt
                     </Button>
-                    <Button onClick={() => handleReviewChapter(chapter, false)} color="secondary">
+                    <Button onClick={() => handleReviewChapter(chapter, false)} color="btn btn-danger" variant="contained">
                       Từ chối duyệt
                     </Button>
                   </TableCell>
