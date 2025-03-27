@@ -10,7 +10,6 @@ import Admin from "./pages/admins/admin";
 import Categories from "./pages/categories";
 import BlogDetails from "./pages/blog-details";
 import Blog from "./pages/blog";
-import Details from "./pages/details";
 import { AuthProvider } from "./components/AuthContext";
 import ComicDetails from "./pages/details";
 import ReadingPage from "./pages/readingpage";
@@ -36,7 +35,6 @@ const App = () => {
           <Header />
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/comic-detail/:id" element={<ComicDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/genre" element={<GenreManagement />} />
@@ -46,8 +44,6 @@ const App = () => {
             <Route path="/comic" element={<ComicManagement />} />
             <Route path="/blogdetails" element={<BlogDetails />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/details" element={<Details />} />
-            <Route path="/reading" element={<ReadingPage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/bookshelf" element={<Bookshelf />} />
             <Route path="/pricing" element={<Pricing />} />
