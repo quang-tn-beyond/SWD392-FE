@@ -33,7 +33,6 @@ const AppWrapper = () => {
       {!isLoginPage && <Header />}
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/comic-detail/:id" element={<ComicDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/genre" element={<GenreManagement />} />
