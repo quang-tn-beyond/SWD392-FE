@@ -11,8 +11,8 @@ const Admin = () => {
   const { pathname } = useLocation();
 
 
-  const { hasRole } = useContext(AuthContext);
-  const navigate = useNavigate();
+  // const { hasRole } = useContext(AuthContext);
+  // const navigate = useNavigate();
 
 
   // Lấy role từ token hoặc context

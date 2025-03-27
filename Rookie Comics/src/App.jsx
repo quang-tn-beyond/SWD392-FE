@@ -35,11 +35,9 @@ const App = () => {
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/genre" element={<GenreManagement />} />
             <Route path="/user" element={<UserManagement />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/comic" element={<ComicManagement />} />
             <Route path="/blogdetails" element={<BlogDetails />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/cart" element={<Cart />} />

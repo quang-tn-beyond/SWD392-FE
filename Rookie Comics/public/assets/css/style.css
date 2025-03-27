@@ -149,6 +149,21 @@ ol {
 	padding-left: 40px;
 }
 
+.product-details img {
+	width: 100px;
+	/* Điều chỉnh kích thước ảnh */
+	height: auto;
+	/* Giữ tỷ lệ ảnh */
+	border-radius: 8px;
+	/* Bo góc ảnh */
+	object-fit: cover;
+	/* Cắt ảnh vừa với khung */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	/* Đổ bóng nhẹ */
+	transition: transform 0.2s ease-in-out;
+	/* Hiệu ứng hover */
+}
+
 .product {
 	display: contents;
 	align-items: flex-start;
