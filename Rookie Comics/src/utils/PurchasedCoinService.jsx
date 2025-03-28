@@ -25,10 +25,7 @@ const deletePurchasedCoins = (id) => {
     return request.delete(`purchasedCoins/${id}`);
 };
 
-// Handle the VNPAY response for purchased coins (Payment Return)
-const handleVnpayReturn = (queryParams) => {
-    return request.get('purchasedCoins/returning', { params: queryParams });
-};
+
 
 export {
     getAllPurchasedCoins,
@@ -36,5 +33,5 @@ export {
     addPurchasedCoins,
     updatePurchasedCoins,
     deletePurchasedCoins,
-    handleVnpayReturn
+   
 };

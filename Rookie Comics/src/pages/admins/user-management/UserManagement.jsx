@@ -228,7 +228,7 @@ const UserManagement = () => {
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>{user.phone}</TableCell>
                     <TableCell>{user.role}</TableCell>
-                    <TableCell>{user.status}</TableCell>
+                    <TableCell>{user.status === 1 ? "Hoạt động" : "Không hoạt động"}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => handleEditUser(user)}>
                         <EditIcon />

@@ -23,6 +23,7 @@ import Dashboard from "./pages/admins/dashboard";
 import Staff from "./pages/admins/staff";
 import OrderManagement from "./pages/admins/staff-page/OrderManagement";
 import ChapterManagement4Mod from "./pages/admins/moderator-page/ChapterManagement4Mod";
+import MomoCallback from "./pages/momocallback";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const AppWrapper = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/bookshelf" element={<Bookshelf />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/momo-callback" element={<MomoCallback />} />
         <Route path="/comic-detail/:comicId" element={<ComicDetails />} />
         <Route path="/reading/:comicId/:chapterNumber" element={<ReadingPage />} />
         <Route path="/admin/comic-management" element={<ComicManagement />} />

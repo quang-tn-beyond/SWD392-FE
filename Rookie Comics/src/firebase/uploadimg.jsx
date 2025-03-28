@@ -5,6 +5,7 @@ import { storage } from "./firebase";
 function UploadImage() {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [order, setOrder] = useState(1); // Biến để theo dõi thứ tự ảnh
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -12,8 +13,17 @@ function UploadImage() {
 
   const handleUpload = () => {
     if (file) {
-      const storageRef = ref(storage, `images/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const storageRef = ref(storage, `images/${order}_${file.name}`);
+
+      // Tạo metadata tùy chỉnh
+      const metadata = {
+        customMetadata: {
+          order: `${order}`, // Lưu trữ thứ tự của ảnh
+          uploadedAt: new Date().toISOString(), // Lưu trữ thời gian upload
+        },
+      };
+
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
       uploadTask.on(
         "state_changed",
@@ -29,6 +39,7 @@ function UploadImage() {
           // Lấy URL của ảnh sau khi upload thành công
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
+            setOrder(order + 1); // Tăng thứ tự ảnh sau khi upload thành công
           });
         }
       );

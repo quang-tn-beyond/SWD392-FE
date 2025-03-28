@@ -15,15 +15,21 @@ import {
 } from "@mui/material";
 import { Logout, History } from "@mui/icons-material";
 import ComicForm from "../pages/admins/forms/ComicForm";
+import { getUserIdByEmail } from "../utils/UserService";
+import EditProfileForm from "./EditProfileForm";
+import { getAllWallets } from "../utils/WalletService";
 
 const ProfileMenu = ({ onLogout }) => {
   const { user, logout, isLoggedIn } = useContext(AuthContext); // Lấy user từ AuthContext
   const [showMenu, setShowMenu] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false); // Điều khiển việc mở/đóng dialog
-  const [initialComic, setInitialComic] = useState(null); // Truyền comic ban đầu nếu có
+  const [openDialog, setOpenDialog] = useState(false); // Điều khiển việc mở/đóng dialog thêm truyện
+  const [editProfileOpen, setEditProfileOpen] = useState(false); // Điều khiển việc mở/đóng dialog chỉnh sửa hồ sơ
+  const [coinBalance, setCoinBalance] = useState(0); // Trạng thái lưu trữ số dư coin
+  const [initialComic, setInitialComic] = useState(null); // Đảm bảo giá trị mặc định là null
   const menuRef = useRef(null);
-  const navigate = useNavigate();  // Hook điều hướng
+  const navigate = useNavigate(); // Hook điều hướng
   const defaultAvatarUrl = "/assets/img/default-avatar.png"; // Đường dẫn ảnh mặc định nếu không có avatar
+
 
   // Đối tượng ánh xạ các role với tên hiển thị
   const roleMap = {
@@ -56,6 +62,42 @@ const ProfileMenu = ({ onLogout }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchCoinBalance = async () => {
+      try {
+        const userId = await getUserIdByEmail(user?.email); // Lấy userId từ email
+        console.log("UserId: ", userId); // In ra userId để kiểm tra
+        if (userId) {
+          // Gọi API lấy tất cả các ví
+          const response = await getAllWallets(userId);
+          console.log("Wallets response:", response); // In ra tất cả các ví
+  
+          // Kiểm tra xem response có dữ liệu không
+          if (response?.data) {
+            // Lọc ví của người dùng hiện tại từ danh sách các ví
+            const userWallet = response.data.find(wallet => wallet.userId === userId);
+            if (userWallet) {
+              console.log("Found wallet for user:", userWallet); // In ra ví tìm được
+              setCoinBalance(userWallet.balance || 0); // Cập nhật số dư xu từ ví của người dùng
+            } else {
+              setCoinBalance(0); // Nếu không tìm thấy ví thì gán số dư = 0
+              console.log("Không tìm thấy ví của người dùng.");
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy số dư xu:", error);
+        setCoinBalance(0); // Nếu có lỗi, cập nhật số dư xu = 0
+      }
+    };
+  
+    if (user?.email) {
+      fetchCoinBalance(); // Gọi hàm fetchCoinBalance nếu email người dùng có
+    }
+  }, [user?.email]); // Chạy lại khi email người dùng thay đổi
+  
+  
+  
   // Xử lý đăng xuất
   const handleLogout = () => {
     logout();
@@ -80,7 +122,27 @@ const ProfileMenu = ({ onLogout }) => {
     setOpenDialog(false); // Đóng dialog
   };
 
-  const handleSave = () => {
+  // Mở dialog chỉnh sửa hồ sơ
+  const handleEditProfile = () => {
+    setEditProfileOpen(true); // Mở dialog chỉnh sửa hồ sơ
+  };
+
+  // Đóng dialog chỉnh sửa hồ sơ
+  const handleCloseEditProfile = () => {
+    setEditProfileOpen(false); // Đóng dialog
+  };
+
+  // Cập nhật thông tin hồ sơ
+  const handleUpdateProfile = (updatedData) => {
+    // Thực hiện cập nhật thông tin hồ sơ tại đây (gọi API hoặc xử lý)
+    console.log("Profile updated with data: ", updatedData);
+    handleCloseEditProfile(); // Đóng dialog sau khi cập nhật
+  };
+
+  // Xử lý lưu comic
+  const handleSave = (comicData) => {
+    console.log("Comic saved:", comicData);
+    // Gọi API hoặc thực hiện các hành động cần thiết để lưu comic
     setOpenDialog(false); // Đóng dialog sau khi lưu
   };
 
@@ -135,7 +197,7 @@ const ProfileMenu = ({ onLogout }) => {
             sx={{ fontWeight: "bold", marginBottom: 2 }}
           >
             Số dư:{" "}
-            <span style={{ color: "green" }}>{user?.coinBalance} Coin</span>
+            <span style={{ color: "green" }}>{coinBalance} Xu</span>
           </Typography>
 
           <Divider sx={{ my: 1 }} />
@@ -148,6 +210,11 @@ const ProfileMenu = ({ onLogout }) => {
               <MenuItem onClick={handleAddComic}>
                 <Button sx={{ width: "100%", textAlign: "left" }}>
                   Thêm Truyện Tranh
+                </Button>
+              </MenuItem>
+              <MenuItem onClick={handleEditProfile}>
+                <Button sx={{ width: "100%", textAlign: "left" }}>
+                  Sửa Hồ Sơ
                 </Button>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
@@ -174,9 +241,22 @@ const ProfileMenu = ({ onLogout }) => {
         </DialogTitle>
         <DialogContent>
           <ComicForm
-            onSave={handleSave}
-            initialComic={initialComic}
+            onSave={handleSave} // Truyền handleSave vào ComicForm
+            initialComic={initialComic} // Truyền initialComic vào ComicForm
             onClose={handleClose}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog chỉnh sửa hồ sơ */}
+      <Dialog open={editProfileOpen} onClose={handleCloseEditProfile} fullWidth maxWidth="md">
+        <DialogTitle>Chỉnh sửa hồ sơ</DialogTitle>
+        <DialogContent>
+          <EditProfileForm 
+            open={editProfileOpen}
+            handleClose={handleCloseEditProfile}
+            userData={user}
+            handleUpdate={handleUpdateProfile}
           />
         </DialogContent>
       </Dialog>
