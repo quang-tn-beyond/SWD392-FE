@@ -71,12 +71,22 @@ const Cart = () => {
         alert("Thanh toán thành công! Số dư còn lại: " + newBalance + " xu");
         setShowPurchaseModal(false);
 
+        // Lấy danh sách chapter đã mua từ localStorage
+        let purchasedChapters = JSON.parse(localStorage.getItem("purchasedChapters")) || [];
+
+        // Thêm các chapter mới mua vào danh sách
+        purchasedChapters = [...purchasedChapters, ...selectedItems];
+
+        // Lưu lại vào localStorage
+        localStorage.setItem("purchasedChapters", JSON.stringify(purchasedChapters));
+
         // Xóa các mục đã mua khỏi giỏ hàng
         const updatedCart = cartItems.filter((item) => !selectedItems.includes(item.chapterId));
         setCartItems(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         setSelectedItems([]);
     };
+
 
     return (
         <div className="orders-container">

@@ -96,7 +96,8 @@ const ComicDetails = () => {
   };
 
 
-
+  // Lấy danh sách chapter đã mua từ localStorage
+  const purchasedChapters = JSON.parse(localStorage.getItem("purchasedChapters")) || [];
 
 
   if (!comic) return <div>Loading...</div>;
@@ -197,8 +198,6 @@ const ComicDetails = () => {
                   <p>Chưa có chapter nào</p>
                 )}
               </div>
-
-
             </div>
             <Review />
           </div>
