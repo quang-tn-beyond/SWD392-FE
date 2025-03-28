@@ -1,33 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../components/AuthContext";
+import { createMomoQR } from "../utils/MomoService";
+import { getUserIdByEmail } from "../utils/UserService";
+import { useNavigate } from "react-router-dom";
 
 const Pricing = () => {
+    const { user } = useContext(AuthContext);
     const [billingCycle, setBillingCycle] = useState("option1");
     const [purchasedPlans, setPurchasedPlans] = useState({});
     const [countdowns, setCountdowns] = useState({});
+    const [qrCodeUrl, setQrCodeUrl] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCountdowns((prev) => {
-                const newCountdowns = { ...prev };
-                Object.keys(newCountdowns).forEach((plan) => {
-                    if (newCountdowns[plan] > 0) {
-                        newCountdowns[plan] -= 1;
-                    }
-                });
-                return newCountdowns;
-            });
-        }, 86400000); // Giảm sau mỗi ngày
-        return () => clearInterval(interval);
-    }, []);
+        const fetchUserId = async () => {
+            if (user && user.email) {
+                try {
+                    const fetchedUserId = await getUserIdByEmail(user.email);
+                    setUserId(fetchedUserId);
+                } catch (error) {
+                    console.log('Không thể lấy userId từ email:', error);
+                }
+            }
+        };
 
-    const handlePurchase = (plan) => {
-        setPurchasedPlans((prev) => ({ ...prev, [plan]: true }));
-        setCountdowns((prev) => ({ ...prev, [plan]: 30 }));
-    };
+        fetchUserId();
+    }, [user]);
 
-    const handleCancel = (plan) => {
-        setPurchasedPlans((prev) => ({ ...prev, [plan]: false }));
+    const handlePurchase = async (plan) => {
+        if (!user || !user.email || !userId) {
+            alert("Người dùng chưa đăng nhập");
+            return;
+        }
+    
+        // Nếu người dùng chọn gói nạp xu (ví dụ 30000, 45000, 60000)
+        let price, coin;
+        if (typeof plan === 'number') {
+            price = plan.toString(); // Chuyển giá trị số thành chuỗi
+            coin = plan.toString();  // Chuyển giá trị số thành chuỗi
+        } else if (plan === "Premium") {
+            price = "60000";
+            coin = "60000";
+        } else if (plan === "Author") {
+            price = "100000";
+            coin = "100000";
+        }
+    
+        const returnUrl = "http://localhost:3000/momo-callback"; // Trang phản hồi sau thanh toán
+        const ipnUrl = "http://localhost:8080/momo/ipn-handler"; // API xử lý IPN
+    
+        try {
+            // Tạo request body với dữ liệu theo định dạng yêu cầu
+            const requestData = {
+                price,
+                coin,
+                userId,
+                returnUrl,
+                ipnUrl,
+            };
+    
+            // Gửi dữ liệu tới backend để tạo mã QR
+            const response = await createMomoQR(requestData);
+    
+            if (response.data && response.data.payUrl) {
+                window.location.href = response.data.payUrl; // Chuyển đến trang thanh toán MoMo
+            }
+        } catch (error) {
+            console.error("Lỗi khi tạo thanh toán MoMo:", error);
+        }
     };
+    
+    
 
     return (
         <div className="pricing-container">
@@ -59,28 +103,7 @@ const Pricing = () => {
                                         <span className="price">{plan === "Premium" ? "60000 Xu" : "100000 Xu"}</span>
                                         <span className="per-month">/tháng</span>
                                     </div>
-                                    {purchasedPlans[plan] ? (
-                                        <>
-                                            <button className="btn btn-success w-100 mb-3">Gia hạn</button>
-                                            <button className="btn btn-danger w-100" onClick={() => handleCancel(plan)}>Hủy gia hạn</button>
-                                        </>
-                                    ) : (
-                                        <button className="btn btn-primary w-100 mb-3" onClick={() => handlePurchase(plan)}>Mua gói</button>
-                                    )}
-                                    <ul className="benefits-list">
-                                        {plan === "Premium" ? (
-                                            <>
-                                                <li><i className="bi bi-check-circle"></i> 10 Xu/tháng </li>
-                                                <li><i className="bi bi-check-circle"></i> Đọc truyện không giới hạn/tháng</li>
-                                                <li><i className="bi bi-check-circle"></i> Icon đặc biệt </li>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <li><i className="bi bi-check-circle"></i> Không giới hạn đăng truyện / tháng</li>
-                                                <li><i className="bi bi-check-circle"></i> Nhận Xu từ Viewer</li>
-                                            </>
-                                        )}
-                                    </ul>
+                                    <button className="btn btn-primary w-100 mb-3" onClick={() => handlePurchase(plan)}>Mua gói</button>
                                 </div>
                             </div>
                         ))}
@@ -89,15 +112,11 @@ const Pricing = () => {
                     [30000, 45000, 60000].map((amount, index) => (
                         <div className="pricing-card" key={index}>
                             <div className="card-body">
-                                <h2 className="card-title">Gói {amount / 1000}k</h2>
+                                <h2 className="card-title">Gói {amount/1000}k</h2>
                                 <div className="price-info">
                                     <span className="price">{amount.toLocaleString()} đ</span>
                                 </div>
-                                <button className="btn btn-primary w-100 mb-3">Mua gói</button>
-                                <ul className="benefits-list">
-                                    <li><i className="bi bi-check-circle"></i> Nhận ngay {amount} Xu </li>
-                                    <li><i className="bi bi-check-circle"></i> Nhận 1 icon bất kỳ</li>
-                                </ul>
+                                <button className="btn btn-primary w-100 mb-3" onClick={() => handlePurchase(amount)}>Mua gói</button>
                             </div>
                         </div>
                     ))

@@ -55,12 +55,20 @@ const ChapterManagement = () => {
   // Hàm này có thể gọi để lấy lại danh sách chương sau khi thêm/chỉnh sửa/xóa
   const fetchChapters = async () => {
     try {
-      const response = await getAllChapters(comicId);
-      setChapters(response.data);
+      const response = await getAllChapters(); // API lấy tất cả chapter
+      console.log("Dữ liệu API trả về:", response.data); // Kiểm tra dữ liệu API
+  
+      const filteredChapters = response.data.filter(
+        (chapter) => chapter.comicId === comicId // So sánh trực tiếp chuỗi
+      );
+  
+      console.log("Chapter sau khi lọc:", filteredChapters); // Kiểm tra dữ liệu sau khi lọc
+      setChapters(filteredChapters);
     } catch (error) {
       console.error("Error fetching chapters:", error);
     }
   };
+  
 
   useEffect(() => {
     fetchChapters();
