@@ -11,17 +11,17 @@ const getOrdersById = (ordersId) => {
 };
 
 // Create a new order
-const createOrder = (data) => {
-    return request.post('orders/new-order', data);
+const addOrder = (data) => {
+    return request.post('orders', data);
 };
 
 // Update an existing order by ID
-const updateOrder = (id, data) => {
+const updateOrders = (id, data) => {
     return request.put(`orders/${id}`, data);
 };
 
 // Delete an order by ID
-const deleteOrder = (id) => {
+const deleteOrders = (id) => {
     return request.delete(`orders/${id}`);
 };
 
@@ -35,8 +35,8 @@ const updateOrderStatus = (id, status) => {
 export {
     getAllOrders,
     getOrdersById,
-    createOrder,
-    updateOrder,
-    deleteOrder,
+    addOrder,
+    updateOrders,
+    deleteOrders,
     updateOrderStatus
 };

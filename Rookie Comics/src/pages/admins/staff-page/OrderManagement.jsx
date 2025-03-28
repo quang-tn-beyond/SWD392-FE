@@ -29,7 +29,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Layout from "../layout";
 
 // Import functions for fetching orders from backend
-import { getAllOrders, deleteOrder, updateOrderStatus } from "../../../utils/OrderService";
+import { getAllOrders, deleteOrders, updateOrderStatus } from "../../../utils/OrderService";
 
 
 const OrderManagement = () => {
@@ -90,7 +90,7 @@ const OrderManagement = () => {
   };
 
   const handleDelete = (orderId) => {
-    deleteOrder(orderId)
+    deleteOrders(orderId)
       .then((response) => {
         console.log("Deleted Order successfully:", response.data);
         setOrders(orders.filter((order) => order.orderId !== orderId));

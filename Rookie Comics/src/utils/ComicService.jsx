@@ -32,7 +32,7 @@ const updateComicById = (comicId, data) => {
 
 // Xóa comic theo ID
 const deleteComicById = (comicId) => {
-  return request.delete(`/comics/delete/${comicId}`);
+  return request.delete(`/comics/${comicId}`);
 };
 
 // const incrementViews = (comicId) => {
