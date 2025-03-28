@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../components/AuthContext";
-import { getUserIdByEmail } from "../utils/UserService";
-import { addOrder } from "../utils/OrderService";
+import { addOrder, getOrdersByUserIdAndStatus, updateOrderStatus } from "../utils/OrderService"; // Import API
+import { getUserIdByEmail } from "../utils/UserService"; // Import hàm getUserIdByEmail
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [showPurchaseModal, setShowPurchaseModal] = useState(false);
     const [selectedChapters, setSelectedChapters] = useState([]);
-    const [userBalance, setUserBalance] = useState(1000); // Giả định số dư xu của người dùng
     const { user } = useContext(AuthContext);
 
     // Load giỏ hàng từ localStorage khi trang được tải
@@ -16,6 +15,80 @@ const Cart = () => {
         const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
         setCartItems(storedCart);
     }, []);
+
+    // Mở modal thanh toán khi bấm nút Thanh toán
+    const handlePurchaseClick = async () => {
+        const selectedChaptersData = cartItems.filter((item) => selectedItems.includes(item.chapterId));
+        setSelectedChapters(selectedChaptersData); // Lưu mục đã chọn vào selectedChapters
+        setShowPurchaseModal(true); // Hiển thị modal thanh toán
+    };
+
+    const handlePayment = async () => {
+    try {
+        const userId = await getUserIdByEmail(user?.email); // Lấy userId từ email
+        if (!userId) {
+            alert("Không tìm thấy thông tin người dùng!");
+            return;
+        }
+
+        // 1. Tạo đơn hàng mới
+        const orderData = {
+            userId,
+            status: 0, // Trạng thái mới là chưa hoàn thành
+            orderDetails: selectedItems.map((chapterId) => {
+                const item = cartItems.find((i) => i.chapterId === chapterId);
+                return { chapterId, price: item?.price || 0 };
+            }),
+        };
+
+        const orderResponse = await addOrder(orderData);
+        if (!orderResponse) {
+            alert("Thanh toán thất bại, vui lòng thử lại!");
+            return;
+        }
+
+        // 2. Lấy đơn hàng chưa hoàn thành (UNORDERED) với tham số mới
+        const orderRequest = {
+            orderId: userId,      // Sử dụng userId làm orderId
+            newStatusByte: 0,     // Trạng thái UNORDERED
+        };
+
+        const order = await getOrdersByUserIdAndStatus(orderRequest); // Truyền tham số với định dạng mới
+        if (!order) {
+            alert("Không tìm thấy đơn hàng chưa hoàn thành.");
+            return;
+        }
+
+        // 3. Cập nhật trạng thái đơn hàng thành "COMPLETED"
+        const updateRequest = {
+            userId,           // Sử dụng userId
+            newStatusByte: 2, // Trạng thái COMPLETED
+        };
+
+        const updateResult = await updateOrderStatus(updateRequest); // Truyền tham số với định dạng mới
+        if (updateResult) {
+            alert("Đơn hàng đã hoàn tất!");
+            // Cập nhật lại giỏ hàng sau khi thanh toán
+            const updatedCart = cartItems.filter((item) => !selectedItems.includes(item.chapterId));
+            setCartItems(updatedCart);
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
+            setSelectedItems([]);
+            setShowPurchaseModal(false); // Đóng modal
+        } else {
+            alert("Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.");
+        }
+    } catch (error) {
+        console.error("Lỗi khi thanh toán:", error);
+        alert("Có lỗi xảy ra, vui lòng thử lại sau!");
+    }
+};
+
+
+    // Tính tổng tiền của các chương đã chọn
+    const totalPrice = selectedItems.reduce((sum, id) => {
+        const item = cartItems.find((i) => i.chapterId === id);
+        return sum + (item ? item.price : 0);
+    }, 0);
 
     // Chọn hoặc bỏ chọn một mục trong giỏ hàng
     const handleSelectItem = (chapterId) => {
@@ -49,63 +122,6 @@ const Cart = () => {
         localStorage.removeItem("cart");
         setSelectedItems([]);
     };
-
-    // Mở modal thanh toán
-    const handlePurchaseClick = () => {
-        const selectedChaptersData = cartItems.filter((item) => selectedItems.includes(item.chapterId));
-        setSelectedChapters(selectedChaptersData);
-        setShowPurchaseModal(true);
-    };
-
-    // Tính tổng tiền của các chương đã chọn
-    const totalPrice = selectedItems.reduce((sum, id) => {
-        const item = cartItems.find((i) => i.chapterId === id);
-        return sum + (item ? item.price : 0);
-    }, 0);
-
-    // Xử lý khi nhấn "Mua"
-    const handlePurchase = async () => {
-        try {
-            // 1️⃣ Lấy userId từ email
-            const userId = await getUserIdByEmail(user?.email);
-            if (!userId) {
-                alert("Không tìm thấy thông tin người dùng!");
-                return;
-            }
-    
-            // 2️⃣ Tạo dữ liệu đơn hàng
-            const orderData = {
-                userId,
-                status: "0",
-                orderDetails: selectedItems.map((chapterId) => {
-                    const item = cartItems.find((i) => i.chapterId === chapterId);
-                    return { chapterId, price: item?.price || 0 };
-                }),
-            };
-    
-            // 3️⃣ Gửi đơn hàng lên backend
-            const response = await addOrder(orderData);
-            if (response) {
-                alert("Thanh toán thành công!");
-    
-                // 4️⃣ Xóa các mục đã mua khỏi giỏ hàng
-                const updatedCart = cartItems.filter((item) => !selectedItems.includes(item.chapterId));
-                setCartItems(updatedCart);
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
-                setSelectedItems([]);
-    
-                // Đóng modal
-                setShowPurchaseModal(false);
-            } else {
-                alert("Thanh toán thất bại, vui lòng thử lại!");
-            }
-        } catch (error) {
-            console.error("Lỗi khi thanh toán:", error);
-            alert("Có lỗi xảy ra, vui lòng thử lại sau!");
-        }
-    };
-    
-
 
     return (
         <div className="orders-container">
@@ -141,7 +157,7 @@ const Cart = () => {
                         <div className="orders-text col-lg-8">
                             <span>{item.price} xu</span>
                             <div className="actions">
-                                <button onClick={() => removeFromCart(item.chapterId)} >Xóa</button>
+                                <button onClick={() => removeFromCart(item.chapterId)}>Xóa</button>
                             </div>
                         </div>
                     </div>
@@ -170,7 +186,7 @@ const Cart = () => {
                     </div>
                     <button
                         className="buy-button"
-                        onClick={selectedItems.length > 0 ? handlePurchaseClick : null}
+                        onClick={handlePurchaseClick}  // Mở modal thanh toán
                         disabled={selectedItems.length === 0}
                     >
                         Thanh toán
@@ -188,7 +204,7 @@ const Cart = () => {
                         ))}
                         <span>Tổng tiền: {totalPrice} xu</span>
                         <div className="modal-buttons">
-                            <button className="cart-btn" onClick={handlePurchase}>Mua</button>
+                            <button className="cart-btn" onClick={handlePayment}>Mua</button> {/* Thực hiện thanh toán */}
                         </div>
                         <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Đóng</button>
                     </div>

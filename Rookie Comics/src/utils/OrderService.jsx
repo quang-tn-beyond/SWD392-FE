@@ -26,10 +26,12 @@ const deleteOrders = (id) => {
 };
 
 // Update the status of an order
-const updateOrderStatus = (id, status) => {
-    return request.put(`orders/${id}/status`, null, {
-        params: { status }
-    });
+const updateOrderStatus = (data) => {
+    return request.post('orders/update-status', data);
+};
+
+const getOrdersByUserIdAndStatus = (data) => {
+    return request.post('orders/find-by-user-and-status', data);
 };
 
 export {
@@ -38,5 +40,6 @@ export {
     addOrder,
     updateOrders,
     deleteOrders,
-    updateOrderStatus
+    updateOrderStatus,
+    getOrdersByUserIdAndStatus
 };
