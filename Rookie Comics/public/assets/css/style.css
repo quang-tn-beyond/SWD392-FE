@@ -140,14 +140,15 @@ ol {
 	margin: 15px 0;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	gap: 10px;
 }
 
 .orders-text {
 	display: flex;
 	justify-content: space-around;
-	width: 100%;
+	width: 50%;
 	align-items: center;
-	gap: 15px;
+	gap: 100px;
 }
 
 .product-details {
@@ -260,18 +261,19 @@ ol {
 
 /* Hành động */
 .actions button {
-	background-color: #1d1e39;
+	background-color: #4D4FC1;
 	border-radius: 15px;
 	padding: 20px;
 	padding-left: 35px;
 	padding-right: 35px;
-	color: #ff4b5c;
+	color: #ffffff;
 	border: none;
 	cursor: pointer;
 }
 
 .actions button:hover {
-	color: #ff6b7f;
+	color: #4D4FC1;
+	background-color: #ffffff;
 }
 
 
@@ -2941,7 +2943,7 @@ ol {
 -----------------------*/
 /* Background */
 .pricing-container {
-	background: #0b0b45;
+	background: #ffffff;
 	padding: 30px;
 	border-radius: 12px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);

@@ -6,6 +6,7 @@ import { getAllUsers } from "../utils/UserService";
 import { AuthContext } from "../components/AuthContext";
 import Review from "../wrapper/comics/review";
 import { Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button } from "@mui/material";
+import { Snackbar, Alert } from "@mui/material";
 
 const BackgroundComponent = ({ imageUrl }) => (
   <div
@@ -28,7 +29,7 @@ const ComicDetails = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [openAddToCartDialog, setOpenAddToCartDialog] = useState(false);
   const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông tin của chapter bị khóa
-
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Để điều khiển Snackbar
 
   useEffect(() => {
     console.log("Role from AuthContext: ", user?.role); // Kiểm tra role từ AuthContext
@@ -110,35 +111,47 @@ const ComicDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // Logic để thêm truyện vào giỏ hàng (Ví dụ: lưu vào localStorage hoặc state giỏ hàng)
-    console.log(`Thêm truyện ${lockedChapter?.title} vào giỏ hàng`);
-    setOpenAddToCartDialog(false); // Đóng dialog sau khi thêm
+    if (!lockedChapter) return;
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const isAlreadyInCart = cart.some(item => item.chapterId === lockedChapter.chapterId);
+
+    if (!isAlreadyInCart) {
+      const newItem = {
+        chapterId: lockedChapter.chapterId,
+        title: comic.title,
+        name: `Chapter ${chapters.findIndex(chap => chap.chapterId === lockedChapter.chapterId) + 1}`,
+        price: lockedChapter.price || 100,
+        coverUrl: comic.coverUrl
+      };
+
+      cart.push(newItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      setOpenSnackbar(true); // Hiển thị thông báo thành công
+    }
+
+    setOpenAddToCartDialog(false);
   };
-  
+
   const handleCancel = () => {
     setOpenAddToCartDialog(false); // Đóng dialog nếu người dùng hủy
   };
-  
-  
 
   const isChapterLocked = (chapter, index) => {
-    // Kiểm tra nếu chapter là FREE (type === 0)
     if (chapter.type === 0) {
       return false; // Không khóa chapter
     }
 
-    // Kiểm tra nếu role là CUSTOMER_NORMAL (5) hoặc CUSTOMER_AUTHOR (7) và chapter là PAID
     if ((user?.role === 5 || user?.role === 7) && index >= 1) {
       return true; // Khóa từ chapter thứ 2 trở đi
     }
 
-    // Kiểm tra nếu role là CUSTOMER_READER (6) hoặc CUSTOMER_VIP (8), không khóa chapter nào
     if (user?.role === 6 || user?.role === 8) {
       return false; // Không khóa chapter nào
     }
 
-    // Các role còn lại không bị khóa chapter
-    return false;
+    return true;
   };
 
   if (!comic) return <div>Loading...</div>;
@@ -222,7 +235,6 @@ const ComicDetails = () => {
                       <div key={chapter.chapterId} className="chapter-item">
                         {isChapterLocked(chapter, index) ? (
                           <div className="locked-chapter" onClick={() => handleLockedChapterClick(chapter)}>
-
                             <span className="title">Chapter {index + 1}</span>
                             <i className="fa fa-lock chapter-icon"></i>
                           </div>
@@ -240,23 +252,32 @@ const ComicDetails = () => {
             </div>
             <Review />
           </div>
-          <Dialog open={openAddToCartDialog} onClose={handleCancel}>
-  <DialogTitle>Thêm truyện vào giỏ hàng</DialogTitle>
-  <DialogContent>
-    <Typography variant="body1">
-      Bạn muốn thêm truyện <strong>{lockedChapter?.title}</strong> vào giỏ hàng không?
-    </Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCancel} color="primary">
-      Hủy
-    </Button>
-    <Button onClick={handleAddToCart} color="primary">
-      Thêm vào giỏ hàng
-    </Button>
-  </DialogActions>
-</Dialog>
 
+          {/* Dialog và Snackbar */}
+          <Dialog open={openAddToCartDialog} onClose={handleCancel}>
+            <DialogTitle>Thêm truyện vào giỏ hàng</DialogTitle>
+            <DialogContent>
+              <Typography variant="body1">
+                Bạn muốn thêm truyện <strong>{lockedChapter?.title}</strong> vào giỏ hàng không?
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCancel} color="primary">Hủy</Button>
+              <Button onClick={handleAddToCart} color="primary">Thêm vào giỏ hàng</Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* Snackbar thông báo thành công */}
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={() => setOpenSnackbar(false)}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+              Đã thêm vào giỏ hàng!
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </section>

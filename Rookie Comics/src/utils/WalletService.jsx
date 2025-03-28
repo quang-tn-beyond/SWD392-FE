@@ -40,9 +40,19 @@ const updateWallet = (id, walletDTO) => {
         });
 };
 
+const getMainWallet = (userId) => {
+    return request.get(`/wallets/${userId}/main-wallet`)    
+};
+
+const getPromotionWallet = (userId) => {
+    return request.get(`/wallets/${userId}/promotion-wallet`)    
+};
+
 export {
     getAllWallets,
     getWalletById,
     createWallet,
-    updateWallet
+    updateWallet,
+    getMainWallet,
+    getPromotionWallet,
 };

@@ -17,7 +17,8 @@ import { Logout, History } from "@mui/icons-material";
 import ComicForm from "../pages/admins/forms/ComicForm";
 import { getUserIdByEmail } from "../utils/UserService";
 import EditProfileForm from "./EditProfileForm";
-import { getAllWallets } from "../utils/WalletService";
+import { getAllWallets, getMainWallet, getPromotionWallet } from "../utils/WalletService";
+
 
 const ProfileMenu = ({ onLogout }) => {
   const { user, logout, isLoggedIn } = useContext(AuthContext); // Lấy user từ AuthContext
@@ -63,27 +64,37 @@ const ProfileMenu = ({ onLogout }) => {
   }, []);
 
   useEffect(() => {
-    const fetchCoinBalance = async () => {
+    const fetchWalletBalance = async () => {
       try {
         const userId = await getUserIdByEmail(user?.email); // Lấy userId từ email
-        console.log("UserId: ", userId); // In ra userId để kiểm tra
-        if (userId) {
-          // Gọi API lấy tất cả các ví
-          const response = await getAllWallets(userId);
-          console.log("Wallets response:", response); // In ra tất cả các ví
+        console.log("UserId:", userId); // In ra userId để kiểm tra
   
-          // Kiểm tra xem response có dữ liệu không
-          if (response?.data) {
-            // Lọc ví của người dùng hiện tại từ danh sách các ví
-            const userWallet = response.data.find(wallet => wallet.userId === userId);
-            if (userWallet) {
-              console.log("Found wallet for user:", userWallet); // In ra ví tìm được
-              setCoinBalance(userWallet.balance || 0); // Cập nhật số dư xu từ ví của người dùng
-            } else {
-              setCoinBalance(0); // Nếu không tìm thấy ví thì gán số dư = 0
-              console.log("Không tìm thấy ví của người dùng.");
+        if (userId) {
+          let mainWalletResponse, promotionWalletResponse;
+  
+          // Gọi API cho ví chính (cần truyền userId vào API)
+          mainWalletResponse = await getMainWallet(userId);
+          console.log("Main wallet response:", mainWalletResponse);
+  
+          // Kiểm tra nếu có dữ liệu ví chính
+          if (mainWalletResponse?.data) {
+            setCoinBalance(mainWalletResponse.data.balance || 0); // Cập nhật số dư xu từ ví chính
+          } else {
+            console.log("Không có dữ liệu ví chính.");
+            setCoinBalance(0); // Nếu không có dữ liệu ví chính, gán số dư = 0
+          }
+  
+          // Nếu role 7 hoặc 8, gọi thêm ví khuyến mãi
+          if (user?.role === 7 || user?.role === 8) {
+            promotionWalletResponse = await getPromotionWallet(userId); // Truyền userId vào API
+            console.log("Promotion wallet response:", promotionWalletResponse);
+  
+            // Kiểm tra dữ liệu ví khuyến mãi và cộng dồn vào số dư
+            if (promotionWalletResponse?.data) {
+              setCoinBalance(prevBalance => prevBalance + (promotionWalletResponse.data.balance || 0));
             }
           }
+  
         }
       } catch (error) {
         console.error("Lỗi khi lấy số dư xu:", error);
@@ -92,9 +103,12 @@ const ProfileMenu = ({ onLogout }) => {
     };
   
     if (user?.email) {
-      fetchCoinBalance(); // Gọi hàm fetchCoinBalance nếu email người dùng có
+      fetchWalletBalance(); // Gọi hàm fetchWalletBalance nếu email người dùng có
     }
-  }, [user?.email]); // Chạy lại khi email người dùng thay đổi
+  }, [user?.email, user?.role]); // Chạy lại khi email hoặc role người dùng thay đổi
+  
+  
+  
   
   
   
