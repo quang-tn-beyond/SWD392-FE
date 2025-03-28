@@ -125,7 +125,9 @@ ol {
 -----------------------*/
 .orders-container {
 	max-width: 1100px;
-	margin: 0;
+	margin: 20px auto;
+    /* thêm display: block nếu chưa có */
+    display: block;
 }
 
 .orders-header,
@@ -254,7 +256,8 @@ ol {
 
 .buy-button {
 	border-radius: 30px;
-	background-color: red;
+	background: #4D4FC1;
+	color: #ffffff;
 	padding: 10px;
 }
 
@@ -1347,6 +1350,7 @@ ol {
 
 .anime-details {
 	padding-top: 60px;
+	
 }
 
 .anime__details__content {
@@ -1358,9 +1362,11 @@ ol {
 }
 
 .anime__details__text p {
-	color: 4D4FC1;
+	
 	font-size: 18px;
 	line-height: 30px;
+	font-family: "Coiny";
+	color: 4D4FC1;
 }
 
 .anime__details__pic {
@@ -1398,7 +1404,7 @@ ol {
 }
 
 .anime__details__title h3 {
-	color: #ffffff;
+	color: #4D4FC1;
 	font-weight: 700;
 	margin-bottom: 13px;
 }
@@ -1470,7 +1476,7 @@ ol {
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	padding: 14px 20px;
-	border-radius: 4px;
+	border-radius: 20px;
 	margin-right: 11px;
 }
 

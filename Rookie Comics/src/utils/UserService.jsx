@@ -14,7 +14,9 @@ const getUserById = (id) => {
 const addUser = (data) => {
     return request.post('/users', data);
 };
-
+const updateUser = (id) => {
+  return request.put(`/users/${id}`);
+};
 // Delete a user by ID
 const deleteUser = (id) => {
     return request.delete(`/users/${id}`);
@@ -71,6 +73,7 @@ export {
     getAllUsers,
     getUserById,
     addUser,
+    updateUser,
     deleteUser,
     getAdminAndStaffUsers,
     getCustomerUsers,

@@ -16,7 +16,7 @@ const ChapterForm = ({ onSave, initialChapter, onClose }) => {
     description: "",
     publishedDate: "", // Ngày phát hành
     status: "PENDING",
-    type: 1,
+    type: 0,
     chapterImages: [],
   });
   const [selectedComicName, setSelectedComicName] = useState(""); // Tên truyện sẽ được lấy từ API

@@ -42,7 +42,7 @@ const mapStatusToString = (status) => {
   }
 };
 
-const mapTypeToString = (type) => (type === 0 ? "FREE" : "PREMIUM");
+const mapTypeToString = (type) => (type === 0 ? "FREE" : "PAID");
 
 const ChapterManagement = () => {
   const { comicId } = useParams();
