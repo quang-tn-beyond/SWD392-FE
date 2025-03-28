@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
-    console.log("Cart data:", JSON.parse(localStorage.getItem("cart")));
-
+    const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+    const [selectedChapters, setSelectedChapters] = useState([]);
+    const [userBalance, setUserBalance] = useState(1000); // Giả định số dư xu của người dùng
 
     // Load giỏ hàng từ localStorage khi trang được tải
     useEffect(() => {
@@ -16,7 +17,7 @@ const Cart = () => {
     const handleSelectItem = (chapterId) => {
         setSelectedItems((prevSelected) =>
             prevSelected.includes(chapterId)
-                ? prevSelected.filter((item) => item !== chapterId)
+                ? prevSelected.filter((id) => id !== chapterId)
                 : [...prevSelected, chapterId]
         );
     };
@@ -35,13 +36,45 @@ const Cart = () => {
         const updatedCart = cartItems.filter((item) => item.chapterId !== chapterId);
         setCartItems(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
-        setSelectedItems((prevSelected) => prevSelected.filter((item) => item !== chapterId));
+        setSelectedItems((prevSelected) => prevSelected.filter((id) => id !== chapterId));
     };
 
     // Xóa toàn bộ giỏ hàng
     const clearCart = () => {
         setCartItems([]);
         localStorage.removeItem("cart");
+        setSelectedItems([]);
+    };
+
+    // Mở modal thanh toán
+    const handlePurchaseClick = () => {
+        const selectedChaptersData = cartItems.filter((item) => selectedItems.includes(item.chapterId));
+        setSelectedChapters(selectedChaptersData);
+        setShowPurchaseModal(true);
+    };
+
+    // Tính tổng tiền của các chương đã chọn
+    const totalPrice = selectedItems.reduce((sum, id) => {
+        const item = cartItems.find((i) => i.chapterId === id);
+        return sum + (item ? item.price : 0);
+    }, 0);
+
+    // Xử lý khi nhấn "Mua"
+    const handlePurchase = () => {
+        if (totalPrice > userBalance) {
+            alert("Bạn không có đủ xu để thanh toán!");
+            return;
+        }
+
+        const newBalance = userBalance - totalPrice;
+        setUserBalance(newBalance);
+        alert("Thanh toán thành công! Số dư còn lại: " + newBalance + " xu");
+        setShowPurchaseModal(false);
+
+        // Xóa các mục đã mua khỏi giỏ hàng
+        const updatedCart = cartItems.filter((item) => !selectedItems.includes(item.chapterId));
+        setCartItems(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
         setSelectedItems([]);
     };
 
@@ -62,8 +95,8 @@ const Cart = () => {
 
             {/* Hiển thị sản phẩm trong giỏ */}
             {cartItems.length > 0 ? (
-                cartItems.map((item, index) => (
-                    <div className="product-details" key={index}>
+                cartItems.map((item) => (
+                    <div className="product-details" key={item.chapterId}>
                         <div className="product col-lg-4 px-2">
                             <div>
                                 <input
@@ -71,7 +104,6 @@ const Cart = () => {
                                     checked={selectedItems.includes(item.chapterId)}
                                     onChange={() => handleSelectItem(item.chapterId)}
                                 />
-                                {/* Nếu có ảnh thì hiển thị, không có thì để placeholder */}
                                 <img src={item.coverUrl || "default-image.jpg"} alt={item.title} />
                             </div>
                             <span>{`${item.title} - Chương ${item.name}`}</span>
@@ -104,11 +136,34 @@ const Cart = () => {
                 <div className="orders-text col-lg-5">
                     <div>
                         <span>Tổng tiền ({selectedItems.length} mục):</span>
-                        <span className="total-price">{cartItems.filter((item) => selectedItems.includes(item.chapterId)).reduce((sum, item) => sum + item.price, 0)} xu</span>
+                        <span className="total-price">{totalPrice} xu</span>
                     </div>
-                    <button className="buy-button">Thanh toán</button>
+                    <button
+                        className="buy-button"
+                        onClick={selectedItems.length > 0 ? handlePurchaseClick : null}
+                        disabled={selectedItems.length === 0}
+                    >
+                        Thanh toán
+                    </button>
                 </div>
             </div>
+
+            {/* Modal thanh toán */}
+            {showPurchaseModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h4>Thanh toán</h4>
+                        {selectedChapters.map((chapter) => (
+                            <p key={chapter.chapterId}>{`${chapter.title} - Chương ${chapter.name}`}</p>
+                        ))}
+                        <span>Tổng tiền: {totalPrice} xu</span>
+                        <div className="modal-buttons">
+                            <button className="cart-btn" onClick={handlePurchase}>Mua</button>
+                        </div>
+                        <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Đóng</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
