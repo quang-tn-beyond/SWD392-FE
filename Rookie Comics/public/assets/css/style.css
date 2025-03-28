@@ -43,12 +43,12 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-  }
-  
+}
+
 footer {
 	margin-top: auto;
-  }
-  
+}
+
 
 h1,
 h2,
@@ -161,6 +161,27 @@ ol {
 .orders-footer .orders-text {
 	padding-left: 40px;
 }
+
+.product-details img {
+	width: 100px;
+	/* Điều chỉnh kích thước ảnh */
+	height: auto;
+	/* Giữ tỷ lệ ảnh */
+	border-radius: 8px;
+	/* Bo góc ảnh */
+	object-fit: cover;
+	/* Cắt ảnh vừa với khung */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	/* Đổ bóng nhẹ */
+	transition: transform 0.2s ease-in-out;
+	/* Hiệu ứng hover */
+}
+
+.product-details img:hover {
+	transform: scale(1.1);
+	/* Phóng to nhẹ khi hover */
+}
+
 
 .product {
 	display: contents;
@@ -2500,7 +2521,7 @@ ol {
 @media only screen and (min-width: 1200px) {
 	.container {
 		max-width: 100%;
-		
+
 	}
 }
 
@@ -3069,6 +3090,7 @@ ol {
 .browse-button:hover {
 	background-color: #0056b3;
 }
+
 /*login css*/
 
 .form-container {
@@ -3079,15 +3101,17 @@ ol {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	z-index: 2;
 	background-color: #fff;
-  }
-  .form-title {
+}
+
+.form-title {
 	font-size: 20px;
 	font-weight: 600;
 	color: #000;
 	margin-bottom: 24px;
 	text-align: center;
-  }
-  .sign-in-button {
+}
+
+.sign-in-button {
 	width: 100%;
 	height: 48px;
 	color: #fff;
@@ -3102,63 +3126,75 @@ ol {
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
-  }
-  .register-section {
+}
+
+.register-section {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
 	padding-top: 16px;
 	border-top: 1px solid #e5e7eb;
-  }
-  .register-text {
+}
+
+.register-text {
 	color: #000;
 	font-size: 14px;
-  }
-  .register-link {
+}
+
+.register-link {
 	color: #2563eb;
 	text-decoration: none;
 	font-size: 14px;
-  }
-  @media (max-width: 991px) {
+}
+
+@media (max-width: 991px) {
 	.form-container {
-	  margin: 20px;
-	  max-width: none;
+		margin: 20px;
+		max-width: none;
 	}
-  }
-  @media (max-width: 640px) {
+}
+
+@media (max-width: 640px) {
 	.form-container {
-	  margin: 16px;
-	  padding: 20px;
+		margin: 16px;
+		padding: 20px;
 	}
+
 	.form-title {
-	  font-size: 18px;
+		font-size: 18px;
 	}
+
 	.sign-in-button {
-	  height: 40px;
+		height: 40px;
 	}
-  }
-  .page-container {
+}
+
+.page-container {
 	position: relative;
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
-	justify-content: center; /* Căn giữa theo chiều ngang */
+	justify-content: center;
+	/* Căn giữa theo chiều ngang */
 	flex-direction: column;
 	align-items: center;
 	font-family: "Inter", sans-serif;
 	background-color: #fff;
-  }
-  .site-header {
+}
+
+.site-header {
 	margin: 20px 0;
 	z-index: 2;
-  }
-  .site-title {
+}
+
+.site-title {
 	font-size: 24px;
 	font-weight: 600;
 	color: #000;
-  }
-  .background-images {
+}
+
+.background-images {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -3167,8 +3203,9 @@ ol {
 	z-index: 1;
 	overflow: hidden;
 	object-fit: cover;
-  }
-  .top-image {
+}
+
+.top-image {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -3176,29 +3213,32 @@ ol {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	
-  }
-  .bottom-image {
+
+}
+
+.bottom-image {
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	width: 100%;
 	height: auto;
 	object-fit: cover;
-  }
-  @media (max-width: 991px) {
-	.top-image {
-	  width: 80%;
-	  height: auto;
-	}
-  }
-  @media (max-width: 640px) {
-	.top-image {
-	  width: 90%;
-	}
-  }
+}
 
-  /* ComicSwiper.css */
+@media (max-width: 991px) {
+	.top-image {
+		width: 80%;
+		height: auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.top-image {
+		width: 90%;
+	}
+}
+
+/* ComicSwiper.css */
 .comic-card {
 	position: relative;
 	overflow: hidden;
@@ -3207,28 +3247,30 @@ ol {
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease;
 	margin-bottom: 50px;
-	
-  }
-  
-  .comic-card:hover {
+
+}
+
+.comic-card:hover {
 	transform: scale(1.05);
-  }
-  
-  .comic-image {
+}
+
+.comic-image {
 	width: 100%;
-	height: 300px; /* Fixed height for consistency */
+	height: 300px;
+	/* Fixed height for consistency */
 	object-fit: cover;
 	border-radius: 10px;
 	min-height: 450px;
   }
 
   
-  .comic-info {
+ 
+.comic-info {
 	padding: 10px;
 	border-radius: 10px;
-  }
-  
-  .comic-title {
+}
+
+.comic-title {
 	font-size: 26px;
 	font-weight: bold;
 	line-height: 1.2;
@@ -3237,10 +3279,10 @@ ol {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: center;
-	
-  }
-  
-  .comic-views {
+
+}
+
+.comic-views {
 	font-size: 13px;
 	color: #ffffff;
 	background: #8D8EED;
@@ -3250,9 +3292,9 @@ ol {
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
-  }
-  
-  .read-link {
+}
+
+.read-link {
 	font-size: 14px;
 	font-weight: 600;
 	color: #3498db;
@@ -3260,200 +3302,267 @@ ol {
 	margin-top: 10px;
 	text-decoration: none;
 	transition: color 0.2s ease;
-  }
-  
-  .read-link:hover {
-	color: #2980b9;
-  }
-  
-  .swiper-pagination {
-	bottom: -20px; /* Position pagination lower */
-	z-index: 10;
-  }
-  
-  .swiper-pagination-bullet {
-	background-color: #8D8EED !important;
-  }
-  
-  .swiper-pagination-bullet-active {
-	background-color: #8D8EED !important;
-  }
-/* Mũi tên điều hướng */
-.swiper-button-next,
-.swiper-button-prev {
-  color: #8D8EED; /* Màu của mũi tên */
-  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10; /* Đảm bảo mũi tên ở trên */
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-  font-size: 18px; /* Kích thước mũi tên */
-  font-weight: bold;
-  color: #fff; /* Màu của mũi tên */
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
-  color: #fff; /* Màu mũi tên khi hover */
-}
-
-.swiper-button-next {
-  right: 10px; /* Đặt mũi tên next ở bên phải */
-}
-
-.swiper-button-prev {
-  left: 10px; /* Đặt mũi tên prev ở bên trái */
-}
-  /* Đảm bảo Swiper nằm ở giữa */
-.swiper-container {
-  display: flex;
-  justify-content: center; /* Căn giữa Swiper */
-  align-items: center;
-  width: 100%;
-}
-
-/* CSS cho banner */
-.banner-slide {
-  width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
-  text-align: center;
-}
-
-.banner-image {
-  width: 100%;
-  height: 300px; /* Điều chỉnh chiều cao của banner */
-  object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
-}
-
-
-.read-link {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: 14px;
-  color: #8D8EED;
-  text-decoration: none;
 }
 
 .read-link:hover {
-  text-decoration: underline;
+	color: #2980b9;
+}
+
+.swiper-pagination {
+	bottom: -20px;
+	/* Position pagination lower */
+	z-index: 10;
+}
+
+.swiper-pagination-bullet {
+	background-color: #8D8EED !important;
+}
+
+.swiper-pagination-bullet-active {
+	background-color: #8D8EED !important;
 }
 
 /* Mũi tên điều hướng */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #8D8EED; /* Màu của mũi tên */
-  background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10; /* Đảm bảo mũi tên ở trên */
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-  font-size: 18px; /* Kích thước mũi tên */
-  font-weight: bold;
-  color: #fff; /* Màu của mũi tên */
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background-color: #8D8EED; /* Thay đổi màu nền khi hover */
-  color: #fff; /* Màu mũi tên khi hover */
-}
-
-.swiper-button-next {
-  right: 10px; /* Đặt mũi tên next ở bên phải */
-}
-
-.swiper-button-prev {
-  left: 10px; /* Đặt mũi tên prev ở bên trái */
-}
-/* Đảm bảo Swiper nằm ở giữa */
-.swiper-container {
-	display: flex;
-	justify-content: center; /* Căn giữa Swiper */
-	align-items: center;
-	width: 100%;
-  }
-  
-  /* CSS cho banner */
-  .banner-slide {
-	width: 100%; /* Đảm bảo banner chiếm toàn bộ chiều rộng */
-	text-align: center;
-  }
-  
-  .banner-image {
-	width: 100%;
-	height: 300px; /* Điều chỉnh chiều cao của banner */
-	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
-  }
-
-  
-  
-  .read-link {
-	display: inline-block;
-	margin-top: 8px;
-	font-size: 14px;
 	color: #8D8EED;
-	text-decoration: none;
-  }
-  
-  .read-link:hover {
-	text-decoration: underline;
-  }
-  
-  /* Mũi tên điều hướng */
-  .swiper-button-next,
-  .swiper-button-prev {
-	color: #8D8EED; /* Màu của mũi tên */
-	background-color: rgba(0, 0, 0, 0.2); /* Màu nền mờ */
+	/* Màu của mũi tên */
+	background-color: rgba(0, 0, 0, 0.2);
+	/* Màu nền mờ */
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 10; /* Đảm bảo mũi tên ở trên */
-  }
-  
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
-	font-size: 18px; /* Kích thước mũi tên */
+	z-index: 10;
+	/* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+	font-size: 18px;
+	/* Kích thước mũi tên */
 	font-weight: bold;
-	color: #fff; /* Màu của mũi tên */
-  }
-  
-  .swiper-button-next:hover,
-  .swiper-button-prev:hover {
-	background-color: #8D8EED; /* Thay đổi màu nền khi hover */
-	color: #fff; /* Màu mũi tên khi hover */
-  }
-  
-  .swiper-button-next {
-	right: 10px; /* Đặt mũi tên next ở bên phải */
-  }
-  
-  .swiper-button-prev {
-	left: 10px; /* Đặt mũi tên prev ở bên trái */
-  }
-  .centered-container {
+	color: #fff;
+	/* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+	background-color: #8D8EED;
+	/* Thay đổi màu nền khi hover */
+	color: #fff;
+	/* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+	right: 10px;
+	/* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+	left: 10px;
+	/* Đặt mũi tên prev ở bên trái */
+}
+
+/* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
 	display: flex;
-	justify-content: center; /* Căn giữa phần tử con theo chiều ngang */
-	width: 100%; /* Đảm bảo phần tử chiếm toàn bộ chiều rộng */
+	justify-content: center;
+	/* Căn giữa Swiper */
+	align-items: center;
+	width: 100%;
+}
+
+/* CSS cho banner */
+.banner-slide {
+	width: 100%;
+	/* Đảm bảo banner chiếm toàn bộ chiều rộng */
+	text-align: center;
+}
+
+.banner-image {
+	width: 100%;
+	height: 300px;
+	/* Điều chỉnh chiều cao của banner */
+	object-fit: cover;
+	/* Đảm bảo ảnh không bị biến dạng */
+}
+
+
+
+
+
+.comic-image {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+
+.read-link {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 14px;
+	color: #8D8EED;
+	text-decoration: none;
+}
+
+.read-link:hover {
+	text-decoration: underline;
+}
+
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+	color: #8D8EED;
+	/* Màu của mũi tên */
+	background-color: rgba(0, 0, 0, 0.2);
+	/* Màu nền mờ */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+	/* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+	font-size: 18px;
+	/* Kích thước mũi tên */
+	font-weight: bold;
+	color: #fff;
+	/* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+	background-color: #8D8EED;
+	/* Thay đổi màu nền khi hover */
+	color: #fff;
+	/* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+	right: 10px;
+	/* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+	left: 10px;
+	/* Đặt mũi tên prev ở bên trái */
+}
+
+/* Đảm bảo Swiper nằm ở giữa */
+.swiper-container {
+	display: flex;
+	justify-content: center;
+	/* Căn giữa Swiper */
+	align-items: center;
+	width: 100%;
+}
+
+/* CSS cho banner */
+.banner-slide {
+	width: 100%;
+	/* Đảm bảo banner chiếm toàn bộ chiều rộng */
+	text-align: center;
+}
+
+.banner-image {
+	width: 100%;
+
+	height: 300px; /* Điều chỉnh chiều cao của banner */
+	object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
   }
+
   
-  .centered-container > div {
-	width: 66.67%; /* Chiếm 8 cột (2/3 chiều rộng màn hình) */
-  }
   
+ 
+
+
+
+.comic-image {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 8px;
+
+}
+
+
+
+.read-link {
+
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 14px;
+	color: #8D8EED;
+	text-decoration: none;
+}
+
+.read-link:hover {
+	text-decoration: underline;
+}
+
+/* Mũi tên điều hướng */
+.swiper-button-next,
+.swiper-button-prev {
+	color: #8D8EED;
+	/* Màu của mũi tên */
+	background-color: rgba(0, 0, 0, 0.2);
+	/* Màu nền mờ */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+	/* Đảm bảo mũi tên ở trên */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+	font-size: 18px;
+	/* Kích thước mũi tên */
+	font-weight: bold;
+	color: #fff;
+	/* Màu của mũi tên */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+	background-color: #8D8EED;
+	/* Thay đổi màu nền khi hover */
+	color: #fff;
+	/* Màu mũi tên khi hover */
+}
+
+.swiper-button-next {
+	right: 10px;
+	/* Đặt mũi tên next ở bên phải */
+}
+
+.swiper-button-prev {
+	left: 10px;
+	/* Đặt mũi tên prev ở bên trái */
+}
+
+.centered-container {
+	display: flex;
+	justify-content: center;
+	/* Căn giữa phần tử con theo chiều ngang */
+	width: 100%;
+	/* Đảm bảo phần tử chiếm toàn bộ chiều rộng */
+}
+
+.centered-container>div {
+	width: 66.67%;
+	/* Chiếm 8 cột (2/3 chiều rộng màn hình) */
+}

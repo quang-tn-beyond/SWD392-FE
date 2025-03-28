@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
+
 import { useParams, Link } from "react-router-dom";
 import { getComicsById } from "../utils/ComicService";
 import { getAllChapters } from "../utils/ChapterService";
 import { getAllUsers } from "../utils/UserService";
 import { AuthContext } from "../components/AuthContext";
 import Review from "../wrapper/comics/review";
-import { Dialog, DialogTitle, DialogContent,Typography,DialogActions, Button } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button } from "@mui/material";
 
 const BackgroundComponent = ({ imageUrl }) => (
   <div
@@ -27,8 +28,9 @@ const ComicDetails = () => {
   const [usersMap, setUsersMap] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
   const [openAddToCartDialog, setOpenAddToCartDialog] = useState(false);
-const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông tin của chapter bị khóa
-
+  const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông tin của chapter bị khóa
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(null);
 
   useEffect(() => {
     console.log("Role from AuthContext: ", user?.role); // Kiểm tra role từ AuthContext
@@ -92,20 +94,35 @@ const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông t
   }, [comicId]);
 
   const handleLockedChapterClick = (chapter) => {
-    setLockedChapter(chapter); // Lưu lại chapter bị khóa vào state
-    setOpenAddToCartDialog(true); // Mở dialog
+    const sortedChapters = [...chapters].sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate));
+    const chapterIndex = sortedChapters.findIndex((chap) => chap.chapterId === chapter.chapterId);
+    const chapterNumber = sortedChapters.length - chapterIndex;
+
+    setSelectedChapter({ ...chapter, chapterNumber });
+    setShowPurchaseModal(true);
   };
-  
+
   const handleAddToCart = () => {
-    // Logic để thêm truyện vào giỏ hàng (Ví dụ: lưu vào localStorage hoặc state giỏ hàng)
-    console.log(`Thêm truyện ${lockedChapter?.title} vào giỏ hàng`);
-    setOpenAddToCartDialog(false); // Đóng dialog sau khi thêm
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const newItem = {
+      chapterId: selectedChapter.chapterId,
+      title: selectedChapter.chapterName,
+      name: selectedChapter.chapterNumber,
+      price: 999,
+      coverUrl: comic.coverUrl
+    };
+
+    cart.push(newItem);
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Đã thêm vào giỏ hàng!");
+    setShowPurchaseModal(false);
   };
-  
+
   const handleCancel = () => {
     setOpenAddToCartDialog(false); // Đóng dialog nếu người dùng hủy
   };
-  
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
@@ -121,24 +138,23 @@ const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông t
   };
 
   const isChapterLocked = (chapter, index) => {
-    // Kiểm tra nếu chapter là FREE (type === 0)
     if (chapter.type === 0) {
       return false; // Không khóa chapter
     }
 
-    // Kiểm tra nếu role là CUSTOMER_NORMAL (5) hoặc CUSTOMER_AUTHOR (7) và chapter là PAID
     if ((user?.role === 5 || user?.role === 7) && index >= 1) {
       return true; // Khóa từ chapter thứ 2 trở đi
     }
 
-    // Kiểm tra nếu role là CUSTOMER_READER (6) hoặc CUSTOMER_VIP (8), không khóa chapter nào
     if (user?.role === 6 || user?.role === 8) {
       return false; // Không khóa chapter nào
     }
 
-    // Các role còn lại không bị khóa chapter
     return false;
   };
+
+  // Lấy danh sách chapter đã mua từ localStorage
+  const purchasedChapters = JSON.parse(localStorage.getItem("purchasedChapters")) || [];
 
   if (!comic) return <div>Loading...</div>;
 
@@ -215,23 +231,26 @@ const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông t
               <h4>Chapters</h4>
               <div className="chapter-list">
                 {chapters.length > 0 ? (
-                  chapters
-                    .sort((a, b) => new Date(a.publishedDate) - new Date(b.publishedDate))
-                    .map((chapter, index) => (
-                      <div key={chapter.chapterId} className="chapter-item">
-                        {isChapterLocked(chapter, index) ? (
-                          <div className="locked-chapter"
-                          onClick={() => handleLockedChapterClick(chapter)}>
-                            <span className="title">Chapter {index + 1}</span>
-                            <i className="fa fa-lock chapter-icon"></i>
+                  [...chapters]
+                    .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)) // Sắp xếp từ mới nhất đến cũ nhất
+                    .map((chapter, index, sortedChapters) => {
+                      const chapterNumber = sortedChapters.length - index; // Đánh số chapter theo thứ tự
+                      const isLocked = sortedChapters.length >= 6 && index < 2; // Chỉ khóa nếu có từ 6 chapter trở lên (2 chapter mới nhất)
+
+                      return (
+                        <Link
+                          key={chapter.chapterId}
+                          to={isLocked ? "#" : `/reading/${comicId}/${chapter.chapterId}`}
+                          className={`chapter-item ${isLocked ? "locked" : ""}`}
+                          onClick={isLocked ? (e) => { e.preventDefault(); handleLockedChapterClick(chapter); } : null}
+                        >
+                          <div className="chapter-item__content">
+                            <span className="chapter-item__number">Chapter {chapterNumber}</span>
                           </div>
-                        ) : (
-                          <Link to={`/reading/${comicId}/${chapter.chapterId}`} className="chapter-item">
-                            Chapter {index + 1}
-                          </Link>
-                        )}
-                      </div>
-                    ))
+                          <i className={isLocked ? "fa fa-lock chapter-item__icon" : "fa fa-arrow-right chapter-item__icon"}></i>
+                        </Link>
+                      );
+                    })
                 ) : (
                   <p>Chưa có chapter nào</p>
                 )}
@@ -239,25 +258,41 @@ const [lockedChapter, setLockedChapter] = useState(null); // Để lưu thông t
             </div>
             <Review />
           </div>
-          <Dialog open={openAddToCartDialog} onClose={handleCancel}>
-  <DialogTitle>Thêm truyện vào giỏ hàng</DialogTitle>
-  <DialogContent>
-    <Typography variant="body1">
-      Bạn muốn thêm truyện <strong>{lockedChapter?.title}</strong> vào giỏ hàng không?
-    </Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCancel} color="primary">
-      Hủy
-    </Button>
-    <Button onClick={handleAddToCart} color="primary">
-      Thêm vào giỏ hàng
-    </Button>
-  </DialogActions>
-</Dialog>
-
         </div>
       </div>
+
+      {/* Modal Add to Cart */}
+      <Dialog open={openAddToCartDialog} onClose={handleCancel}>
+        <DialogTitle>Thêm truyện vào giỏ hàng</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Bạn muốn thêm truyện <strong>{lockedChapter?.title}</strong> vào giỏ hàng không?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={handleAddToCart} color="primary">
+            Thêm vào giỏ hàng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal Purchase */}
+      {showPurchaseModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h4>Purchase Chapter</h4>
+            <p>{selectedChapter?.title}</p> <span>999 xu</span>
+            <div className="modal-buttons">
+              <button className="cart-btn" onClick={addToCart}>Add to Cart</button>
+            </div>
+            <button className="close-btn" onClick={() => setShowPurchaseModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };
