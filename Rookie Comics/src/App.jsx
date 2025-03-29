@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google"; // ✅ Import this!
 
-import Header from "./components/Header";
+
 import Home from "./pages/home";
 import Footer from "./components/Footer";
 import Login from "./pages/login";
@@ -31,7 +31,7 @@ const AppWrapper = () => {
 
   return (
     <>
-      {!isLoginPage && <Header />}
+      {!isLoginPage && <Headers />}
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
