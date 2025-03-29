@@ -24,6 +24,7 @@ import Staff from "./pages/admins/staff";
 import OrderManagement from "./pages/admins/staff-page/OrderManagement";
 import ChapterManagement4Mod from "./pages/admins/moderator-page/ChapterManagement4Mod";
 import MomoCallback from "./pages/momocallback";
+import Header from "./components/Header";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -31,7 +32,7 @@ const AppWrapper = () => {
 
   return (
     <>
-      {!isLoginPage && <Headers />}
+      {!isLoginPage && <Header />}
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
