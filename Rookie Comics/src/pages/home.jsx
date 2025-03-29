@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ComicCollection from "../wrapper/comics/collection";
 import { getAllComics } from "../utils/ComicService"; // Import API
-import ComicSwiper from "../Components/ComicSwiper";
+import ComicSwiper from "../components/ComicSwiper";
 export default function Home() {
   const [comics, setComics] = useState([]);
 
